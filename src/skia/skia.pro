@@ -4,12 +4,14 @@ DESTDIR = $$absolute_path($$PWD/../../bin)
 
 include($$PWD/buildTool/buildTool.pri)
 
-CONFIG +=precompile_header
+#skia_qt_path=$$getenv(QTDIR)
+#message(skia_qt_path $${skia_qt_path})
 
-linux: include($$PWD/config/linux.pri)
-macos: include($$PWD/config/mac_osx.pri)
-win32: include($$PWD/config/windows.pri)
-isEmpty(gn_args): error(No gn_args found please make sure you have valid configuration.)
+CONFIG(debug, debug|release) {
+    gn_args = $$system_quote(is_debug=true is_official_build=false is_component_build=true clang_win=\"C:\\Program Files\\LLVM\")
+} else {
+    gn_args = $$system_quote(is_debug=false is_official_build=false is_component_build=true clang_win=\"C:\\Program Files\\LLVM\")
+}
 
 
 SKIA_SRC_PATH=$$system_path($$absolute_path($$PWD/../3rdparty/skia))
@@ -22,10 +24,7 @@ build_pass|!debug_and_release {
     if(!system($$sync_deps)) {
         error ("sync deps error")
     }
-
-#    gn_args = $$system_quote(is_debug=false is_component_build=true current_cpu=4)
-    args = $$system_quote(is_debug=false is_component_build=true)
-    gn_run = cd $$system_quote($$SKIA_SRC_PATH) && $$GN gen $$system_quote($$SKIA_OUT_PATH) --root=$$system_quote($$SKIA_SRC_PATH)
+    gn_run =cd $$SKIA_SRC_PATH && $$GN gen $$system_quote($$SKIA_OUT_PATH) --root=$$system_quote($$SKIA_SRC_PATH) --args=$$system_quote($$gn_args)
     message("Running: $$gn_run " )
     if(!system($$gn_run)) {
         error ("gn run error")
