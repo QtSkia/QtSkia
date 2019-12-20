@@ -10,11 +10,10 @@ include($$PWD/buildTool/buildTool.pri)
 CONFIG(debug, debug|release) {
     gn_args = $$system_quote(is_debug=true is_official_build=false is_component_build=true win_toolchain_version=\"14.16.27023\")
 #    gn_args = $$system_quote(is_debug=true is_official_build=false is_component_build=true clang_win=\"C:\\Program Files\\LLVM\")
-
     verbose_flags = -v
 } else {
-    #gn_args = $$system_quote(is_debug=false is_official_build=false is_component_build=true clang_win=\"C:\\Program Files\\LLVM\")
-    gn_args = $$system_quote(is_debug=false is_official_build=false is_component_build=true win_toolchain_version=\"14.16.27023\")
+    gn_args = $$system_quote(is_debug=false is_official_build=false is_component_build=true clang_win=\"C:\\Program Files\\LLVM\")
+#    gn_args = $$system_quote(is_debug=false is_official_build=false is_component_build=true win_toolchain_version=\"14.16.27023\")
     verbose_flags =
 }
 
