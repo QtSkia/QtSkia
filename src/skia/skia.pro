@@ -1,6 +1,6 @@
 TEMPLATE = aux
 
-DESTDIR = $$absolute_path($$PWD/../../bin)
+
 
 include($$PWD/buildTool/buildTool.pri)
 
@@ -8,29 +8,25 @@ include($$PWD/buildTool/buildTool.pri)
 #message(skia_qt_path $${skia_qt_path})
 
 CONFIG(debug, debug|release) {
-    gn_args = $$system_quote(is_debug=true is_official_build=false is_component_build=true win_toolchain_version=\"14.16.27023\")
-#    gn_args = $$system_quote(is_debug=true is_official_build=false is_component_build=true clang_win=\"C:\\Program Files\\LLVM\")
-    verbose_flags = -v
+    DESTDIR = $$absolute_path($$PWD/../../bin/debug)
 } else {
-    gn_args = $$system_quote(is_debug=false is_official_build=false is_component_build=true clang_win=\"C:\\Program Files\\LLVM\")
-#    gn_args = $$system_quote(is_debug=false is_official_build=false is_component_build=true win_toolchain_version=\"14.16.27023\")
-    verbose_flags =
+    DESTDIR = $$absolute_path($$PWD/../../bin/release)
 }
+SKIA_SRC_PATH=$$system_quote($$system_path($$absolute_path($$PWD/../3rdparty/skia)))
+SKIA_OUT_PATH=$$system_quote($$DESTDIR)
 
 
-SKIA_SRC_PATH=$$system_path($$absolute_path($$PWD/../3rdparty/skia))
-SKIA_OUT_PATH=$$system_path($$absolute_path($${SKIA_SRC_PATH}/out/Shared))
-
-build_pass|!debug_and_release {
+#build_pass|!debug_and_release {
     # update python skia/tools/git-sync-deps
-    sync_deps=python $$verbose_flags $$system_path($${SKIA_SRC_PATH}/tools/git-sync-deps)
+    sync_deps=python $$verbose_flags $$absolute_path($${SKIA_SRC_PATH}/tools/git-sync-deps)
     message("Running: $$sync_deps ")
     if(!system($$sync_deps)) {
         error ("sync deps error")
     }
-    gn_run =$$GN gen $$system_quote($$SKIA_OUT_PATH) --root=$$system_quote($$SKIA_SRC_PATH) --args=$$system_quote($$gn_args) $$verbose_flags
-    message("Running: $$gn_run " )
-    if(!system($$gn_run)) {
+    GN_ARGS = $$system_quote($$gn_args)
+    GN_RUN =$$GN gen $$SKIA_OUT_PATH --args=$$GN_ARGS --root=$$SKIA_SRC_PATH $$verbose_flags
+    message("Running: $$GN_RUN " )
+    !system($$GN_RUN): {
         error ("gn run error")
     }
     runninja.target = run_ninja
@@ -43,10 +39,10 @@ build_pass|!debug_and_release {
     else: default_target.target = first
     default_target.depends = runninja
     QMAKE_EXTRA_TARGETS += default_target
-}
+#}
 
-!build_pass:debug_and_release {
-    # Special GNU make target for the meta Makefile that ensures that our debug and release Makefiles won't both run ninja in parallel.
-    notParallel.target = .NOTPARALLEL
-    QMAKE_EXTRA_TARGETS += notParallel
-}
+#!build_pass:debug_and_release {
+#    # Special GNU make target for the meta Makefile that ensures that our debug and release Makefiles won't both run ninja in parallel.
+#    notParallel.target = .NOTPARALLEL
+#    QMAKE_EXTRA_TARGETS += notParallel
+#}
