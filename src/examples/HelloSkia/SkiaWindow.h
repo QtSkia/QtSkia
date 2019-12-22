@@ -7,8 +7,6 @@ class SkiaWindow : public QWindow
 public:
     explicit SkiaWindow(QWindow *parent = nullptr);
 
-    void resize(int w, int h);
-    void show();
 private:
 
 };

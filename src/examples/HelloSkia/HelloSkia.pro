@@ -8,7 +8,7 @@ CONFIG(debug, debug|release) {
     DESTDIR =$$absolute_path($$PWD/../../../bin/release)
 }
 
-SKIA_SRC_PATH=$$absolute_path($$PWD/../../../3rdparty/skia)
+SKIA_SRC_PATH=$$absolute_path($$PWD/../../3rdparty/skia)
 SKIA_OUT_PATH=$$DESTDIR
 SKIA_LIB_PATH=$$SKIA_OUT_PATH
 SKIA_INCLUDE_PATH=$$SKIA_SRC_PATH/include

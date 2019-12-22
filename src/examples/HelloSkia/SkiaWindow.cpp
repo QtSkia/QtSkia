@@ -11,25 +11,28 @@ SkiaWindow::SkiaWindow(QWindow* parent)
 {
 
     // setup GrContext
-    auto interface = GrGLMakeNativeInterface();
+//    auto interface = GrGLMakeNativeInterface();
 
-    // setup contexts
-    sk_sp<GrContext> grContext(GrContext::MakeGL(interface));
-    SkASSERT(grContext);
+//    // setup contexts
+//    sk_sp<GrContext> grContext(GrContext::MakeGL(interface));
+//    SkASSERT(grContext);
 
     // Wrap the frame buffer object attached to the screen in a Skia render target so Skia can
     // render to it
-    GrGLint buffer;
-    GR_GL_GetIntegerv(interface.get(), GR_GL_FRAMEBUFFER_BINDING, &buffer);
-    GrGLFramebufferInfo info;
-    info.fFBOID = (GrGLuint)buffer;
-    SkColorType colorType;
+//    GrGLint buffer;
+//    GR_GL_GetIntegerv(interface.get(), GR_GL_FRAMEBUFFER_BINDING, &buffer);
+//    GrGLFramebufferInfo info;
+//    info.fFBOID = (GrGLuint)buffer;
+    //    SkColorType colorType;
 }
 
-void SkiaWindow::resize(int w, int h)
+void SkiaWindow::exposeEvent(QExposeEvent *)
 {
+
 }
 
-void SkiaWindow::show()
+void SkiaWindow::resizeEvent(QResizeEvent *)
 {
+
 }
+
