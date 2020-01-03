@@ -16,7 +16,7 @@ SKIA_SRC_PATH=$$system_quote($$system_path($$absolute_path($$PWD/../3rdparty/ski
 SKIA_OUT_PATH=$$system_quote($$DESTDIR)
 
 
-#build_pass|!debug_and_release {
+build_pass|!debug_and_release {
     # update python skia/tools/git-sync-deps
     sync_deps=python $$verbose_flags $$absolute_path($${SKIA_SRC_PATH}/tools/git-sync-deps)
     message("Running: $$sync_deps ")
@@ -39,10 +39,10 @@ SKIA_OUT_PATH=$$system_quote($$DESTDIR)
     else: default_target.target = first
     default_target.depends = runninja
     QMAKE_EXTRA_TARGETS += default_target
-#}
+}
 
-#!build_pass:debug_and_release {
-#    # Special GNU make target for the meta Makefile that ensures that our debug and release Makefiles won't both run ninja in parallel.
-#    notParallel.target = .NOTPARALLEL
-#    QMAKE_EXTRA_TARGETS += notParallel
-#}
+!build_pass:debug_and_release {
+    # Special GNU make target for the meta Makefile that ensures that our debug and release Makefiles won't both run ninja in parallel.
+    notParallel.target = .NOTPARALLEL
+    QMAKE_EXTRA_TARGETS += notParallel
+}

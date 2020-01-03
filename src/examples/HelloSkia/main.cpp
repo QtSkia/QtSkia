@@ -1,9 +1,9 @@
-﻿#include <QGuiApplication>
+#include <QApplication>
 #include "SkiaWindow.h"
 
 int main(int argc, char* argv[])
 {
-    QGuiApplication app(argc, argv);
+    QApplication app(argc, argv);
 
     SkiaWindow win;
     win.resize(1024, 768);

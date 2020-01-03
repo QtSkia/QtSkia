@@ -1,8 +1,8 @@
 win32 {
-#    GN=$$system_path($$PWD/windows/gn.exe)
-#    NINJA=$$system_path($$PWD/windows/ninja.exe)
-    GN=gn.exe
-    NINJA=ninja.exe
+    GN=$$system_path($$PWD/windows/gn.exe)
+    NINJA=$$system_path($$PWD/windows/ninja.exe)
+#    GN=gn.exe
+#    NINJA=ninja.exe
 }
 macos {
     GN=$$system_path($$PWD/macos/gn)

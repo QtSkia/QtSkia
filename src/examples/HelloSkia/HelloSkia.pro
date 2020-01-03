@@ -1,5 +1,5 @@
 TEMPLATE = app
-QT += core gui
+QT += core gui widgets
 CONFIG += c++17
 
 CONFIG(debug, debug|release) {
@@ -8,6 +8,10 @@ CONFIG(debug, debug|release) {
     DESTDIR =$$absolute_path($$PWD/../../../bin/release)
 }
 
+msvc {
+    QMAKE_CFLAGS += -source-charset:utf-8
+    QMAKE_CXXFLAGS += -source-charset:utf-8
+}
 SKIA_SRC_PATH=$$absolute_path($$PWD/../../3rdparty/skia)
 SKIA_OUT_PATH=$$DESTDIR
 SKIA_LIB_PATH=$$SKIA_OUT_PATH
