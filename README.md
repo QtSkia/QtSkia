@@ -9,12 +9,12 @@ google的 skia渲染框架， 集成到Qt中。
 |阶段|目标|进度|
 |----|----|----|
 |skia源码镜像|gitee|完成|
-|3个依赖库源码镜像|gitee|完成|
+|30个依赖库源码镜像|gitee|完成|
 |编译|-|-|
 ||改进Qt编译配置和工具链|持续进行中|
 ||Qt Windows平台编译skia|完成|
-||Qt Linux平台编译skia|计划中|
-||Qt MacOS平台编译skia|计划中|
+||Qt Linux平台编译skia|待测试|
+||Qt MacOS平台编译skia|待测试|
 |运行|-|-|
 ||简单画线|完成|
 ||简单文字|完成|
