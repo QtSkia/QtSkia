@@ -50,11 +50,6 @@ void SkiaWindow::initializeGL()
     g_context = GrContext::MakeGL(g_interface);
     SkASSERT(g_context);
     init(this->width(), this->height());
-//    GrGLint buffer;
-//    GR_GL_GetIntegerv(g_interface.get(), GR_GL_FRAMEBUFFER_BINDING, &buffer);
-//    GrGLFramebufferInfo info;
-//    info.fFBOID = (GrGLint)buffer;
-
 }
 
 void SkiaWindow::resizeGL(int w, int h)
