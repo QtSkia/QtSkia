@@ -6,7 +6,6 @@ CONFIG += c++11
 
 include($$absolute_path($$PWD/../../SkiaCommon.pri))
 include($$absolute_path($$PWD/../../QtSkia/QtSKiaWidget/QtSkiaWidgetPublic.pri))
-include($$absolute_path($$PWD/../Renderer/Renderer.pri))
 
 CONFIG(debug, debug|release) {
     DESTDIR =$$absolute_path($$PWD/../../../bin/debug)
