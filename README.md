@@ -54,6 +54,27 @@ void draw(SkCanvas *canvas)
 
 ![](doc/demo.png)
 
+## CI徽章
+| [Windows][win-link]| [Ubuntu][ubuntu-link]|[MacOS][macos-link]|[Android][android-link]|[IOS][ios-link]|
+|---------------|---------------|-----------------|-----------------|----------------|
+| ![win-badge]  | ![ubuntu-badge]      | ![macos-badge] |![android-badge]   |![ios-badge]   |
+
+
+[win-link]: https://github.com/JaredTao/QtSkia/actions?query=workflow%3AWindows "WindowsAction"
+[win-badge]: https://github.com/JaredTao/QtSkia/workflows/Windows/badge.svg  "Windows"
+
+[ubuntu-link]: https://github.com/JaredTao/QtSkia/actions?query=workflow%3AUbuntu "UbuntuAction"
+[ubuntu-badge]: https://github.com/JaredTao/QtSkia/workflows/Ubuntu/badge.svg "Ubuntu"
+
+[macos-link]: https://github.com/JaredTao/QtSkia/actions?query=workflow%3AMacOS "MacOSAction"
+[macos-badge]: https://github.com/JaredTao/QtSkia/workflows/MacOS/badge.svg "MacOS"
+
+[android-link]: https://github.com/JaredTao/QtSkia/actions?query=workflow%3AAndroid "AndroidAction"
+[android-badge]: https://github.com/JaredTao/QtSkia/workflows/Android/badge.svg "Android"
+
+[ios-link]: https://github.com/JaredTao/QtSkia/actions?query=workflow%3AIOS "IOSAction"
+[ios-badge]: https://github.com/JaredTao/QtSkia/workflows/IOS/badge.svg "IOS"
+
 ## 进度计划
 
 |阶段|目标|进度|
