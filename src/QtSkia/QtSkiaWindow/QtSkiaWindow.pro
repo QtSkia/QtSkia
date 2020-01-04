@@ -1,15 +1,13 @@
-TEMPLATE = app
-QT += widgets qml
+TEMPLATE = lib
 
 include($$PWD/../../SkiaCommon.pri)
 
-HEADERS += \
-    SkiaWindow.h
+DEFINES += QTSKIA_LIBRARY
 
-SOURCES += \
-    SkiaWindow.cpp \
-    main.cpp
-    
+HEADERS += QSkiaQuickItem.h
+
+SOURCES += QSkiaQuickItem.cpp
+
 CONFIG(debug, debug|release) {
     DESTDIR =$$absolute_path($$PWD/../../../bin/debug)
 } else {

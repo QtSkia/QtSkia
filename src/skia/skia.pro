@@ -1,7 +1,5 @@
 TEMPLATE = aux
 
-
-
 include($$PWD/buildTool/buildTool.pri)
 
 #skia_qt_path=$$getenv(QTDIR)
