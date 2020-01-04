@@ -42,7 +42,7 @@ void QSkiaWidget::init(int w, int h)
     m_dptr->info = SkImageInfo::Make(w, h, SkColorType::kRGBA_8888_SkColorType, kUnpremul_SkAlphaType);
     size_t rowByts = m_dptr->info.minRowBytes();
     size_t size = m_dptr->info.computeByteSize(rowByts);
-    m_dptr->data.resize((uint32_t)size);
+    m_dptr->data.resize(static_cast<int>(size));
     m_dptr->rasterSurface = SkSurface::MakeRasterDirect(m_dptr->info, m_dptr->data.data(), rowByts);
     if (!m_dptr->rasterSurface) {
         SkDebugf("SkSurface::MakeRasterN32Premul return null\n");
@@ -68,7 +68,7 @@ void QSkiaWidget::paintEvent(QPaintEvent* event)
     this->draw(canvas, elapsed);
     canvas->restore();
     QPainter painter(this);
-    m_dptr->image = QImage((uchar *)m_dptr->data.data(), this->width(), this->height(), QImage::Format_RGBA8888);
+    m_dptr->image = QImage((uchar *)(m_dptr->data.data()), this->width(), this->height(), QImage::Format_RGBA8888);
     if (!m_dptr->image.isNull()) {
         painter.drawImage(0, 0, m_dptr->image);
     }

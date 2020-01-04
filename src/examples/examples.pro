@@ -2,5 +2,6 @@ TEMPLATE = subdirs
 
 SUBDIRS = \
     HelloSkiaWidget \
-    HelloSkiaOpenGLWidget
+    HelloSkiaOpenGLWidget \
+    MixWidget
 
