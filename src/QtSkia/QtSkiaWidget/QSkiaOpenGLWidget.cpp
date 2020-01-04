@@ -1,18 +1,13 @@
 #include "QSkiaOpenGLWidget.h"
 
-#include "core/SkData.h"
-#include "core/SkFont.h"
-#include "core/SkImage.h"
 #include "core/SkImageInfo.h"
-#include "core/SkStream.h"
 #include "core/SkSurface.h"
 #include "gpu/GrContext.h"
 #include "gpu/gl/GrGLInterface.h"
-#include "src/gpu/gl/GrGLUtil.h"
 
 #include <QOpenGLFunctions>
-#include <QTimer>
 #include <QTime>
+#include <QTimer>
 class QSkiaOpenGLWidgetPrivate {
 public:
     QOpenGLFunctions funcs;
@@ -66,6 +61,9 @@ void QSkiaOpenGLWidget::init(int w, int h)
 
 void QSkiaOpenGLWidget::paintGL()
 {
+    if (!this->isVisible()) {
+        return;
+    }
     if (!m_dptr->gpuSurface) {
         return;
     }

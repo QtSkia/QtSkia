@@ -12,8 +12,8 @@ CONFIG(debug, debug|release) {
 include(QtSkiaWidgetPublic.pri)
 HEADERS += \
     $$absolute_path($$PWD/../QtSkia_global.h) \
-    public/QSkiaWidget.h \
-    public/QSkiaOpenGLWidget.h
+    QSkiaWidget.h \
+    QSkiaOpenGLWidget.h
 
 SOURCES += \
     QSkiaWidget.cpp \

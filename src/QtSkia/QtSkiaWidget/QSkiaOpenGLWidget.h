@@ -9,7 +9,7 @@ public:
     QSkiaOpenGLWidget(QWidget* parent = nullptr);
     ~QSkiaOpenGLWidget() override;
 
-    virtual void draw(SkCanvas* canvas, int elapsed = 16) {}
+    virtual void draw(SkCanvas* canvas, int elapsed = 16) = 0;
 
 protected:
     virtual void initializeGL() override;

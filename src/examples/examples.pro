@@ -1,6 +1,6 @@
 TEMPLATE = subdirs
 
 SUBDIRS = \
-#    HelloSkia \
+    HelloSkiaWidget \
     HelloSkiaOpenGLWidget
 

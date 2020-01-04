@@ -9,12 +9,12 @@ public:
     QSkiaWidget(QWidget* parent = nullptr);
     ~QSkiaWidget() override;
 
-    virtual void dawn(SkCanvas* canvas, int elapsed = 16) = 0;
+    virtual void draw(SkCanvas* canvas, int elapsed = 16) = 0;
 
 protected:
     void paintEvent(QPaintEvent* event) override;
     void resizeEvent(QResizeEvent* event) override;
-
+    void init(int w, int h);
 private:
     QSkiaWidgetPrivate* m_dptr = nullptr;
 };

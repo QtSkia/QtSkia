@@ -13,7 +13,7 @@ CONFIG(debug, debug|release) {
 LIBS += -L$$DESTDIR -lQtSkiaWidget
 
 HEADERS += \
-    SkiaGLWidget.h
+    SkiaWidget.h
 
 SOURCES += \
     main.cpp
