@@ -2,9 +2,6 @@ TEMPLATE = aux
 
 include($$PWD/buildTool/buildTool.pri)
 
-#skia_qt_path=$$getenv(QTDIR)
-#message(skia_qt_path $${skia_qt_path})
-
 CONFIG(debug, debug|release) {
     DESTDIR = $$absolute_path($$PWD/../bin/debug)
 } else {
@@ -13,12 +10,23 @@ CONFIG(debug, debug|release) {
 SKIA_SRC_PATH=$$system_quote($$system_path($$absolute_path($$PWD/../3rdparty/skia)))
 SKIA_OUT_PATH=$$system_quote($$DESTDIR)
 
-
+#CONFIG += sync_github
+#CONFIG += sync_gitee
 build_pass|!debug_and_release {
     # update python skia/tools/git-sync-deps
+    github_sync=\"set GIT_SYNC_DEPS_PATH=$$absolute_path($$SKIA_SRC_PATH/DEPS-github)\"
+    gitee_sync=\"set GIT_SYNC_DEPS_PATH=$$absolute_path($$SKIA_SRC_PATH/DEPS-gitee)\"
+    git_sync=\"echo 0\"
+
+    sync_gitee {
+        git_sync = $$gitee_sync
+    } else:sync_github {
+        git_sync = $$github_sync
+    }
+    message("git sync:" $$git_sync)
     sync_deps=python $$verbose_flags $$absolute_path($${SKIA_SRC_PATH}/tools/git-sync-deps)
     message("Running: $$sync_deps ")
-    if(!system($$sync_deps)) {
+    if(!system($$git_sync && $$sync_deps)) {
         error ("sync deps error")
     }
     GN_ARGS = $$system_quote($$gn_args)

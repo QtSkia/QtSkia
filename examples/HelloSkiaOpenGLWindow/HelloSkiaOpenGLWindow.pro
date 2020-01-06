@@ -1,6 +1,5 @@
 TEMPLATE = app
 
-include($$absolute_path($$PWD/../../skiaCommon.pri))
 include($$absolute_path($$PWD/../../QtSkia/QtSkiaWindowPublic.pri))
 include($$absolute_path($$PWD/../Renderer/Renderer.pri))
 

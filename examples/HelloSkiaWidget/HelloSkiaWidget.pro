@@ -1,7 +1,6 @@
 TEMPLATE = app
 QT += widgets
 
-include($$absolute_path($$PWD/../../skiaCommon.pri))
 include($$absolute_path($$PWD/../../QtSkia/QtSkiaWidgetPublic.pri))
 include($$absolute_path($$PWD/../Renderer/Renderer.pri))
 
