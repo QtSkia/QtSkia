@@ -8,7 +8,7 @@ class QtSkia_API QSkiaQuickWindow : public QQuickWindow {
     Q_OBJECT
 public:
     QSkiaQuickWindow(QWindow *parent = nullptr);
-    ~QSkiaQuickWindow() override;
+    virtual ~QSkiaQuickWindow() override;
     //draw before SceneGraph. Note: this function work in SceneGraph Renderer Thread.
     virtual void drawBeforeSG(SkCanvas* canvas, int elapsed = 16) = 0;
     //draw after SceneGraph. Note: this function work in SceneGraph Renderer Thread.

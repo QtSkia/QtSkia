@@ -13,6 +13,7 @@ public:
     sk_sp<GrContext> context = nullptr;
     sk_sp<SkSurface> gpuSurface = nullptr;
     SkImageInfo info;
+    QTimer timer;
     QTime lastTimeA;
     QTime lastTimeB;
 };
@@ -23,7 +24,7 @@ QSkiaQuickWindow::QSkiaQuickWindow(QWindow *parent)
 {
     setClearBeforeRendering(false);
     connect(this, &QQuickWindow::sceneGraphInitialized, this, &QSkiaQuickWindow::onSGInited, Qt::DirectConnection);
-    connect(this, &QQuickWindow::sceneGraphInvalidated, this, &QSkiaQuickWindow::onSGUninited, Qt::DirectConnection);
+    connect(this, &QQuickWindow::sceneGraphAboutToStop, this, &QSkiaQuickWindow::onSGUninited, Qt::DirectConnection);
 }
 
 QSkiaQuickWindow::~QSkiaQuickWindow()
@@ -62,7 +63,12 @@ void QSkiaQuickWindow::init(int w, int h)
 
 void QSkiaQuickWindow::resizeEvent(QResizeEvent *e)
 {
-    init(e->size().width(), e->size().height());
+    if (e->size() == e->oldSize()) {
+        return;
+    }
+    if (isSceneGraphInitialized()) {
+        init(e->size().width(), e->size().height());
+    }
 }
 
 void QSkiaQuickWindow::onBeforeRendering()

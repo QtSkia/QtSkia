@@ -8,7 +8,7 @@ class QtSkia_API QSkiaQuickItem : public QQuickItem {
     Q_OBJECT
 public:
     QSkiaQuickItem(QWindow *parent = nullptr);
-    ~QSkiaQuickItem() override;
+    virtual ~QSkiaQuickItem() override;
     virtual void draw(SkCanvas* canvas, int elapsed = 16) = 0;
 
 private:
