@@ -12,7 +12,7 @@ void SampleRender::draw(SkCanvas *canvas, int elapsed, int w, int h)
     canvas->clear(SK_ColorWHITE);
     SkFont font;
     font.setSize(30);
-//    canvas->rotate(m_rotateAngle, w / 2, h /2);
+    canvas->rotate(m_rotateAngle, w / 2, h /2);
     canvas->drawString("Hello Skia", 600, 300, font, p);
     canvas->drawLine(300, 300, 500, 500, p);
     canvas->flush();
