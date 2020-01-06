@@ -54,7 +54,7 @@ QtSkia提供了QWidget、QOpenGLWidget、QQuickWindow、QQuickItem等常用Qt渲
 [ios-link]: https://github.com/JaredTao/QtSkia/actions?query=workflow%3AIOS "IOSAction"
 [ios-badge]: https://github.com/JaredTao/QtSkia/workflows/IOS/badge.svg "IOS"
 
-## HelloSkia
+## HelloSkia示例
 
 QtSkia处理了skia与QWidget、OpenGL、QQuick等渲染框架的融合问题，并将SkCanvas在接口中提供出来。
 
@@ -62,7 +62,7 @@ QtSkia处理了skia与QWidget、OpenGL、QQuick等渲染框架的融合问题，
 
 SkCanvas是一个类似于QPainter的画笔，但性能和功能都比QPainter强大许多。
 
-下面示例画线和写字的代码:
+下面示例QWidget中画线和写字的代码:
 
 ```c++
 //main.cpp
@@ -108,18 +108,33 @@ int main(int argc, char* argv[])
 
 skia需要python2。(相关构建工具都是基于python2开发的。)
 
+编译器需要支持C++11，skia推荐使用clang编译。
+
 skia不支持32bit/x86架构。
+
+Qt版本5.9以上即可，无特殊限制。
+
+建议使用5.9.x或5.12.x等长期支持版本。
 
 ### windows
 
-编译器需要使用vs2015及以上。建议使用VS2017，并增加clang支持。
+编译器需要使用vs2015及以上。
 
+注意不支持32bit/x86架构
 
+建议使用VS2017，并增加clang支持。
 
-Linux:
+### Linux
 
-MacOS:
+待补充
 
+### MacOS
+
+待补充
+
+### Android
+
+待补充
 
 ## 进度计划
 
@@ -150,11 +165,12 @@ MacOS:
 
 skia官方仓库在 https://skia.googlesource.com/skia
 
-github上面也有镜像 https://github.com/google/skia
+github上面也有官方的镜像 https://github.com/google/skia
 
-国内用户不一定能访问到googlesource，github速度也不快，所以我个人在gitee上做了一个镜像。
+skia依赖的三方库有28个以上。
 
-另外skia依赖的三方库有28个以上，源码也在gitee上做了镜像，不定期更新，具体可以关注: https://gitee.com/QtSkia
+国内用户不一定能访问到googlesource，涛哥在github上整理了所有依赖仓库的镜像，
 
+并使用自动化工具定期同步，具体见https://github.com/QtSkia
 
-
+另外github速度不够快，所以涛哥在gitee上也做了镜像, 以方便国内用户，具体见：https://gitee.com/QtSkia
