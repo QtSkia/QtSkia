@@ -6,13 +6,8 @@ msvc {
     QMAKE_CFLAGS += -source-charset:utf-8
     QMAKE_CXXFLAGS += -source-charset:utf-8
 }
-
-CONFIG(debug, debug|release) {
-    SKIA_OUT_PATH =$$absolute_path($$PWD/bin/debug)
-} else {
-    SKIA_OUT_PATH =$$absolute_path($$PWD/bin/release)
-}
-
+include(uniqueDestdir.pri)
+SKIA_OUT_PATH=$$destPath
 SKIA_SRC_PATH=$$absolute_path($$PWD/3rdparty/skia)
 SKIA_LIB_PATH=$$SKIA_OUT_PATH
 SKIA_INCLUDE_PATH=$$SKIA_SRC_PATH/include

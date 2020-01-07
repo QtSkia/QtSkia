@@ -25,7 +25,7 @@ CONFIG(debug, debug|release) {
 }
 
 gn_args += \
-    is_component_build=false
+    is_component_build=true
 msvc {
     gn_args += \
         win_vc=\"$$clean_path($$(VCINSTALLDIR))\" \
