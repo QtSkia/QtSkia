@@ -2,11 +2,9 @@ QT       += core gui widgets
 
 include($$absolute_path($$PWD/../../QtSkia/QtSkiaWidgetPublic.pri))
 
-CONFIG(debug, debug|release) {
-    DESTDIR =$$absolute_path($$PWD/../../bin/debug)
-} else {
-    DESTDIR =$$absolute_path($$PWD/../../bin/release)
-}
+include($$PWD/../../uniqueDestdir.pri)
+DESTDIR = $$destPath
+
 LIBS += -L$$DESTDIR -lQtSkiaWidget
 
 SOURCES += \

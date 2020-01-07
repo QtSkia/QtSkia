@@ -4,11 +4,8 @@ QT += widgets
 include($$absolute_path($$PWD/../../QtSkia/QtSkiaWidgetPublic.pri))
 include($$absolute_path($$PWD/../Renderer/Renderer.pri))
 
-CONFIG(debug, debug|release) {
-    DESTDIR =$$absolute_path($$PWD/../../bin/debug)
-} else {
-    DESTDIR =$$absolute_path($$PWD/../../bin/release)
-}
+include($$PWD/../../uniqueDestdir.pri)
+DESTDIR = $$destPath
 LIBS += -L$$DESTDIR -lQtSkiaWidget
 
 HEADERS += \

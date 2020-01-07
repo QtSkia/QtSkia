@@ -14,16 +14,24 @@ linux {
 }
 CONFIG(debug, debug|release) {
     verbose_flags = -v
-    gn_args += is_debug=true
+    gn_args += \
+        is_official_build=false \
+        is_debug=true
 } else {
     verbose_flags =
-    gn_args += is_debug=false
+    gn_args += \
+        is_official_build=false \
+        is_debug=false
 }
 
 gn_args += \
-    is_official_build=false \
-    is_component_build=true \
-    win_vc=\"C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Enterprise\\VC\"
+    is_component_build=false
+msvc {
+    gn_args += \
+        win_vc=\"$$clean_path($$(VCINSTALLDIR))\" \
+        win_toolchain_version=\"$$(VCToolsVersion)\" \
+        win_sdk_version=\"$$clean_path($$(WindowsSDKVersion))\"
+}
 
 msvc:clang_cl {
     gn_args += clang_win=\"C:\\Program Files\\LLVM\"

@@ -110,19 +110,19 @@ skia需要python2。(相关构建工具都是基于python2开发的。)
 
 编译器需要支持C++11，skia推荐使用clang编译。
 
-skia不支持32bit/x86架构。
-
 Qt版本5.9以上即可，无特殊限制。
 
 建议使用5.9.x或5.12.x等长期支持版本。
 
 ### windows
 
-编译器需要使用vs2015及以上。
+编译器需要使用vs2017及以上。
 
-注意不支持32bit/x86架构
+官方强烈建议使用clang-cl。
 
-建议使用VS2017，并增加clang支持。
+注意32bit/x86架构,只能使用google提供的工具链，比较麻烦。
+
+具体请参考skia官网：https://skia.org/user/build
 
 ### Linux
 

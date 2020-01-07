@@ -1,6 +1,6 @@
 QT += core gui
 
-CONFIG += c++11
+CONFIG += c++17
 
 msvc {
     QMAKE_CFLAGS += -source-charset:utf-8

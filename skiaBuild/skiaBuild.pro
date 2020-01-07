@@ -1,12 +1,9 @@
 TEMPLATE = aux
 
 include($$PWD/buildTool/buildTool.pri)
+include($$PWD/../uniqueDestdir.pri)
+DESTDIR = $$destPath
 
-CONFIG(debug, debug|release) {
-    DESTDIR = $$absolute_path($$PWD/../bin/debug)
-} else {
-    DESTDIR = $$absolute_path($$PWD/../bin/release)
-}
 SKIA_SRC_PATH=$$system_quote($$system_path($$absolute_path($$PWD/../3rdparty/skia)))
 SKIA_OUT_PATH=$$system_quote($$DESTDIR)
 

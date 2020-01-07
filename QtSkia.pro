@@ -9,6 +9,7 @@ CONFIG += ordered
 
 OTHER_FILES += \
     skiacommon.pri \
+    uniqueDestdir.pri \
     README.md \
     .clang-format \
     LICENSE
