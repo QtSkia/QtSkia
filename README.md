@@ -34,6 +34,8 @@ QtSkia提供了QWidget、QOpenGLWidget、QQuickWindow、QQuickItem等常用Qt渲
 
 ## CI徽章
 
+占位，待修改。
+
 | [Windows][win-link]| [Ubuntu][ubuntu-link]|[MacOS][macos-link]|[Android][android-link]|[IOS][ios-link]|
 |---------------|---------------|-----------------|-----------------|----------------|
 | ![win-badge]  | ![ubuntu-badge]      | ![macos-badge] |![android-badge]   |![ios-badge]   |

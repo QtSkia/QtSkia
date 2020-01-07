@@ -12,4 +12,5 @@ OTHER_FILES += \
     uniqueDestdir.pri \
     README.md \
     .clang-format \
-    LICENSE
+    LICENSE \
+    .github/workflows/*.yml
