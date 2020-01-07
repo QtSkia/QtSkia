@@ -76,6 +76,10 @@ void QSkiaWidget::paintEvent(QPaintEvent* event)
 
 void QSkiaWidget::resizeEvent(QResizeEvent* event)
 {
+    if (event->oldSize() == event->size()) {
+        event->accept();
+        return;
+    }
     init(event->size().width(), event->size().height());
 }
 

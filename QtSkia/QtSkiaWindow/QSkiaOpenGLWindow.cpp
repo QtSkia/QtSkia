@@ -43,6 +43,9 @@ void QSkiaOpenGLWindow::initializeGL()
 
 void QSkiaOpenGLWindow::resizeGL(int w, int h)
 {
+    if (this->width() == w && this->height() == h) {
+        return;
+    }
     init(w, h);
 }
 
