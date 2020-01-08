@@ -16,12 +16,19 @@ public:
     sk_sp<SkSurface> gpuSurface = nullptr;
     SkImageInfo info;
     QTime lastTime;
+    QTimer timer;
 };
 QSkiaQuickItem::QSkiaQuickItem(QQuickItem* parent)
     : QQuickItem(parent)
     , m_dptr(new QSkiaQuickItemPrivate)
 {
     connect(this, &QQuickItem::windowChanged, this, &QSkiaQuickItem::handleWindowChanged);
+    connect(&m_dptr->timer, &QTimer::timeout, this, [&](){
+        if (window() && isVisible()) {
+            window()->update();
+        }
+    });
+    m_dptr->timer.start(1000 / 60);
 }
 
 QSkiaQuickItem::~QSkiaQuickItem()
@@ -32,6 +39,7 @@ QSkiaQuickItem::~QSkiaQuickItem()
 
 void QSkiaQuickItem::handleWindowChanged(QQuickWindow* win)
 {
+    qWarning() << __FUNCTION__;
     if (win) {
         connect(win, &QQuickWindow::beforeSynchronizing, this, &QSkiaQuickItem::sync, Qt::DirectConnection);
         connect(win, &QQuickWindow::sceneGraphInvalidated, this, &QSkiaQuickItem::cleanup, Qt::DirectConnection);
@@ -67,13 +75,16 @@ void QSkiaQuickItem::geometryChanged(const QRectF& newGeometry, const QRectF& ol
     if (newGeometry == oldGeometry) {
         return;
     }
-    init(static_cast<int>(newGeometry.width()), static_cast<int>(newGeometry.height()));
-    update();
+    if (m_dptr->context) {
+        init(static_cast<int>(newGeometry.width()), static_cast<int>(newGeometry.height()));
+        update();
+    }
 }
 
 void QSkiaQuickItem::sync()
 {
     if (!m_dptr->context) {
+        window()->openglContext()->makeCurrent(window());
         m_dptr->context = GrContext::MakeGL();
         if (!m_dptr->context) {
             SkDebugf("GrContext::MakeGL return null\n");
