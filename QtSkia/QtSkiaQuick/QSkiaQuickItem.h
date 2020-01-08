@@ -9,16 +9,20 @@ class QtSkia_API QSkiaQuickItem : public QQuickItem {
 public:
     QSkiaQuickItem(QQuickItem *parent = nullptr);
     virtual ~QSkiaQuickItem() override;
-    virtual void draw(SkCanvas* canvas, int elapsed) = 0;
+    virtual void onInit(int w, int h) = 0;
+    //draw before SceneGraph. Note: this function work in SceneGraph Renderer Thread.
+    virtual void drawBeforeSG(SkCanvas* canvas, int elapsed) = 0;
+    //draw after SceneGraph. Note: this function work in SceneGraph Renderer Thread.
+    virtual void drawAfterSG(SkCanvas* canvas, int elapsed) = 0;
 protected:
     void geometryChanged(const QRectF &newGeometry, const QRectF &oldGeometry) override;
-public slots:
-    void sync();
-    void cleanup();
     void init(int w, int h);
-private slots:
-    void handleWindowChanged(QQuickWindow *win);
+protected slots:
+    void onSGInited();
+    void onSGUninited();
     void onBeforeRendering();
+    void onAfterRendering();
+    void handleWindowChanged(QQuickWindow *win);
 private:
     QSkiaQuickItemPrivate* m_dptr = nullptr;
 };

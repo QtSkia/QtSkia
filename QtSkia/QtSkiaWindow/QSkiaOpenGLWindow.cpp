@@ -38,6 +38,7 @@ void QSkiaOpenGLWindow::initializeGL()
     m_dptr->context = GrContext::MakeGL();
     SkASSERT(m_dptr->context);
     init(this->width(), this->height());
+    onInit(this->width(), this->height());
     m_dptr->lastTime = QTime::currentTime();
 }
 
@@ -47,6 +48,7 @@ void QSkiaOpenGLWindow::resizeGL(int w, int h)
         return;
     }
     init(w, h);
+    onResize(w, h);
 }
 
 void QSkiaOpenGLWindow::init(int w, int h)

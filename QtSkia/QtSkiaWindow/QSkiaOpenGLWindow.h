@@ -8,6 +8,8 @@ class QtSkia_API QSkiaOpenGLWindow : public QOpenGLWindow {
 public:
     QSkiaOpenGLWindow(QWindow *parent = nullptr);
     ~QSkiaOpenGLWindow() override;
+    virtual void onInit(int w, int h) = 0;
+    virtual void onResize(int w, int h) = 0;
     virtual void draw(SkCanvas* canvas, int elapsed = 16) = 0;
 protected:
     virtual void initializeGL() override;
