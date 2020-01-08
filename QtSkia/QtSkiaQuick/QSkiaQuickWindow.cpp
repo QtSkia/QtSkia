@@ -3,29 +3,34 @@
 #include "core/SkImageInfo.h"
 #include "core/SkSurface.h"
 #include "gpu/GrContext.h"
+#include "src/gpu/gl/GrGLUtil.h"
 
+#include <QOpenGLContext>
 #include <QOpenGLFramebufferObject>
 #include <QOpenGLFunctions>
+#include <QQuickItem>
 #include <QResizeEvent>
 #include <QTime>
 #include <QTimer>
+
 class QSkiaQuickWindowPrivate {
 public:
     sk_sp<GrContext> context = nullptr;
     sk_sp<SkSurface> gpuSurface = nullptr;
-    SkImageInfo info;
     QTime lastTimeA;
     QTime lastTimeB;
-//    QOpenGLFramebufferObject *fbo = nullptr;
+    InnerItem innerItem;
 };
 
 QSkiaQuickWindow::QSkiaQuickWindow(QWindow* parent)
     : QQuickWindow(parent)
     , m_dptr(new QSkiaQuickWindowPrivate)
 {
-    setClearBeforeRendering(false);
     connect(this, &QQuickWindow::sceneGraphInitialized, this, &QSkiaQuickWindow::onSGInited, Qt::DirectConnection);
     connect(this, &QQuickWindow::sceneGraphAboutToStop, this, &QSkiaQuickWindow::onSGUninited, Qt::DirectConnection);
+    m_dptr->innerItem.setParentItem(contentItem());
+    m_dptr->innerItem.setVisible(true);
+    setClearBeforeRendering(false);
 }
 
 QSkiaQuickWindow::~QSkiaQuickWindow()
@@ -36,8 +41,9 @@ QSkiaQuickWindow::~QSkiaQuickWindow()
 
 void QSkiaQuickWindow::onSGInited()
 {
+    qWarning() << __FUNCTION__;
     connect(this, &QQuickWindow::beforeRendering, this, &QSkiaQuickWindow::onBeforeRendering, static_cast<Qt::ConnectionType>(Qt::DirectConnection | Qt::UniqueConnection));
-    connect(this, &QQuickWindow::afterRendering, this, &QSkiaQuickWindow::onAfterRendering, static_cast<Qt::ConnectionType>(Qt::DirectConnection));
+    connect(this, &QQuickWindow::afterRendering, this, &QSkiaQuickWindow::onAfterRendering, static_cast<Qt::ConnectionType>(Qt::DirectConnection | Qt::UniqueConnection));
     m_dptr->context = GrContext::MakeGL();
     SkASSERT(m_dptr->context);
     init(this->width(), this->height());
@@ -47,35 +53,32 @@ void QSkiaQuickWindow::onSGInited()
 
 void QSkiaQuickWindow::onSGUninited()
 {
+    qWarning() << __FUNCTION__;
     disconnect(this, &QQuickWindow::beforeRendering, this, &QSkiaQuickWindow::onBeforeRendering);
     disconnect(this, &QQuickWindow::afterRendering, this, &QSkiaQuickWindow::onAfterRendering);
-    openglContext()->makeCurrent(this);
     m_dptr->context = nullptr;
     m_dptr->gpuSurface = nullptr;
-//    if(m_dptr->fbo) {
-//        delete m_dptr->fbo;
-//        m_dptr->fbo = nullptr;
-//    }
-    openglContext()->doneCurrent();
 }
 void QSkiaQuickWindow::init(int w, int h)
 {
-    m_dptr->info = SkImageInfo::MakeN32Premul(w, h);
-//    SkSurface::MakeRenderTarget()
-    m_dptr->gpuSurface = SkSurface::MakeRenderTarget(m_dptr->context.get(), SkBudgeted::kNo, m_dptr->info);
+    GrGLFramebufferInfo info;
+    info.fFBOID = openglContext()->defaultFramebufferObject();
+    SkColorType colorType;
+    colorType = kRGBA_8888_SkColorType;
+    if (format().renderableType() == QSurfaceFormat::RenderableType::OpenGLES) {
+        info.fFormat = GR_GL_BGRA8;
+    } else {
+        info.fFormat = GR_GL_RGBA8;
+    }
+    GrBackendRenderTarget backend(w, h, format().samples(), format().stencilBufferSize(), info);
+    // setup SkSurface
+    // To use distance field text, use commented out SkSurfaceProps instead
+    // SkSurfaceProps props(SkSurfaceProps::kUseDeviceIndependentFonts_Flag,
+    //                      SkSurfaceProps::kLegacyFontHost_InitType);
+    SkSurfaceProps props(SkSurfaceProps::kLegacyFontHost_InitType);
 
-    //    if(m_dptr->fbo) {
-    //        delete m_dptr->fbo;
-    //    }
-    //    m_dptr->fbo = new QOpenGLFramebufferObject(w, h);
-    //    m_dptr->fbo->bindDefault();
-    //    setRenderTarget(m_dptr->fbo);
-    //    GrGLFramebufferInfo info;
-    //    info.fFBOID = m_dptr->fbo->handle();
-    //    info.fFormat = m_dptr->fbo->format().internalTextureFormat();
+    m_dptr->gpuSurface = SkSurface::MakeFromBackendRenderTarget(m_dptr->context.get(), backend, kBottomLeft_GrSurfaceOrigin, colorType, nullptr, &props);
 
-    //    GrBackendRenderTarget back(w, h, m_dptr->fbo->format().samples(), 32, info);
-    //    m_dptr->gpuSurface = SkSurface::MakeFromBackendRenderTarget(m_dptr->context.get(), back, GrSurfaceOrigin::kTopLeft_GrSurfaceOrigin, SkColorType::kRGBA_8888_SkColorType, SkColorSpace::MakeSRGB(), nullptr);
     if (!m_dptr->gpuSurface) {
         SkDebugf("SkSurface::MakeRenderTarget return null\n");
         return;
@@ -96,6 +99,14 @@ void QSkiaQuickWindow::resizeEvent(QResizeEvent* e)
     }
 }
 
+void QSkiaQuickWindow::timerEvent(QTimerEvent *)
+{
+    if (isVisible() && isSceneGraphInitialized())
+    {
+        update();
+    }
+}
+
 void QSkiaQuickWindow::onBeforeRendering()
 {
     if (!this->isVisible()) {
@@ -111,6 +122,7 @@ void QSkiaQuickWindow::onBeforeRendering()
     const auto elapsed = m_dptr->lastTimeB.elapsed();
     m_dptr->lastTimeB = QTime::currentTime();
     canvas->save();
+    qWarning() << __FUNCTION__;
     this->drawBeforeSG(canvas, elapsed);
     canvas->restore();
 }
@@ -130,6 +142,8 @@ void QSkiaQuickWindow::onAfterRendering()
     const auto elapsed = m_dptr->lastTimeA.elapsed();
     m_dptr->lastTimeA = QTime::currentTime();
     canvas->save();
+    qWarning() << __FUNCTION__;
     this->drawAfterSG(canvas, elapsed);
     canvas->restore();
 }
+#include "moc_QSkiaQuickWindow.cpp"
