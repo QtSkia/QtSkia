@@ -1,37 +1,8 @@
 #pragma once
 #include "QtSkia_global.h"
 #include <QQuickWindow>
-#include <QPropertyAnimation>
-#include <QQuickItem>
-class SkCanvas;
-class InnerItem : public QQuickItem {
-    Q_OBJECT
-public:
-    InnerItem(QQuickItem *parent = nullptr) : QQuickItem(parent)
-    {
-        setWidth(1);
-        setHeight(1);
-        setX(-10);
-        m_animation.setTargetObject(this);
-        m_animation.setPropertyName("rotation");
-        m_animation.setStartValue(0);
-        m_animation.setEndValue(360);
-        m_animation.setDuration(1000);
-        m_animation.setLoopCount(-1);
-        connect(this, &QQuickItem::rotationChanged, this, &InnerItem::onAnimation);
-        m_animation.start();
-    }
-protected slots:
-    void onAnimation()
-    {
-        if (window() && window()->isSceneGraphInitialized()) {
-            window()->update();
-        }
-    }
-private:
-    QPropertyAnimation m_animation;
-};
 
+class SkCanvas;
 class QSkiaQuickWindowPrivate;
 class QtSkia_API QSkiaQuickWindow : public QQuickWindow {
     Q_OBJECT

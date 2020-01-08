@@ -8,6 +8,7 @@ include($$PWD/../../uniqueDestdir.pri)
 DESTDIR = $$destPath
 
 HEADERS += \
+    InnerItem_p.h \
     QSkiaQuickWindow.h \
     QSkiaQuickItem.h
 
