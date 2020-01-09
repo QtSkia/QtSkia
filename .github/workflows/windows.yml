@@ -75,7 +75,7 @@ jobs:
           nmake
       - name: build-msvc
         shell: cmd
-        if: !matrix.clang
+        if: false == matrix.clang
         env:
             vc_arch: ${{ matrix.msvc_arch }}
         run: |
