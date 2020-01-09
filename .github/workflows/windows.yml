@@ -29,14 +29,14 @@ jobs:
       targetName: HelloActions-Qt.exe
     # 步骤
     steps:
-      - name: cacheQt
-        id: WindowsCacheQt
-        uses: actions/cache@v1
-        with:
-          path: ../Qt/${{matrix.qt_ver}}/${{matrix.qt_arch_install}}
-          key: ${{ runner.os }}-Qt/${{matrix.qt_ver}}/${{matrix.qt_arch}}
+#      - name: cacheQt
+#        id: WindowsCacheQt
+#        uses: actions/cache@v1
+#        with:
+#          path: ../Qt/${{matrix.qt_ver}}/${{matrix.qt_arch_install}}
+#          key: ${{ runner.os }}-Qt/${{matrix.qt_ver}}/${{matrix.qt_arch}}
       - name: setupQt
-        if: steps.WindowsCacheQt.outputs.cache-hit == 'true'
+#        if: steps.WindowsCacheQt.outputs.cache-hit == 'true'
         shell: pwsh
         env:
           QtPath: ../Qt/${{matrix.qt_ver}}/${{matrix.qt_arch_install}}
@@ -45,17 +45,17 @@ jobs:
           echo "::set-env name=Qt5_Dir::$qt_Path"
           echo "::add-path::$qt_Path/bin"          
       # 安装Qt
-      - name: Install Qt
-        if: steps.WindowsCacheQt.outputs.cache-hit != 'true'
-        # 使用外部action。这个action专门用来安装Qt
-        uses: jurplel/install-qt-action@v2.0.0
-        with:
-          # Version of Qt to install
-          version: ${{ matrix.qt_ver }}
-          # Target platform for build
-          target: ${{ matrix.qt_target }}
-          # Architecture for Windows/Android
-          arch: ${{ matrix.qt_arch }}
+#      - name: Install Qt
+#        if: steps.WindowsCacheQt.outputs.cache-hit != 'true'
+#        # 使用外部action。这个action专门用来安装Qt
+#        uses: jurplel/install-qt-action@v2.0.0
+#        with:
+#          # Version of Qt to install
+#          version: ${{ matrix.qt_ver }}
+#          # Target platform for build
+#          target: ${{ matrix.qt_target }}
+#          # Architecture for Windows/Android
+#          arch: ${{ matrix.qt_arch }}
       # 拉取代码
       - uses: actions/checkout@v1
         with:
