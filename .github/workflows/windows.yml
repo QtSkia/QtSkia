@@ -84,9 +84,10 @@ jobs:
 #        if: false == matrix.clang
         env:
             vc_arch: ${{ matrix.msvc_arch }}
+            max_parallel: ${{jobs.build.strategy.max-parallel}}
         run: |
           call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" %vc_arch%
-          qmake -spec win32-msvc ""CONFIG+=release""
+          qmake -spec win32-msvc "CONFIG+=release" "Max_Parallel=%max_parallel%"
           nmake
       # tag 打包
       - name: package

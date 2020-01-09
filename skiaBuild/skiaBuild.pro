@@ -31,7 +31,12 @@ build_pass|!debug_and_release {
         error ("gn run error")
     }
     runninja.target = run_ninja
-    runninja.commands = $$NINJA -C $$system_quote($$system_path($$SKIA_OUT_PATH))
+    greaterThan(Max_Parallel, 1) {
+        runninja.commands = $$NINJA -C $$system_quote($$system_path($$SKIA_OUT_PATH)) -j $$Max_Parallel
+    } else {
+        runninja.commands = $$NINJA -C $$system_quote($$system_path($$SKIA_OUT_PATH))
+    }
+    message(Max_Parallel $$Max_Parallel)
     message("when build ninja: $$runninja.commands " )
     QMAKE_EXTRA_TARGETS += runninja
 

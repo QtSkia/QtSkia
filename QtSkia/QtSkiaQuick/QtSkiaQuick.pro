@@ -1,5 +1,5 @@
 TEMPLATE = lib
-QT += quick quick-private
+QT += quick
 DEFINES += QTSKIA_LIBRARY
 
 include($$absolute_path($$PWD/../QtSkiaQuickPublic.pri))
