@@ -11,6 +11,7 @@ OTHER_FILES += \
     skiacommon.pri \
     uniqueDestdir.pri \
     README.md \
-    .clang-format \
     LICENSE \
+    .clang-format \
+    .qmake.conf \
     .github/workflows/*.yml

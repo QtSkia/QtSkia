@@ -10,7 +10,6 @@ public:
     QSkiaQuickWindow(QWindow *parent = nullptr);
     virtual ~QSkiaQuickWindow() override;
     virtual void onInit(int w, int h) = 0;
-    virtual void onUninit() = 0;
     virtual void onResize(int w, int h) = 0;
     //draw before SceneGraph. Note: this function work in SceneGraph Renderer Thread.
     virtual void drawBeforeSG(SkCanvas* canvas, int elapsed) = 0;

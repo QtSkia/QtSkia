@@ -1,8 +1,6 @@
 win32 {
     GN=$$system_path($$PWD/windows/gn.exe)
     NINJA=$$system_path($$PWD/windows/ninja.exe)
-#    GN=gn.exe
-#    NINJA=ninja.exe
 }
 macos {
     GN=$$system_path($$PWD/macos/gn)
@@ -23,9 +21,13 @@ CONFIG(debug, debug|release) {
         is_official_build=false \
         is_debug=false
 }
-
-gn_args += \
-    is_component_build=true
+if($$QtSkia_Static_Build) {
+    gn_args += \
+        is_component_build=false
+} else {
+    gn_args += \
+        is_component_build=true
+}
 
 msvc {
     gn_args += \
@@ -43,5 +45,5 @@ msvc:clang_cl {
 }
 win32 {
     gn_args += \
-        target_cpu=\"$$(VSCMD_ARG_TGT_ARCH)\"
+        target_cpu=\"x64\"
 }

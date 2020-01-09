@@ -37,9 +37,6 @@ public:
         m_paint.setAntiAlias(true);
         m_paint.setColor(0xff4285F4);
     }
-    virtual void onUninit() override
-    {
-    }
     virtual void onResize(int w, int h) override {}
 
     virtual void drawBeforeSG(SkCanvas* canvas, int elapsed) override
