@@ -34,5 +34,9 @@ msvc {
 }
 
 msvc:clang_cl {
-    gn_args += clang_win=\"C:\\Program Files\\LLVM\"
+    exists("$$(VCINSTALLDIR)Tools\\LLvm\\bin\\clang-cl.exe") {
+        gn_args += clang_win=\"$$(VCINSTALLDIR)Tools\\LLvm\"
+    } else:exists("C:\\Program Files\\LLVM\\bin\\clang-cl.exe") {
+        gn_args += clang_win=\"C:\\Program Files\\LLVM\"
+    }
 }
