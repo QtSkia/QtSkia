@@ -31,15 +31,13 @@ build_pass|!debug_and_release {
         error ("gn run error")
     }
     runninja.target = run_ninja
-    greaterThan(Max_Parallel, 1) {
-        runninja.commands = $$NINJA -C $$system_quote($$system_path($$SKIA_OUT_PATH)) -j $$Max_Parallel
+    greaterThan($$(NUMBER_OF_PROCESSORS), 1) {
+        runninja.commands = $$NINJA -C $$system_quote($$system_path($$SKIA_OUT_PATH)) -j $$(NUMBER_OF_PROCESSORS)
     } else {
         runninja.commands = $$NINJA -C $$system_quote($$system_path($$SKIA_OUT_PATH))
     }
-    message(Max_Parallel $$Max_Parallel)
     message("when build ninja: $$runninja.commands " )
     QMAKE_EXTRA_TARGETS += runninja
-
 
     build_pass:build_all: default_target.target = all
     else: default_target.target = first
