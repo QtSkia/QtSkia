@@ -24,6 +24,7 @@ jobs:
         qt_target: [desktop]
         qt_arch: [win64_msvc2017_64]
         clang: [true, false]
+        msvc_arch: [x64]
     env:
       targetName: HelloActions-Qt.exe
     # 步骤
