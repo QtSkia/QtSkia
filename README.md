@@ -1,5 +1,7 @@
 # QtSkia
 
+[github原始仓库](https://github.com/QtSkia/QtSkia)
+
 [gitee镜像](https://gitee.com/QtSkia/QtSkia)
 
 ## 简介
@@ -157,7 +159,8 @@ Qt版本5.9以上即可，无特殊限制。
 |Qt框架适配|||
 ||QOpenGLWidget|完成|
 ||QWidget Raster|完成|
-||QOpenGLWindow|计划中|
+||QOpenGLWindow|完成|
+||QOuickWindow|完成|
 ||QQuickItem|计划中|
 ||QQuickFrameBuffer|计划中|
 ||QVulkanWindow|计划中|

@@ -6,7 +6,6 @@ include($$absolute_path($$PWD/../QtSkiaQuickPublic.pri))
 
 include($$PWD/../../uniqueDestdir.pri)
 DESTDIR = $$destPath
-
 HEADERS += \
     InnerItem_p.h \
     QSkiaQuickWindow.h \

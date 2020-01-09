@@ -47,6 +47,12 @@ void QSkiaQuickWindow::onSGInited()
     connect(this, &QQuickWindow::beforeRendering, this, &QSkiaQuickWindow::onBeforeRendering, static_cast<Qt::ConnectionType>(Qt::DirectConnection | Qt::UniqueConnection));
     connect(this, &QQuickWindow::afterRendering, this, &QSkiaQuickWindow::onAfterRendering, static_cast<Qt::ConnectionType>(Qt::DirectConnection | Qt::UniqueConnection));
     connect(this, &QQuickWindow::beforeSynchronizing, this, &QSkiaQuickWindow::onBeforeSync, static_cast<Qt::ConnectionType>(Qt::DirectConnection | Qt::UniqueConnection));
+
+    //资源释放。
+    //sceneGraphInvalidated 信号发出的时候，上下文已经没有了，来不及了。这里只能用sceneGraphAboutToStop。
+    //sceneGraphAboutToStop在Window析构之前会发出，最小化之前也会发出。这里使用hasCleaned标记。
+    //窗口直接关闭没有影响，最小化之后还原，则在beforeSync中重新创建Skia的上下文环境。
+    //对还原速度略微有影响(PC上测试3毫秒左右，可以忽略)，暂无更好的方案。
     connect(
         this, &QQuickWindow::sceneGraphAboutToStop, this, [&]() {
             qWarning() << __FUNCTION__;
