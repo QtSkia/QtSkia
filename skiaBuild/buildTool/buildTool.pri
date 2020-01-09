@@ -26,6 +26,7 @@ CONFIG(debug, debug|release) {
 
 gn_args += \
     is_component_build=true
+
 msvc {
     gn_args += \
         win_vc=\"$$clean_path($$(VCINSTALLDIR))\" \
@@ -39,4 +40,8 @@ msvc:clang_cl {
     } else:exists("C:\\Program Files\\LLVM\\bin\\clang-cl.exe") {
         gn_args += clang_win=\"C:\\Program Files\\LLVM\"
     }
+}
+win32 {
+    gn_args += \
+        target_cpu=\"$$(VSCMD_ARG_TGT_ARCH)\"
 }
