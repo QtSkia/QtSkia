@@ -6,30 +6,13 @@
 #include "gpu/GrContext.h"
 #include "src/gpu/gl/GrGLUtil.h"
 
-#include <QtQuick/private/qsgrenderloop_p.h>
 #include <QOpenGLContext>
 #include <QOpenGLFramebufferObject>
 #include <QOpenGLFunctions>
-#include <QPropertyAnimation>
 #include <QQuickItem>
 #include <QResizeEvent>
 #include <QTime>
 #include <QTimer>
-#include <QRunnable>
-#include <QCoreApplication>
-class CleanUp : public QRunnable {
-public:
-    CleanUp(sk_sp<GrContext> ctx, sk_sp<SkSurface> surface): pCtx(ctx), pSurface(surface){}
-    virtual void run() override
-    {
-        qWarning() << __FUNCTION__;
-        pCtx.reset();
-        pSurface.reset();
-    }
-private:
-    sk_sp<GrContext> pCtx;
-    sk_sp<SkSurface> pSurface;
-};
 
 class QSkiaQuickWindowPrivate {
 public:
@@ -38,6 +21,8 @@ public:
     QTime lastTimeA;
     QTime lastTimeB;
     InnerItem innerItem;
+    bool hasCleaned = false;
+    bool hasResize = false;
 };
 
 QSkiaQuickWindow::QSkiaQuickWindow(QWindow* parent)
@@ -47,13 +32,6 @@ QSkiaQuickWindow::QSkiaQuickWindow(QWindow* parent)
     connect(this, &QQuickWindow::sceneGraphInitialized, this, &QSkiaQuickWindow::onSGInited, Qt::DirectConnection);
     connect(this, &QQuickWindow::sceneGraphInvalidated, this, &QSkiaQuickWindow::onSGUninited, Qt::DirectConnection);
     setClearBeforeRendering(false);
-    connect(qApp, &QCoreApplication::aboutToQuit, this, [&](){
-        qWarning() << "aboutToQuit";
-        auto pCleanUp = new CleanUp(m_dptr->context, m_dptr->gpuSurface);
-        m_dptr->context = nullptr;
-        m_dptr->gpuSurface = nullptr;
-        QSGRenderLoop::instance()->postJob(this, pCleanUp);
-    });
 }
 
 QSkiaQuickWindow::~QSkiaQuickWindow()
@@ -68,12 +46,19 @@ void QSkiaQuickWindow::onSGInited()
     qWarning() << __FUNCTION__;
     connect(this, &QQuickWindow::beforeRendering, this, &QSkiaQuickWindow::onBeforeRendering, static_cast<Qt::ConnectionType>(Qt::DirectConnection | Qt::UniqueConnection));
     connect(this, &QQuickWindow::afterRendering, this, &QSkiaQuickWindow::onAfterRendering, static_cast<Qt::ConnectionType>(Qt::DirectConnection | Qt::UniqueConnection));
-//    connect(openglContext(), &QOpenGLContext::aboutToBeDestroyed, this, [&](){
-//            qWarning() << "aboutToBeDestroyed";
-//            s_context.clear();
-//            s_gpuSurface.clear();
-//        }, static_cast<Qt::ConnectionType>(Qt::DirectConnection | Qt::UniqueConnection));
-
+    connect(this, &QQuickWindow::beforeSynchronizing, this, &QSkiaQuickWindow::onBeforeSync, static_cast<Qt::ConnectionType>(Qt::DirectConnection | Qt::UniqueConnection));
+    connect(
+        this, &QQuickWindow::sceneGraphAboutToStop, this, [&]() {
+            qWarning() << __FUNCTION__;
+            if (m_dptr->context) {
+                m_dptr->context = nullptr;
+            }
+            if (m_dptr->gpuSurface) {
+                m_dptr->gpuSurface = nullptr;
+            }
+            m_dptr->hasCleaned = true;
+        },
+        static_cast<Qt::ConnectionType>(Qt::DirectConnection | Qt::UniqueConnection));
     //设置innerItem,驱动渲染循环
     m_dptr->innerItem.setParentItem(contentItem());
 
@@ -91,6 +76,8 @@ void QSkiaQuickWindow::onSGUninited()
     disconnect(this, &QQuickWindow::beforeRendering, this, &QSkiaQuickWindow::onBeforeRendering);
     disconnect(this, &QQuickWindow::afterRendering, this, &QSkiaQuickWindow::onAfterRendering);
 }
+
+
 void QSkiaQuickWindow::init(int w, int h)
 {
     GrGLFramebufferInfo info;
@@ -127,11 +114,21 @@ void QSkiaQuickWindow::resizeEvent(QResizeEvent* e)
         return;
     }
     if (isSceneGraphInitialized()) {
-        init(e->size().width(), e->size().height());
-        onResize(e->size().width(), e->size().height());
+        m_dptr->hasResize = true;
+
     }
 }
-
+void QSkiaQuickWindow::onBeforeSync()
+{
+    if (m_dptr->hasResize || m_dptr->hasCleaned) {
+        m_dptr->context = GrContext::MakeGL();
+        SkASSERT(m_dptr->context);
+        init(this->width(), this->height());
+        m_dptr->hasCleaned = false;
+        m_dptr->hasResize = false;
+        onResize(this->width(),this->height());
+    }
+}
 void QSkiaQuickWindow::timerEvent(QTimerEvent*)
 {
     if (isVisible() && isSceneGraphInitialized()) {
@@ -140,6 +137,28 @@ void QSkiaQuickWindow::timerEvent(QTimerEvent*)
 }
 
 void QSkiaQuickWindow::onBeforeRendering()
+{
+
+    if (!this->isVisible() || !isSceneGraphInitialized()) {
+        return;
+    }
+
+    if (!m_dptr->gpuSurface) {
+        return;
+    }
+    auto canvas = m_dptr->gpuSurface->getCanvas();
+    if (!canvas) {
+        return;
+    }
+//    qWarning() << __FUNCTION__;
+    const auto elapsed = m_dptr->lastTimeB.elapsed();
+    m_dptr->lastTimeB = QTime::currentTime();
+    canvas->save();
+    this->drawBeforeSG(canvas, elapsed);
+    canvas->restore();
+}
+
+void QSkiaQuickWindow::onAfterRendering()
 {
     if (!this->isVisible() || !isSceneGraphInitialized()) {
         return;
@@ -151,27 +170,7 @@ void QSkiaQuickWindow::onBeforeRendering()
     if (!canvas) {
         return;
     }
-    qWarning() << __FUNCTION__;
-    const auto elapsed = m_dptr->lastTimeB.elapsed();
-    m_dptr->lastTimeB = QTime::currentTime();
-    canvas->save();
-    this->drawBeforeSG(canvas, elapsed);
-    canvas->restore();
-}
-
-void QSkiaQuickWindow::onAfterRendering()
-{
-    if (!this->isVisible()|| !isSceneGraphInitialized()) {
-        return;
-    }
-    if (!m_dptr->gpuSurface) {
-        return;
-    }
-    auto canvas = m_dptr->gpuSurface->getCanvas();
-    if (!canvas) {
-        return;
-    }
-    qWarning() << __FUNCTION__;
+//    qWarning() << __FUNCTION__;
     const auto elapsed = m_dptr->lastTimeA.elapsed();
     m_dptr->lastTimeA = QTime::currentTime();
     canvas->save();

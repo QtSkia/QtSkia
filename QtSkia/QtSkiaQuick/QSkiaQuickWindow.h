@@ -19,9 +19,9 @@ public:
 protected slots:
     void onSGInited();
     void onSGUninited();
+    void onBeforeSync();
     void onBeforeRendering();
     void onAfterRendering();
-
 protected:
     void init(int w, int h);
     void resizeEvent(QResizeEvent *) override;
