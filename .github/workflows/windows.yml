@@ -20,10 +20,9 @@ jobs:
     strategy:
       # 矩阵配置
       matrix:
-        qt_ver: [5.12.6]
+        qt_ver: [5.9.9, 5.12.6]
         qt_target: [desktop]
         qt_arch: [win64_msvc2017_64]
-        clang: [true, false]
         msvc_arch: [x64]
     env:
       targetName: HelloActions-Qt.exe
@@ -70,24 +69,24 @@ jobs:
             python-version: '2.x' # Version range or exact version of a Python version to use, using SemVer's version range syntax
             architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
       # 编译msvc
-      - name: build-msvc-clang
-        shell: cmd
-        if: matrix.clang
-        env:
-          vc_arch: ${{ matrix.msvc_arch }}
-        run: |
-          call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" %vc_arch%
-          set PATH="C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Tools\LLvm\bin";%PATH%
-          qmake -spec win32-clang-msvc
-          nmake
+#      - name: build-msvc-clang
+#        shell: cmd
+#        if: matrix.clang
+#        env:
+#          vc_arch: ${{ matrix.msvc_arch }}
+#        run: |
+#          call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" %vc_arch%
+#          set PATH="C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Tools\LLvm\bin";%PATH%
+#          qmake -spec win32-clang-msvc
+#          nmake
       - name: build-msvc
         shell: cmd
-        if: false == matrix.clang
+#        if: false == matrix.clang
         env:
             vc_arch: ${{ matrix.msvc_arch }}
         run: |
           call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" %vc_arch%
-          qmake -spec win32-msvc
+          qmake -spec win32-msvc ""CONFIG+=release""
           nmake
       # tag 打包
       - name: package
