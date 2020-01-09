@@ -7,7 +7,7 @@ DESTDIR = $$destPath
 SKIA_SRC_PATH=$$system_quote($$system_path($$absolute_path($$PWD/../3rdparty/skia)))
 SKIA_OUT_PATH=$$system_quote($$DESTDIR)
 
-#CONFIG += sync_github
+CONFIG += sync_github
 #CONFIG += sync_gitee
 build_pass|!debug_and_release {
     # update python skia/tools/git-sync-deps
