@@ -7,10 +7,12 @@ include($$absolute_path($$PWD/../QtSkiaQuickPublic.pri))
 include($$PWD/../../uniqueDestdir.pri)
 DESTDIR = $$destPath
 HEADERS += \
-    InnerItem_p.h \
-    QSkiaQuickWindow.h \
-    QSkiaQuickItem.h
+    QuickItem/SkiaRenderNode.h \
+    QuickWindow/InnerItem_p.h \
+    QuickWindow/QSkiaQuickWindow.h \
+    QuickItem/QSkiaQuickItem.h
 
 SOURCES += \
-    QSkiaQuickWindow.cpp \
-    QSkiaQuickItem.cpp
+    QuickItem/SkiaRenderNode.cpp \
+    QuickWindow/QSkiaQuickWindow.cpp \
+    QuickItem/QSkiaQuickItem.cpp

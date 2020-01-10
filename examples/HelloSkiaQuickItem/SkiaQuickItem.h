@@ -38,34 +38,29 @@ public:
         m_paint.setColor(0xff4285F4);
     }
 
-    virtual void drawBeforeSG(SkCanvas* canvas, int elapsed) override
+    virtual void draw(SkCanvas* canvas, int elapsed) override
     {
-//        int w = this->width();
-//        int h = this->height();
-//        m_rotateAngle = int(elapsed * m_rotateSpeed + m_rotateAngle) % 360;
+        auto size = this->size().toSize();
+        int w = size.width();
+        int h = size.height();
+        m_rotateAngle = int(elapsed * m_rotateSpeed + m_rotateAngle) % 360;
 
-//        SkPaint p;
-//        p.setAntiAlias(true);
-//        p.setColor(SK_ColorRED);
-//        p.setStrokeWidth(2.0f);
+        SkPaint p;
+        p.setAntiAlias(true);
+        p.setStrokeWidth(2.0f);
+        p.setColor(SK_ColorRED);
 
-//        SkFont font;
-//        font.setSize(30);
+        SkFont font;
+        font.setSize(30);
 
-//        canvas->clear(SK_ColorWHITE);
-
-//        canvas->rotate(m_rotateAngle, w / 2, h / 2);
-//        canvas->drawString("Hello Skia", w / 2 - 20, h / 2, font, p);
-//        canvas->drawLine(w * 0.2f, h * 0.2f, w * 0.4f, h * 0.4f, p);
-
-//        canvas->flush();
-    }
-    virtual void drawAfterSG(SkCanvas* canvas, int elapsed) override
-    {
+        canvas->clear(SK_ColorWHITE);
         canvas->drawPath(m_path, m_paint);
+
+        canvas->rotate(m_rotateAngle, w / 2, h / 2);
+        canvas->drawString("Hello Skia", w / 2 - 20, h / 2, font, p);
+        canvas->drawLine(w * 0.2f, h * 0.2f, w * 0.4f, h * 0.4f, p);
         canvas->flush();
     }
-
 private:
     SkPaint m_paint;
     SkPath m_path;

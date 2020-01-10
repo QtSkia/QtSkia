@@ -175,13 +175,20 @@ int main(int argc, char* argv[])
 - [ ] Lottie绘制
 
 * Qt框架适配
-- [x] QWidget Raster
-- [x] QOpenGLWidget
+
+1. Gui模块
 - [x] QOpenGLWindow
+- [ ] QWindow
+- [ ] QVulkanWindow
+
+2. Widget模块
+- [x] QWidget CPURaster
+- [x] QOpenGLWidget
+
+3. Quick模块
 - [x] QOuickWindow
 - [ ] QQuickItem
 - [ ] QQuickFrameBuffer
-- [ ] QVulkanWindow
 
 * 性能测试对比
 - [ ] 基本图形大规模绘制
