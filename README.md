@@ -42,6 +42,9 @@ QtSkia提供了QWidget、QOpenGLWidget、QQuickWindow、QQuickItem等常用Qt渲
 |---------------|---------------|-----------------|-----------------|----------------|
 | ![win-badge]  | ![ubuntu-badge]      | ![macos-badge] |![android-badge]   |![ios-badge]   |
 
+|[License][license-link]| [Release][release-link]|[Download][download-link]|[Issues][issues-link]|[Wiki][wiki-links]|
+|-----------------|-----------------|-----------------|-----------------|-----------------|
+|![license-badge] |![release-badge] | ![download-badge]|![issues-badge]|![wiki-badge]|
 
 [win-link]: https://github.com/JaredTao/QtSkia/actions?query=workflow%3AWindows "WindowsAction"
 [win-badge]: https://github.com/JaredTao/QtSkia/workflows/Windows/badge.svg  "Windows"
@@ -57,6 +60,22 @@ QtSkia提供了QWidget、QOpenGLWidget、QQuickWindow、QQuickItem等常用Qt渲
 
 [ios-link]: https://github.com/JaredTao/QtSkia/actions?query=workflow%3AIOS "IOSAction"
 [ios-badge]: https://github.com/JaredTao/QtSkia/workflows/IOS/badge.svg "IOS"
+
+[release-link]: https://github.com/jaredtao/QtSkia/releases "Release status"
+[release-badge]: https://img.shields.io/github/release/jaredtao/QtSkia.svg?style=flat-square "Release status"
+
+[download-link]: https://github.com/jaredtao/QtSkia/releases/latest "Download status"
+[download-badge]: https://img.shields.io/github/downloads/jaredtao/QtSkia/total.svg?style=flat-square "Download status"
+
+[license-link]: https://github.com/jaredtao/QtSkia/blob/master/LICENSE "LICENSE"
+[license-badge]: https://img.shields.io/badge/license-MIT-blue.svg "MIT"
+
+
+[issues-link]: https://github.com/jaredtao/QtSkia/issues "Issues"
+[issues-badge]: https://img.shields.io/badge/github-issues-red.svg?maxAge=60 "Issues"
+
+[wiki-links]: https://github.com/jaredtao/QtSkia/wiki "wiki"
+[wiki-badge]: https://img.shields.io/badge/github-wiki-181717.svg?maxAge=60 "wiki"
 
 ## HelloSkia示例
 
@@ -238,3 +257,24 @@ make
 |QtSkia|QtSkia库|
 |skiaBuild|Qt编译skia|
 |tests|单元测试、性能测试|
+
+## 赞助
+
+为众人抱薪者, 不可使其冻毙于风雪。
+
+如果您觉得这个项目还不错，请打赏一下作者。
+
+<img src="https://gitee.com/jaredtao/jaredtao/raw/master/img/weixin.jpg?raw=true" width="25%" height="25%" /><img src="https://gitee.com/jaredtao/jaredtao/raw/master/img/zhifubao.jpg?raw=true" width="25%" height="25%" />
+
+## 联系作者
+
+|-|-|
+| ---- | -------------------------------- |
+| 作者 | 武威的涛哥                           |
+| 博客 | https://jaredtao.github.io/ |
+| 博客-gitee镜像|https://jaredtao.gitee.io|
+| 知乎专栏| https://zhuanlan.zhihu.com/TaoQt |
+| QQ群| 734623697(高质量群，大佬多、不灌水）|
+| 邮箱 | jared2020@163.com                |
+| 微信 | xsd2410421                       |
+| QQ、TIM | 759378563                      |
