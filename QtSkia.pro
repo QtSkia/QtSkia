@@ -14,4 +14,5 @@ OTHER_FILES += \
     LICENSE \
     .clang-format \
     .qmake.conf \
+    syncSkia* \
     .github/workflows/*.yml

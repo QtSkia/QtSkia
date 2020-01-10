@@ -108,38 +108,6 @@ int main(int argc, char* argv[])
 
 ![](doc/demo.png)
 
-## 依赖环境
-
-skia需要python2。(相关构建工具都是基于python2开发的。)
-
-编译器需要支持C++11，skia推荐使用clang编译。
-
-Qt版本5.9以上即可，无特殊限制。
-
-建议使用5.9.x或5.12.x等长期支持版本。
-
-### windows
-
-编译器需要使用vs2017及以上。
-
-官方强烈建议使用clang-cl。
-
-注意32bit/x86架构,只能使用google提供的工具链，比较麻烦。
-
-具体请参考skia官网：https://skia.org/user/build
-
-### Linux
-
-待补充
-
-### MacOS
-
-待补充
-
-### Android
-
-待补充
-
 ## 进度计划
 
 |阶段|目标|进度|
@@ -166,16 +134,79 @@ Qt版本5.9以上即可，无特殊限制。
 ||QVulkanWindow|计划中|
 |性能测试对比|-|计划中|
 
-## 关于源码
+## Build
+
+### 依赖环境
+
+python 2
+
+Qt 5.12.x 64-bit
+
+注意:32bit/x86架构,只能使用google提供的工具链，QtSkia未做支持, 具体请参考skia官网：https://skia.org/user/build
+
+### windows
+
+编译器需要使用vs2017及以上,有clang-cl更好。
+
+#### Linux
+
+待补充
+
+#### MacOS
+
+待补充
+
+#### Android
+
+待补充
+
+### 源码下载
+
+1. 下载QtSkia
+
+```shell
+git clone https://github.com/QtSkia/QtSkia.git
+```
+
+国内用户可以使用gitee同步镜像，速度更快。
+
+```shell
+git clone https://gitee.com/QtSkia/QtSkia.git
+```
+
+2. 下载skia及依赖库
+
+执行QtSkia根目录的syncSkia脚本，即可自动从github下载所有依赖源码。
+
+国内用户也可以使用syncSkia-gite脚本代替, 从gitee下载同步镜像，速度更快。
+
+windows环境双击运行syncSkia.bat， 或者命令行：
+
+```bat
+cd QtSkia
+syncSkia.bat
+```
+
+unix环境 命令行执行脚本
+```shell
+cd QtSkia
+chmod +x syncSkia.sh
+.\syncSkia.sh
+```
+
+
+#### skia及依赖库的说明
 
 skia官方仓库在 https://skia.googlesource.com/skia
 
 github上面也有官方的镜像 https://github.com/google/skia
 
-skia依赖的三方库有28个以上。
+QtSkia在github、gitee提供了全部的同步镜像仓库，详情见：
 
-国内用户不一定能访问到googlesource，涛哥在github上整理了所有依赖仓库的镜像，
+https://github.com/QtSkia
 
-并使用自动化工具定期同步，具体见https://github.com/QtSkia
+https://gitee.com/QtSkia
 
-另外github速度不够快，所以涛哥在gitee上也做了镜像, 以方便国内用户，具体见：https://gitee.com/QtSkia
+QtSkia提供的仓库，会使用自动化工具定期同步google上游仓库。
+
+QtSkia不修改skia及依赖库的源码，仅使其增加github、gitee镜像支持和必要的编译器支持。

@@ -8,22 +8,6 @@ SKIA_SRC_PATH=$$system_quote($$system_path($$absolute_path($$PWD/../3rdparty/ski
 SKIA_OUT_PATH=$$system_quote($$DESTDIR)
 
 build_pass|!debug_and_release {
-    # update python skia/tools/git-sync-deps
-    github_sync=\"set GIT_SYNC_DEPS_PATH=$$absolute_path($$SKIA_SRC_PATH/DEPS-github)\"
-    gitee_sync=\"set GIT_SYNC_DEPS_PATH=$$absolute_path($$SKIA_SRC_PATH/DEPS-gitee)\"
-    git_sync=\"echo 0\"
-
-    if ($$QtSkia_Use_Gitee) {
-        git_sync = $$gitee_sync
-    } else {
-        git_sync = $$github_sync
-    }
-    message("git sync:" $$git_sync)
-    sync_deps=python $$verbose_flags $$absolute_path($${SKIA_SRC_PATH}/tools/git-sync-deps)
-    message("Running: $$sync_deps ")
-    if(!system($$git_sync && $$sync_deps)) {
-        error ("sync deps error")
-    }
     GN_ARGS = $$system_quote($$gn_args)
     GN_RUN =$$GN gen $$SKIA_OUT_PATH --args=$$GN_ARGS --root=$$SKIA_SRC_PATH $$verbose_flags
     message("Running: $$GN_RUN " )
@@ -31,8 +15,9 @@ build_pass|!debug_and_release {
         error ("gn run error")
     }
     runninja.target = run_ninja
-    greaterThan($$(NUMBER_OF_PROCESSORS), 1) {
-        runninja.commands = $$NINJA -C $$system_quote($$system_path($$SKIA_OUT_PATH)) -j $$(NUMBER_OF_PROCESSORS)
+    numOfProcessor=$$(NUMBER_OF_PROCESSORS)
+    greaterThan(numOfProcessor, 1) {
+        runninja.commands = $$NINJA -C $$system_quote($$system_path($$SKIA_OUT_PATH)) -j $$numOfProcessor
     } else {
         runninja.commands = $$NINJA -C $$system_quote($$system_path($$SKIA_OUT_PATH))
     }
