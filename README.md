@@ -62,7 +62,7 @@ QtSkia提供了QWidget、QOpenGLWidget、QQuickWindow、QQuickItem等常用Qt渲
 
 QtSkia处理了skia与QWidget、OpenGL、QQuick等渲染框架的融合问题，并将SkCanvas在接口中提供出来。
 
-开发者只要重写父类虚函数，就能够使用SkCanvas了。
+例如要在Widget中使用,开发者只要重写父类虚函数，就能够使用SkCanvas了。
 
 SkCanvas是一个类似于QPainter的画笔，但性能和功能都比QPainter强大许多。
 
@@ -108,31 +108,41 @@ int main(int argc, char* argv[])
 
 ![](doc/demo.png)
 
-## 进度计划
+## 计划与进度
 
-|阶段|目标|进度|
-|----|----|----|
-|skia源码镜像|gitee|完成|
-|依赖库源码镜像|gitee|完成|
-|编译|-|-|
-||改进Qt编译配置和工具链|持续进行中|
-||Qt Windows平台编译skia|完成|
-||Qt Linux平台编译skia|待测试|
-||Qt MacOS平台编译skia|待测试|
-|运行|-|-|
-||简单画线|完成|
-||简单文字|完成|
-||贴图|计划中|
-||Lottie绘制|计划中|
-|Qt框架适配|||
-||QOpenGLWidget|完成|
-||QWidget Raster|完成|
-||QOpenGLWindow|完成|
-||QOuickWindow|完成|
-||QQuickItem|计划中|
-||QQuickFrameBuffer|计划中|
-||QVulkanWindow|计划中|
-|性能测试对比|-|计划中|
+* 代码镜像
+- [x] skia源码镜像
+- [x] 依赖库源码镜像
+- [x] 自动化同步上游代码
+- [x] 本地自动拉取脚本
+
+* 编译与CI
+- [x] 制定Qt编译流程
+- [x] Windows平台自动编译
+- [ ] Windows + clang 自动编译
+- [ ] Linux平台自动编译
+- [ ] MacOS平台自动编译
+- [ ] Android平台自动编译
+
+* 效果
+- [x] 简单画线、文字
+- [ ] 贴图，支持常见图片格式
+- [ ] Skia内置特效
+- [ ] Lottie绘制
+
+* Qt框架适配
+- [x] QWidget Raster
+- [x] QOpenGLWidget
+- [x] QOpenGLWindow
+- [x] QOuickWindow
+- [ ] QQuickItem
+- [ ] QQuickFrameBuffer
+- [ ] QVulkanWindow
+
+* 性能测试对比
+- [ ] 基本图形大规模绘制
+- [ ] 动画
+- [ ] 待补充
 
 ## Build
 
@@ -144,7 +154,7 @@ Qt 5.12.x 64-bit
 
 注意:32bit/x86架构,只能使用google提供的工具链，QtSkia未做支持, 具体请参考skia官网：https://skia.org/user/build
 
-### windows
+#### windows
 
 编译器需要使用vs2017及以上,有clang-cl更好。
 
@@ -176,9 +186,9 @@ git clone https://gitee.com/QtSkia/QtSkia.git
 
 2. 下载skia及依赖库
 
-执行QtSkia根目录的syncSkia脚本，即可自动从github下载所有依赖源码。
+执行QtSkia根目录的syncSkia脚本，即可自动从github下载所有依赖项。
 
-国内用户也可以使用syncSkia-gite脚本代替, 从gitee下载同步镜像，速度更快。
+国内用户也可以使用syncSkia-gitee脚本代替, 从gitee下载同步镜像，速度更快。
 
 windows环境双击运行syncSkia.bat， 或者命令行：
 
@@ -193,7 +203,6 @@ cd QtSkia
 chmod +x syncSkia.sh
 .\syncSkia.sh
 ```
-
 
 #### skia及依赖库的说明
 
@@ -210,3 +219,22 @@ https://gitee.com/QtSkia
 QtSkia提供的仓库，会使用自动化工具定期同步google上游仓库。
 
 QtSkia不修改skia及依赖库的源码，仅使其增加github、gitee镜像支持和必要的编译器支持。
+
+### 编译
+
+使用QtCreator导入QtSkia.pro，或者使用Qt命令行
+
+```shell
+qmake 
+make
+```
+### 代码结构
+
+|目录|用途|
+|:-----------:|:-------------:|
+|3rdparty|第三方库，skia|
+|doc|文档|
+|examples|一些用例|
+|QtSkia|QtSkia库|
+|skiaBuild|Qt编译skia|
+|tests|单元测试、性能测试|
