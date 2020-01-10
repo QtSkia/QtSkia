@@ -1,12 +1,37 @@
 # QtSkia
 
-[github原始仓库](https://github.com/QtSkia/QtSkia)
+[github原始仓库 https://github.com/QtSkia/QtSkia](https://github.com/QtSkia/QtSkia)
 
-[gitee镜像](https://gitee.com/QtSkia/QtSkia)
+[gitee镜像 https://gitee.com/QtSkia/QtSkia](https://gitee.com/QtSkia/QtSkia)
 
-## 简介
+# 目录
 
-### Skia
+- [QtSkia](#qtskia)
+- [目录](#%e7%9b%ae%e5%bd%95)
+- [简介](#%e7%ae%80%e4%bb%8b)
+  - [Skia](#skia)
+  - [QtSkia](#qtskia-1)
+- [CI徽章](#ci%e5%be%bd%e7%ab%a0)
+- [HelloSkia示例](#helloskia%e7%a4%ba%e4%be%8b)
+- [计划与进度](#%e8%ae%a1%e5%88%92%e4%b8%8e%e8%bf%9b%e5%ba%a6)
+- [Build](#build)
+  - [依赖环境](#%e4%be%9d%e8%b5%96%e7%8e%af%e5%a2%83)
+    - [windows](#windows)
+    - [Linux](#linux)
+    - [MacOS](#macos)
+    - [Android](#android)
+  - [源码下载](#%e6%ba%90%e7%a0%81%e4%b8%8b%e8%bd%bd)
+    - [skia及依赖库的说明](#skia%e5%8f%8a%e4%be%9d%e8%b5%96%e5%ba%93%e7%9a%84%e8%af%b4%e6%98%8e)
+  - [编译](#%e7%bc%96%e8%af%91)
+  - [代码结构](#%e4%bb%a3%e7%a0%81%e7%bb%93%e6%9e%84)
+- [赞助](#%e8%b5%9e%e5%8a%a9)
+- [联系作者](#%e8%81%94%e7%b3%bb%e4%bd%9c%e8%80%85)
+
+
+
+# 简介
+
+## Skia
 
 Skia是一个开源的二维图形库，提供各种常用的API，并可在多种软硬件平台上运行。
 
@@ -26,7 +51,7 @@ Skia开发团队致力于开发其核心部分， 并广泛采纳各方对于Ski
 
 * 谷歌github镜像: https://github.com/google/skia.git
 
-### QtSkia
+## QtSkia
 
 QtSkia是在Qt框架中集成skia，实现的二维图形库。
 
@@ -34,7 +59,7 @@ QtSkia提供了QWidget、QOpenGLWidget、QQuickWindow、QQuickItem等常用Qt渲
 
 可以方便地将skia引入到现有Qt项目中。
 
-## CI徽章
+# CI徽章
 
 占位，待修改。
 
@@ -77,7 +102,7 @@ QtSkia提供了QWidget、QOpenGLWidget、QQuickWindow、QQuickItem等常用Qt渲
 [wiki-links]: https://github.com/jaredtao/QtSkia/wiki "wiki"
 [wiki-badge]: https://img.shields.io/badge/github-wiki-181717.svg?maxAge=60 "wiki"
 
-## HelloSkia示例
+# HelloSkia示例
 
 QtSkia处理了skia与QWidget、OpenGL、QQuick等渲染框架的融合问题，并将SkCanvas在接口中提供出来。
 
@@ -127,7 +152,7 @@ int main(int argc, char* argv[])
 
 ![](doc/demo.png)
 
-## 计划与进度
+# 计划与进度
 
 * 代码镜像
 - [x] skia源码镜像
@@ -163,9 +188,9 @@ int main(int argc, char* argv[])
 - [ ] 动画
 - [ ] 待补充
 
-## Build
+# Build
 
-### 依赖环境
+## 依赖环境
 
 python 2
 
@@ -173,23 +198,23 @@ Qt 5.12.x 64-bit
 
 注意:32bit/x86架构,只能使用google提供的工具链，QtSkia未做支持, 具体请参考skia官网：https://skia.org/user/build
 
-#### windows
+### windows
 
 编译器需要使用vs2017及以上,有clang-cl更好。
 
-#### Linux
+### Linux
 
 待补充
 
-#### MacOS
+### MacOS
 
 待补充
 
-#### Android
+### Android
 
 待补充
 
-### 源码下载
+## 源码下载
 
 1. 下载QtSkia
 
@@ -223,7 +248,7 @@ chmod +x syncSkia.sh
 .\syncSkia.sh
 ```
 
-#### skia及依赖库的说明
+### skia及依赖库的说明
 
 skia官方仓库在 https://skia.googlesource.com/skia
 
@@ -239,7 +264,7 @@ QtSkia提供的仓库，会使用自动化工具定期同步google上游仓库�
 
 QtSkia不修改skia及依赖库的源码，仅使其增加github、gitee镜像支持和必要的编译器支持。
 
-### 编译
+## 编译
 
 使用QtCreator导入QtSkia.pro，或者使用Qt命令行
 
@@ -247,7 +272,7 @@ QtSkia不修改skia及依赖库的源码，仅使其增加github、gitee镜像�
 qmake 
 make
 ```
-### 代码结构
+## 代码结构
 
 |目录|用途|
 |:-----------:|:-------------:|
@@ -258,7 +283,7 @@ make
 |skiaBuild|Qt编译skia|
 |tests|单元测试、性能测试|
 
-## 赞助
+# 赞助
 
 为众人抱薪者, 不可使其冻毙于风雪。
 
@@ -266,7 +291,7 @@ make
 
 <img src="https://gitee.com/jaredtao/jaredtao/raw/master/img/weixin.jpg?raw=true" width="25%" height="25%" /><img src="https://gitee.com/jaredtao/jaredtao/raw/master/img/zhifubao.jpg?raw=true" width="25%" height="25%" />
 
-## 联系作者
+# 联系作者
 
 |-|-|
 | ---- | -------------------------------- |
