@@ -21,7 +21,7 @@ build_pass|!debug_and_release {
     } else {
         runninja.commands = $$NINJA -C $$system_quote($$system_path($$SKIA_OUT_PATH))
     }
-    message("when build ninja: $$runninja.commands " )
+    message("when build ninja: $$runninja.commands ")
     QMAKE_EXTRA_TARGETS += runninja
 
     build_pass:build_all: default_target.target = all
