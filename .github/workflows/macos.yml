@@ -48,6 +48,6 @@ jobs:
       - name: build macos
         run: |
           chmod a+x syncSkia.sh
-          ./syncSkia-gitee.sh
+          ./syncSkia.sh
           qmake
           make
