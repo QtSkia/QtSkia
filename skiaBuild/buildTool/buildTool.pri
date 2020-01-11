@@ -43,7 +43,10 @@ msvc:clang_cl {
         gn_args += clang_win=\"C:\\Program Files\\LLVM\"
     }
 }
-win32 {
-    gn_args += \
-        target_cpu=\"x64\"
+CONFIG(detachClang){
+    exists("C:\\Program Files\\LLVM\\bin\\clang-cl.exe") {
+        gn_args += clang_win=\"C:\\Program Files\\LLVM\"
+    } else:exists("$$(VCINSTALLDIR)Tools\\LLvm\\bin\\clang-cl.exe") {
+        gn_args += clang_win=\"$$(VCINSTALLDIR)Tools\\LLvm\"
+    }
 }

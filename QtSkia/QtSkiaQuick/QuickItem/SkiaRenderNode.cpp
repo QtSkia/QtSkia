@@ -10,6 +10,7 @@
 #include <QOpenGLFunctions>
 #include <QQuickWindow>
 #include <QDebug>
+#include <QMatrix4x4>
 class SkiaGLContext {
 public:
     static SkiaGLContext& instance()
@@ -87,7 +88,7 @@ protected:
         //                      SkSurfaceProps::kLegacyFontHost_InitType);
         SkSurfaceProps props(SkSurfaceProps::kLegacyFontHost_InitType);
 
-        auto gpuSurface = SkSurface::MakeFromBackendRenderTarget(contextMap.value(pItem->window()).get(), backend, kBottomLeft_GrSurfaceOrigin, colorType, nullptr, &props);
+        auto gpuSurface = SkSurface::MakeFromBackendRenderTarget(contextMap.value(pItem->window()).get(), backend, kTopLeft_GrSurfaceOrigin, colorType, nullptr, &props);
         if (!gpuSurface) {
             SkDebugf("SkSurface::MakeRenderTarget return null\n");
             return nullptr;
@@ -111,12 +112,35 @@ SkiaRenderNode::SkiaRenderNode(QSkiaQuickItem* parent)
     m_lastSize = m_item->size();
 }
 
-void SkiaRenderNode::render(const QSGRenderNode::RenderState*)
+/*
+
+*/
+SkMatrix qmat2sk(QMatrix4x4 originMat) {
+    SkMatrix mat;
+    mat[0] = originMat.constData()[0];
+    mat[1] = originMat.constData()[1];
+    mat[2] = originMat.constData()[2];
+    mat[3] = originMat.constData()[4];
+    mat[4] = originMat.constData()[5];
+    mat[5] = originMat.constData()[6];
+    mat[6] = originMat.constData()[8];
+    mat[7] = originMat.constData()[9];
+    mat[8] = originMat.constData()[10];
+
+    return mat;
+}
+QDebug &operator<<(QDebug &dbg, QMatrix4x4 mat) {
+    dbg<<mat.constData()[0] << mat.constData()[1] << mat.constData()[2];
+    dbg<<mat.constData()[4] << mat.constData()[5] << mat.constData()[6] ;
+    dbg<<mat.constData()[8] << mat.constData()[9] << mat.constData()[10];
+    return dbg;
+}
+void SkiaRenderNode::render(const QSGRenderNode::RenderState* state)
 {
-//    qWarning() << __FUNCTION__;
     SkSurface* pSurface = SkiaGLContext::instance().getSurface(m_item);
     if (!pSurface) {
         pSurface = SkiaGLContext::instance().addNode(m_item);
+        m_item->onInit(static_cast<int>(m_item->width()), static_cast<int>(m_item->height()));
     } else if (m_item->size() != m_lastSize) {
         SkiaGLContext::instance().resize(m_item);
     }
@@ -126,7 +150,11 @@ void SkiaRenderNode::render(const QSGRenderNode::RenderState*)
     }
     auto cost = m_lastTime.elapsed();
     m_lastTime = QTime::currentTime();
+    pSurface->getCanvas()->save();
+//    qWarning() <<*state->projectionMatrix();
+//    pSurface->getCanvas()->concat(qmat2sk());
     m_item->draw(pSurface->getCanvas(), cost);
+    pSurface->getCanvas()->restore();
 }
 
 void SkiaRenderNode::releaseResources()

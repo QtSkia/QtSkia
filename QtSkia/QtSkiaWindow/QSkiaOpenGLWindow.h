@@ -10,7 +10,7 @@ public:
     ~QSkiaOpenGLWindow() override;
     virtual void onInit(int w, int h) = 0;
     virtual void onResize(int w, int h) = 0;
-    virtual void draw(SkCanvas* canvas, int elapsed = 16) = 0;
+    virtual void draw(SkCanvas* canvas, int elapsed) = 0;
 protected:
     virtual void initializeGL() override;
     virtual void resizeGL(int w, int h) override;

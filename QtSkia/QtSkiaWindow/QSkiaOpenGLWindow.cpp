@@ -7,6 +7,7 @@
 #include <QOpenGLFunctions>
 #include <QTime>
 #include <QTimer>
+#include <QDebug>
 class QSkiaOpenGLWindowPrivate {
 public:
     QOpenGLFunctions funcs;
@@ -15,6 +16,8 @@ public:
     SkImageInfo info;
     QTimer timer;
     QTime lastTime;
+    int oldW;
+    int oldH;
 };
 QSkiaOpenGLWindow::QSkiaOpenGLWindow(QWindow* parent)
     : QOpenGLWindow(QOpenGLWindow::UpdateBehavior::NoPartialUpdate, parent)
@@ -40,19 +43,23 @@ void QSkiaOpenGLWindow::initializeGL()
     init(this->width(), this->height());
     onInit(this->width(), this->height());
     m_dptr->lastTime = QTime::currentTime();
+    m_dptr->oldW = width();
+    m_dptr->oldW = height();
 }
 
 void QSkiaOpenGLWindow::resizeGL(int w, int h)
 {
-    if (this->width() == w && this->height() == h) {
+    if (w == m_dptr->oldW && h == m_dptr->oldH) {
         return;
     }
+    //TODO 直接换Surface会闪烁，需要优化为快速切换。
     init(w, h);
     onResize(w, h);
 }
 
 void QSkiaOpenGLWindow::init(int w, int h)
 {
+    qWarning() << __FUNCTION__ << w << h;
     m_dptr->info = SkImageInfo::MakeN32Premul(w, h);
     m_dptr->gpuSurface = SkSurface::MakeRenderTarget(m_dptr->context.get(), SkBudgeted::kNo, m_dptr->info);
     if (!m_dptr->gpuSurface) {

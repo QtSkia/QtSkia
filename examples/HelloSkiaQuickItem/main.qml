@@ -6,8 +6,17 @@ Rectangle {
     height: 600
     color: "lightgray"
     SkiaQuickItem {
-        width: 400
-        height: 300
+        id: t
+        width: 600
+        height: 400
         anchors.centerIn: parent
+        onRotationChanged: {
+            console.log(rotation)
+        }
+        RotationAnimation {
+            target: t
+            running: true
+            from: 0; to: 360; duration: 2000; loops: -1
+        }
     }
 }

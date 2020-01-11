@@ -1,7 +1,6 @@
 #pragma once
 #include "QSkiaOpenGLWindow.h"
 #include "core/SkCanvas.h"
-#include "core/SkFont.h"
 #include "core/SkPaint.h"
 #include "effects/SkDashPathEffect.h"
 #include "effects/SkDiscretePathEffect.h"
@@ -40,25 +39,10 @@ public:
     }
     virtual void draw(SkCanvas* canvas, int elapsed) override
     {
-        int w = this->width();
-        int h = this->height();
-        m_rotateAngle = int(elapsed * m_rotateSpeed + m_rotateAngle) % 360;
-
-        SkPaint p;
-        p.setAntiAlias(true);
-        p.setColor(SK_ColorRED);
-        p.setStrokeWidth(2.0f);
-
-        SkFont font;
-        font.setSize(30);
-
         canvas->clear(SK_ColorWHITE);
 
         canvas->drawPath(m_path, m_paint);
 
-        canvas->rotate(m_rotateAngle, w / 2, h / 2);
-        canvas->drawString("Hello Skia", w / 2 - 20, h / 2, font, p);
-        canvas->drawLine(w * 0.2f, h * 0.2f, w * 0.4f, h * 0.4f, p);
         canvas->flush();
     }
 
@@ -66,6 +50,4 @@ private:
     SkPaint m_paint;
     SkPath m_path;
     sk_sp<SkPathEffect> m_effect = nullptr;
-    float m_rotateSpeed = 90.0f / 1000;
-    int m_rotateAngle = 0;
 };
