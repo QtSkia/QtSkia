@@ -375,8 +375,8 @@ syncSkia.bat
 unix环境 命令行执行脚本
 ```shell
 cd QtSkia
-chmod +x syncSkia.sh
-.\syncSkia.sh
+chmod a+x syncSkia.sh
+./syncSkia.sh
 ```
 
 ### skia及依赖库的说明
