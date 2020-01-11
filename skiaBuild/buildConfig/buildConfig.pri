@@ -1,3 +1,8 @@
+CONFIG(debug, debug|release) {
+    verbose_flags = -v
+} else {
+    verbose_flags =
+}
 win32 {
     include($$PWD/windows.pri)
 }
