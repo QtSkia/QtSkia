@@ -59,11 +59,11 @@ jobs:
       - uses: actions/checkout@v1
         with:
           fetch-depth: 1
-      - name: Checkout submodules
-        shell: bash
-        run: |
-          git submodule sync --recursive
-          git submodule update --init --recursive --depth=1
+      # - name: Checkout submodules
+      #   shell: bash
+      #   run: |
+      #     git submodule sync --recursive
+      #     git submodule update --init --recursive --depth=1
       - uses: actions/setup-python@v1
         with:
             python-version: '2.x' # Version range or exact version of a Python version to use, using SemVer's version range syntax

@@ -4,12 +4,15 @@ win32 {
 macos {
     include($$PWD/macos.pri)
 }
-ios {
-    include($$PWD/ios.pri)
-}
-android {
-    include($$PWD/android.pri)
-}
-linux {
-    include($$PWD/linux.pri)
-}
+#ios {
+#    include($$PWD/ios.pri)
+#}
+#android {
+#    include($$PWD/android.pri)
+#}
+#linux {
+#    include($$PWD/linux.pri)
+#}
+#wasm {
+#    include($$PWD/wasm.pri)
+#}

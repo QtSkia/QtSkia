@@ -47,7 +47,7 @@ jobs:
             architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified      
       - name: build macos
         run: |
-          chmod a+x syncSkia-gitee.sh
+          chmod a+x syncSkia.sh
           ./syncSkia-gitee.sh
           qmake
           make
