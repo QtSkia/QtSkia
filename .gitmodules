@@ -1,4 +1,0 @@
-[submodule "3rdparty/skia"]
-	path = 3rdparty/skia
-	url = https://github.com/QtSkia/skia.git
-	branch = master

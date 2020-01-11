@@ -35,7 +35,7 @@ def parse_file_to_dict(path):
     return dictionary
 def git_push_to_repository(git, repo, commithash, directory, verbose):
     subprocess.check_call(
-      [git, 'push', '--all', repo], cwd=directory)
+      [git, 'push', '--all', '-f', repo], cwd=directory)
     if verbose:
       status(directory, commithash, True)
     return
