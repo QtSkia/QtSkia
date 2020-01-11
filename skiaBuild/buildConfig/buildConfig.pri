@@ -15,9 +15,9 @@ macos {
 #android {
 #    include($$PWD/android.pri)
 #}
-#linux {
-#    include($$PWD/linux.pri)
-#}
+linux {
+    include($$PWD/linux.pri)
+}
 #wasm {
 #    include($$PWD/wasm.pri)
 #}
