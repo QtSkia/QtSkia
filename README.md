@@ -333,15 +333,15 @@ Qt 5.12.x 64-bit
 
 编译器需要使用vs2017及以上,有clang-cl更好。
 
-### Linux
-
-待补充
-
 ### MacOS
 
 待补充
 
 ### Android
+
+待补充
+
+### Linux
 
 待补充
 
@@ -363,16 +363,15 @@ git clone https://gitee.com/QtSkia/QtSkia.git
 
 执行QtSkia根目录的syncSkia脚本，即可自动从github下载所有依赖项。
 
-国内用户也可以使用syncSkia-gitee脚本代替, 从gitee下载同步镜像，速度更快。
+(国内用户也可以使用syncSkia-gitee脚本代替, 从gitee下载同步镜像，速度更快。)
 
-windows环境双击运行syncSkia.bat， 或者命令行：
-
+Windows环境双击运行syncSkia.bat， 或者命令行：
 ```bat
 cd QtSkia
 syncSkia.bat
 ```
 
-unix环境 命令行执行脚本
+MacOS 或 linux环境, 命令行执行脚本
 ```shell
 cd QtSkia
 chmod a+x syncSkia.sh
@@ -384,6 +383,8 @@ chmod a+x syncSkia.sh
 skia官方仓库在 https://skia.googlesource.com/skia
 
 github上面也有官方的镜像 https://github.com/google/skia
+
+skia的依赖库将近30个。
 
 QtSkia在github、gitee提供了全部的同步镜像仓库，详情见：
 
@@ -403,6 +404,7 @@ QtSkia不修改skia及依赖库的源码，仅使其增加github、gitee镜像�
 qmake 
 make
 ```
+
 ## 代码结构
 
 |目录|用途|
@@ -414,15 +416,6 @@ make
 |skiaBuild|Qt编译skia|
 |tests|单元测试、性能测试|
 
-# 使用示例
-
-## QWidget
-```C++
-
-```
-## QWidget OpenGL
-```C++
-```
 
 # 赞助
 

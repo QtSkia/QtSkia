@@ -1,6 +1,7 @@
 TEMPLATE = aux
 
 include($$PWD/buildTool/buildTool.pri)
+include($$PWD/buildConfig/buildConfig.pri)
 include($$PWD/../uniqueDestdir.pri)
 DESTDIR = $$destPath
 
@@ -10,7 +11,7 @@ SKIA_OUT_PATH=$$system_quote($$DESTDIR)
 build_pass|!debug_and_release {
     GN_ARGS = $$system_quote($$gn_args)
     GN_RUN =$$GN gen $$SKIA_OUT_PATH --args=$$GN_ARGS --root=$$SKIA_SRC_PATH $$verbose_flags
-    message("Running: $$GN_RUN " )
+    message("gn: $$GN_RUN " )
     !system($$GN_RUN): {
         error ("gn run error")
     }
@@ -21,7 +22,7 @@ build_pass|!debug_and_release {
     } else {
         runninja.commands = $$NINJA -C $$system_quote($$system_path($$SKIA_OUT_PATH))
     }
-    message("when build ninja: $$runninja.commands ")
+    message("ninja: $$runninja.commands ")
     QMAKE_EXTRA_TARGETS += runninja
 
     build_pass:build_all: default_target.target = all
