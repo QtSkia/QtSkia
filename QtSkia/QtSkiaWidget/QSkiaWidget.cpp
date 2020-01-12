@@ -13,6 +13,7 @@
 #include <QResizeEvent>
 #include <QPainter>
 #include <QImage>
+#include <QDebug>
 class QSkiaWidgetPrivate {
 public:
     sk_sp<SkSurface> rasterSurface = nullptr;
@@ -45,7 +46,7 @@ void QSkiaWidget::init(int w, int h)
     m_dptr->data.resize(static_cast<int>(size));
     m_dptr->rasterSurface = SkSurface::MakeRasterDirect(m_dptr->info, m_dptr->data.data(), rowByts);
     if (!m_dptr->rasterSurface) {
-        SkDebugf("SkSurface::MakeRasterN32Premul return null\n");
+        qDebug() <<"SkSurface::MakeRasterN32Premul return null";
         return;
     }
 }

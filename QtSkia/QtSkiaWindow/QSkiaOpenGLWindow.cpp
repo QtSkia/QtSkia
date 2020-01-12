@@ -63,7 +63,7 @@ void QSkiaOpenGLWindow::init(int w, int h)
     m_dptr->info = SkImageInfo::MakeN32Premul(w, h);
     m_dptr->gpuSurface = SkSurface::MakeRenderTarget(m_dptr->context.get(), SkBudgeted::kNo, m_dptr->info);
     if (!m_dptr->gpuSurface) {
-        SkDebugf("SkSurface::MakeRenderTarget return null\n");
+        qDebug() << "SkSurface::MakeRenderTarget return null";
         return;
     }
     m_dptr->funcs.glViewport(0, 0, w, h);

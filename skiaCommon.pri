@@ -20,6 +20,8 @@ DEPENDPATH +=$$SKIA_LIB_PATH
 
 if($$QtSkia_Static_Build) {
     LIBS += -L$$SKIA_LIB_PATH -lskia
+    message("static lib:skia")
 } else {
     LIBS += -L$$SKIA_LIB_PATH -lskia.dll
+    message("shared lib: skia.dll")
 }

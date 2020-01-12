@@ -11,6 +11,7 @@
 #include <QOpenGLFunctions>
 #include <QQuickItem>
 #include <QResizeEvent>
+#include <QDebug>
 #include <QTime>
 #include <QTimer>
 
@@ -105,7 +106,7 @@ void QSkiaQuickWindow::init(int w, int h)
     m_dptr->gpuSurface = SkSurface::MakeFromBackendRenderTarget(m_dptr->context.get(), backend, kBottomLeft_GrSurfaceOrigin, colorType, nullptr, &props);
 
     if (!m_dptr->gpuSurface) {
-        SkDebugf("SkSurface::MakeRenderTarget return null\n");
+        qDebug() << "SkSurface::MakeRenderTarget return null";
         return;
     }
     if (openglContext() && openglContext()->functions()) {

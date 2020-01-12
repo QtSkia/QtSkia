@@ -90,7 +90,7 @@ protected:
 
         auto gpuSurface = SkSurface::MakeFromBackendRenderTarget(contextMap.value(pItem->window()).get(), backend, kTopLeft_GrSurfaceOrigin, colorType, nullptr, &props);
         if (!gpuSurface) {
-            SkDebugf("SkSurface::MakeRenderTarget return null\n");
+            qDebug() << "SkSurface::MakeRenderTarget return null";
             return nullptr;
         }
         auto pos = pItem->mapToScene(pItem->position()).toPoint();

@@ -8,6 +8,9 @@
 #include <QOpenGLFunctions>
 #include <QTime>
 #include <QTimer>
+#include <QGuiApplication>
+#include <QScreen>
+#include <QDebug>
 class QSkiaOpenGLWidgetPrivate {
 public:
     QOpenGLFunctions funcs;
@@ -23,7 +26,7 @@ QSkiaOpenGLWidget::QSkiaOpenGLWidget(QWidget* parent)
     , m_dptr(new QSkiaOpenGLWidgetPrivate)
 {
     connect(&m_dptr->timer, &QTimer::timeout, this, QOverload<>::of(&QSkiaOpenGLWidget::update));
-    m_dptr->timer.start(1000 / 60);
+    m_dptr->timer.start(1000 / qRound(qApp->primaryScreen()->refreshRate()));
 }
 
 QSkiaOpenGLWidget::~QSkiaOpenGLWidget()
@@ -56,7 +59,7 @@ void QSkiaOpenGLWidget::init(int w, int h)
     m_dptr->info = SkImageInfo::MakeN32Premul(w, h);
     m_dptr->gpuSurface = SkSurface::MakeRenderTarget(m_dptr->context.get(), SkBudgeted::kNo, m_dptr->info);
     if (!m_dptr->gpuSurface) {
-        SkDebugf("SkSurface::MakeRenderTarget return null\n");
+        qDebug() << "SkSurface::MakeRenderTarget return null";
         return;
     }
     m_dptr->funcs.glViewport(0, 0, w, h);
