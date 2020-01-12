@@ -1,3 +1,5 @@
+isEmpty(uniqueDestdir) {
+uniqueDestdir=1
 basePath=$$PWD/bin
 compilerPath=gcc
 msvc:clang_cl {
@@ -24,3 +26,4 @@ CONFIG(debug, debug|release) {
 destPath=$${basePath}/$${compilerPath}/$${libPath}/$${modePath}
 message(destPath $$destPath)
 
+}

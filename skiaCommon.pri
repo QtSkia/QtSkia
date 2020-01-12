@@ -1,3 +1,5 @@
+isEmpty(skiaCommond) {
+skiaCommon = 1
 QT += core gui
 
 CONFIG += c++17
@@ -6,7 +8,8 @@ msvc {
     QMAKE_CFLAGS += -source-charset:utf-8
     QMAKE_CXXFLAGS += -source-charset:utf-8
 }
-include(uniqueDestdir.pri)
+include($$PWD/skiaBuild/buildConfig/buildConfig.pri)
+include($$PWD/uniqueDestdir.pri)
 SKIA_OUT_PATH=$$destPath
 SKIA_SRC_PATH=$$absolute_path($$PWD/3rdparty/skia)
 SKIA_LIB_PATH=$$SKIA_OUT_PATH
@@ -22,6 +25,7 @@ if($$QtSkia_Static_Build) {
     LIBS += -L$$SKIA_LIB_PATH -lskia
     message("static lib:skia")
 } else {
-    LIBS += -L$$SKIA_LIB_PATH -lskia.dll
-    message("shared lib: skia.dll")
+    LIBS += -L$$SKIA_LIB_PATH -lskia
+    message("shared lib: skia")
+}
 }
