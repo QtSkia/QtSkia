@@ -31,11 +31,17 @@ public:
             SkDiscretePathEffect::Make(10.0f, 4.0f));
         m_path = star();
 
-        m_paint.setPathEffect(m_effect);
-        m_paint.setStyle(SkPaint::kStroke_Style);
-        m_paint.setStrokeWidth(2.0f);
-        m_paint.setAntiAlias(true);
-        m_paint.setColor(0xff4285F4);
+        m_starPaint.setPathEffect(m_effect);
+        m_starPaint.setStyle(SkPaint::kStroke_Style);
+        m_starPaint.setStrokeWidth(2.0f);
+        m_starPaint.setAntiAlias(true);
+        m_starPaint.setColor(0xff4285F4);
+
+        m_linePaint.setAntiAlias(true);
+        m_linePaint.setStrokeWidth(2.0f);
+        m_linePaint.setColor(SK_ColorRED);
+
+        m_font.setSize(30);
     }
 
     virtual void draw(SkCanvas* canvas, int elapsed) override
@@ -45,23 +51,17 @@ public:
         int h = size.height();
         m_rotateAngle = int(elapsed * m_rotateSpeed + m_rotateAngle) % 360;
 
-        SkPaint p;
-        p.setAntiAlias(true);
-        p.setStrokeWidth(2.0f);
-        p.setColor(SK_ColorRED);
-
-        SkFont font;
-        font.setSize(30);
-
         canvas->clear(SK_ColorWHITE);
-        canvas->drawPath(m_path, m_paint);
+        canvas->drawPath(m_path, m_starPaint);
 
-        canvas->drawString("Hello Skia", w / 2 - 20, h / 2, font, p);
-        canvas->drawLine(w * 0.2f, h * 0.2f, w * 0.4f, h * 0.4f, p);
+        canvas->drawString("Hello Skia", w / 2 - 20, h / 2, m_font, m_linePaint);
+        canvas->drawLine(w * 0.2f, h * 0.2f, w * 0.4f, h * 0.4f, m_linePaint);
         canvas->flush();
     }
 private:
-    SkPaint m_paint;
+    SkPaint m_starPaint;
+    SkPaint m_linePaint;
+    SkFont m_font;
     SkPath m_path;
     sk_sp<SkPathEffect> m_effect = nullptr;
     float m_rotateSpeed = 90.0f / 1000;

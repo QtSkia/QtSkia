@@ -10,9 +10,6 @@ Rectangle {
         width: 600
         height: 400
         anchors.centerIn: parent
-        onRotationChanged: {
-            console.log(rotation)
-        }
         RotationAnimation {
             target: t
             running: true
