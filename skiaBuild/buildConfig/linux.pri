@@ -6,6 +6,7 @@ CONFIG(debug, debug|release) {
     gn_args += \
         is_debug=false
 }
+QtSkia_Static_Build = true
 if($$QtSkia_Static_Build) {
     gn_args += \
         is_component_build=false

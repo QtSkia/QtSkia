@@ -17,4 +17,9 @@ DEFINES +=SKIA_DLL QT_NO_FOREACH
 INCLUDEPATH +=$$SKIA_SRC_PATH $$SKIA_INCLUDE_PATH
 
 DEPENDPATH +=$$SKIA_LIB_PATH
-LIBS += -L$$SKIA_LIB_PATH -lskia.dll
+
+if($$QtSkia_Static_Build) {
+    LIBS += -L$$SKIA_LIB_PATH -lskia
+} else {
+    LIBS += -L$$SKIA_LIB_PATH -lskia.dll
+}
