@@ -23,3 +23,4 @@ cxxname=$$last(cxxstr)
     gn_args += cc=\"$$ccname\" cxx=\"$$cxxname\"
 }
 
+LIBS_PRIVATE += -framework Foundation -framework AppKit
