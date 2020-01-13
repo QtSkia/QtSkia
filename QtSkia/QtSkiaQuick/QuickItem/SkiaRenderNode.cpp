@@ -173,14 +173,14 @@ void SkiaRenderNode::render(const QSGRenderNode::RenderState* state)
     }
     auto cost = m_lastTime.elapsed();
     m_lastTime = QTime::currentTime();
-     pSurface->getCanvas()->save();
-     auto pos = m_item->mapToScene(m_item->position()).toPoint();
-     m_item->window()->openglContext()->functions()->glViewport(pos.x(), pos.y(), m_item->width(), m_item->height());
-     pSurface->getCanvas()->rotate(180, 1.0, 0.0);
+
+    SkAutoCanvasRestore r(pSurface->getCanvas(), true);
+
+    auto pos = m_item->mapToScene(m_item->position()).toPoint();
+    m_item->window()->openglContext()->functions()->glViewport(pos.x(), pos.y(), m_item->width(), m_item->height());
     //    qWarning() <<*state->projectionMatrix();
     //    pSurface->getCanvas()->concat(qmat2skmat(*state->projectionMatrix()));
     m_item->draw(pSurface->getCanvas(), cost);
-    pSurface->getCanvas()->restore();
 }
 
 QSGRenderNode::StateFlags SkiaRenderNode::changedStates() const
