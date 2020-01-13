@@ -1,7 +1,7 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
-    QtSKiaWidget \
+    QtSkiaWidget \
     QtSkiaWindow \
     QtSkiaQuick
 
