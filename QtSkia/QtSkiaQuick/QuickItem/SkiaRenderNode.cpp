@@ -38,13 +38,18 @@ public:
     void removeNode(QQuickItem* pItem)
     {
         qWarning() << __FUNCTION__;
-        auto it = windowCountMap.find(pItem->window());
+        auto pWindow = pItem->window();
+        if (!pWindow) {
+            qWarning() << __FUNCTION__ << "storedWindow is empty";
+            return;
+        }
+        auto it = windowCountMap.find(pWindow);
         if (it != windowCountMap.end()) {
             (*it)--;
-            if (windowCountMap.value(pItem->window()) <= 0) {
-                windowCountMap.remove(pItem->window());
-                contextMap.remove(pItem->window());
-                surfaceMap.remove(pItem->window());
+            if (windowCountMap.value(pWindow) <= 0) {
+                windowCountMap.remove(pWindow);
+                contextMap.remove(pWindow);
+                surfaceMap.remove(pWindow);
             }
         }
     }
@@ -104,7 +109,7 @@ private:
     QMap<QQuickWindow*, sk_sp<GrContext>> contextMap;
     QMap<QQuickWindow*, sk_sp<SkSurface>> surfaceMap;
 };
-SkMatrix qmat2sk(QMatrix4x4 originMat)
+static SkMatrix qmat2skmat(QMatrix4x4 originMat)
 {
     SkMatrix mat;
     mat[0] = originMat.constData()[0];
@@ -133,6 +138,21 @@ SkiaRenderNode::SkiaRenderNode(QSkiaQuickItem* parent)
     qWarning() << __FUNCTION__;
     m_lastTime = QTime::currentTime();
     m_lastSize = m_item->size();
+    QObject::connect(
+        m_item->window(), &QQuickWindow::sceneGraphAboutToStop, m_item, [&]() {
+            SkiaGLContext::instance().removeNode(m_item);
+        },
+        static_cast<Qt::ConnectionType>(Qt::DirectConnection | Qt::UniqueConnection));
+}
+
+SkiaRenderNode::~SkiaRenderNode()
+{
+    releaseResources();
+}
+
+void SkiaRenderNode::releaseResources()
+{
+    qWarning() << __FUNCTION__;
 }
 
 void SkiaRenderNode::render(const QSGRenderNode::RenderState* state)
@@ -153,17 +173,14 @@ void SkiaRenderNode::render(const QSGRenderNode::RenderState* state)
     }
     auto cost = m_lastTime.elapsed();
     m_lastTime = QTime::currentTime();
-    pSurface->getCanvas()->save();
+     pSurface->getCanvas()->save();
+     auto pos = m_item->mapToScene(m_item->position()).toPoint();
+     m_item->window()->openglContext()->functions()->glViewport(pos.x(), pos.y(), m_item->width(), m_item->height());
+     pSurface->getCanvas()->rotate(180, 1.0, 0.0);
     //    qWarning() <<*state->projectionMatrix();
-    //    pSurface->getCanvas()->concat(qmat2sk());
+    //    pSurface->getCanvas()->concat(qmat2skmat(*state->projectionMatrix()));
     m_item->draw(pSurface->getCanvas(), cost);
     pSurface->getCanvas()->restore();
-}
-
-void SkiaRenderNode::releaseResources()
-{
-    qWarning() << __FUNCTION__;
-    SkiaGLContext::instance().removeNode(m_item);
 }
 
 QSGRenderNode::StateFlags SkiaRenderNode::changedStates() const
@@ -174,4 +191,9 @@ QSGRenderNode::StateFlags SkiaRenderNode::changedStates() const
 QSGRenderNode::RenderingFlags SkiaRenderNode::flags() const
 {
     return static_cast<QSGRenderNode::RenderingFlags>(BoundedRectRendering | DepthAwareRendering);
+}
+
+QRectF SkiaRenderNode::rect() const
+{
+    return QRectF(0, 0, m_item->width(), m_item->height());
 }

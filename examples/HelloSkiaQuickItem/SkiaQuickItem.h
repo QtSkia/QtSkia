@@ -55,7 +55,7 @@ public:
         canvas->drawPath(m_path, m_starPaint);
 
         canvas->drawString("Hello Skia", w / 2 - 20, h / 2, m_font, m_linePaint);
-        canvas->drawLine(w * 0.2f, h * 0.2f, w * 0.4f, h * 0.4f, m_linePaint);
+        canvas->drawLine(10, 10, w, h, m_linePaint);
         canvas->flush();
     }
 private:
