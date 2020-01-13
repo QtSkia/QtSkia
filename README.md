@@ -21,16 +21,13 @@
 - [Build](#build)
   - [依赖环境](#%e4%be%9d%e8%b5%96%e7%8e%af%e5%a2%83)
     - [windows](#windows)
-    - [Linux](#linux)
     - [MacOS](#macos)
     - [Android](#android)
+    - [Linux](#linux)
   - [源码下载](#%e6%ba%90%e7%a0%81%e4%b8%8b%e8%bd%bd)
     - [skia及依赖库的说明](#skia%e5%8f%8a%e4%be%9d%e8%b5%96%e5%ba%93%e7%9a%84%e8%af%b4%e6%98%8e)
   - [编译](#%e7%bc%96%e8%af%91)
   - [代码结构](#%e4%bb%a3%e7%a0%81%e7%bb%93%e6%9e%84)
-- [使用示例](#%e4%bd%bf%e7%94%a8%e7%a4%ba%e4%be%8b)
-  - [QWidget](#qwidget)
-  - [QWidget OpenGL](#qwidget-opengl)
 - [赞助](#%e8%b5%9e%e5%8a%a9)
 - [联系作者](#%e8%81%94%e7%b3%bb%e4%bd%9c%e8%80%85)
 
@@ -70,9 +67,9 @@ QtSkia提供了QWidget、QOpenGLWidget、QQuickWindow、QQuickItem等常用Qt渲
 
 占位，待修改。
 
-| [Windows][win-link]| [Ubuntu][ubuntu-link]|[MacOS][macos-link]|[Android][android-link]|[IOS][ios-link]|
+| [Windows][win-link]|[MacOS][macos-link]| [Ubuntu][ubuntu-link]|[Android][android-link]|[IOS][ios-link]|
 |---------------|---------------|-----------------|-----------------|----------------|
-| ![win-badge]  | ![ubuntu-badge]      | ![macos-badge] |![android-badge]   |![ios-badge]   |
+| ![win-badge]  |![macos-badge] | ![ubuntu-badge]      | ![android-badge]   |![ios-badge]   |
 
 |[License][license-link]| [Release][release-link]|[Download][download-link]|[Issues][issues-link]|[Wiki][wiki-links]|
 |-----------------|-----------------|-----------------|-----------------|-----------------|
