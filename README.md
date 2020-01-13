@@ -172,7 +172,7 @@ QWidget本身是CPU光栅化渲染的，适合在一些无GPU的设备中运行�
 只要继承QSkiaOpenGLWidget类即可：
 
 ```C++
-class SkiaGLWidget : public QSkiaWidget {
+class SkiaGLWidget : public QSkiaOpenGLWidget {
     Q_OBJECT
 public:
     void draw(SkCanvas *canvas) override
