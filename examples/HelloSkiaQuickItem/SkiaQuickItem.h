@@ -52,9 +52,9 @@ public:
         m_rotateAngle = int(elapsed * m_rotateSpeed + m_rotateAngle) % 360;
 
         canvas->clear(SK_ColorWHITE);
-//        canvas->drawPath(m_path, m_starPaint);
+        canvas->drawPath(m_path, m_starPaint);
 
-//        canvas->drawString("Hello Skia", w / 2 - 20, h / 2, m_font, m_linePaint);
+        canvas->drawString("Hello Skia", w / 2 - 20, h / 2, m_font, m_linePaint);
         canvas->drawLine(10, 10, w, h, m_linePaint);
         canvas->flush();
     }

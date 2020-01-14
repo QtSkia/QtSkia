@@ -87,6 +87,9 @@ void QSkiaQuickWindow::onSGUninited()
 
 void QSkiaQuickWindow::init(int w, int h)
 {
+//    auto info = SkImageInfo::MakeN32Premul(w, h);
+//    m_dptr->gpuSurface = SkSurface::MakeRenderTarget(m_dptr->context.get(), SkBudgeted::kNo, info);
+
     GrGLFramebufferInfo info;
     info.fFBOID = openglContext()->defaultFramebufferObject();
     SkColorType colorType;
@@ -99,9 +102,9 @@ void QSkiaQuickWindow::init(int w, int h)
     GrBackendRenderTarget backend(w, h, format().samples(), format().stencilBufferSize(), info);
     // setup SkSurface
     // To use distance field text, use commented out SkSurfaceProps instead
-    // SkSurfaceProps props(SkSurfaceProps::kUseDeviceIndependentFonts_Flag,
-    //                      SkSurfaceProps::kLegacyFontHost_InitType);
-    SkSurfaceProps props(SkSurfaceProps::kLegacyFontHost_InitType);
+     SkSurfaceProps props(SkSurfaceProps::kUseDeviceIndependentFonts_Flag,
+                          SkSurfaceProps::kLegacyFontHost_InitType);
+//    SkSurfaceProps props(SkSurfaceProps::kLegacyFontHost_InitType);
 
     m_dptr->gpuSurface = SkSurface::MakeFromBackendRenderTarget(m_dptr->context.get(), backend, kBottomLeft_GrSurfaceOrigin, colorType, nullptr, &props);
 

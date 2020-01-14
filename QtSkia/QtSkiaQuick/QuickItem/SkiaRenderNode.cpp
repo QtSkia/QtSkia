@@ -33,38 +33,38 @@ public:
     }
     void initSurface()
     {
-        auto size = pItem->size().toSize();
-        auto info = SkImageInfo::MakeN32Premul(size.width(), size.height());
-        pSurface = SkSurface::MakeRenderTarget(pContext.get(), SkBudgeted::kNo, info);
-        if (!pSurface) {
-            qDebug() << "SkSurface::MakeRenderTarget return null";
-            return;
-        }
-
-//        GrGLFramebufferInfo info;
-//        auto pWindow = pItem->window();
-//        info.fFBOID = pWindow->openglContext()->defaultFramebufferObject();
-//        SkColorType colorType;
-//        colorType = kRGBA_8888_SkColorType;
-//        if (pWindow->format().renderableType() == QSurfaceFormat::RenderableType::OpenGLES) {
-//            info.fFormat = GR_GL_BGRA8;
-//        } else {
-//            info.fFormat = GR_GL_RGBA8;
-//        }
 //        auto size = pItem->size().toSize();
-
-//        GrBackendRenderTarget backend(size.width(), size.height(), pWindow->format().samples(), pWindow->format().stencilBufferSize(), info);
-//        // setup SkSurface
-//        // To use distance field text, use commented out SkSurfaceProps instead
-//        // SkSurfaceProps props(SkSurfaceProps::kUseDeviceIndependentFonts_Flag,
-//        //                      SkSurfaceProps::kLegacyFontHost_InitType);
-//        SkSurfaceProps props(SkSurfaceProps::kLegacyFontHost_InitType);
-
-//        pSurface = SkSurface::MakeFromBackendRenderTarget(pContext.get(), backend, kTopLeft_GrSurfaceOrigin, colorType, nullptr, &props);
+//        auto info = SkImageInfo::MakeN32Premul(size.width(), size.height());
+//        pSurface = SkSurface::MakeRenderTarget(pContext.get(), SkBudgeted::kNo, info);
 //        if (!pSurface) {
 //            qDebug() << "SkSurface::MakeRenderTarget return null";
 //            return;
 //        }
+
+        GrGLFramebufferInfo info;
+        auto pWindow = pItem->window();
+        info.fFBOID = pWindow->openglContext()->defaultFramebufferObject();
+        SkColorType colorType;
+        colorType = kRGBA_8888_SkColorType;
+        if (pWindow->format().renderableType() == QSurfaceFormat::RenderableType::OpenGLES) {
+            info.fFormat = GR_GL_BGRA8;
+        } else {
+            info.fFormat = GR_GL_RGBA8;
+        }
+        auto size = pItem->size().toSize();
+
+        GrBackendRenderTarget backend(size.width(), size.height(), pWindow->format().samples(), pWindow->format().stencilBufferSize(), info);
+        // setup SkSurface
+        // To use distance field text, use commented out SkSurfaceProps instead
+        // SkSurfaceProps props(SkSurfaceProps::kUseDeviceIndependentFonts_Flag,
+        //                      SkSurfaceProps::kLegacyFontHost_InitType);
+        SkSurfaceProps props(SkSurfaceProps::kLegacyFontHost_InitType);
+
+        pSurface = SkSurface::MakeFromBackendRenderTarget(pContext.get(), backend, kTopLeft_GrSurfaceOrigin, colorType, nullptr, &props);
+        if (!pSurface) {
+            qDebug() << "SkSurface::MakeRenderTarget return null";
+            return;
+        }
 
         //        auto pos = pItem->mapToScene(pItem->position()).toPoint();
         //        pItem->window()->openglContext()->functions()->glViewport(pos.x(), pos.y(), size.width(), size.height());
