@@ -25,5 +25,5 @@ private:
     SkiaRenderNodePrivate* m_dptr;
     QSkiaQuickItem* m_item;
     QTime m_lastTime;
-    QSizeF m_lastSizeF;
+    QSize m_lastSize;
 };

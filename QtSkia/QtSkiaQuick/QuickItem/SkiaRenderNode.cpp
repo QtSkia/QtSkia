@@ -33,38 +33,38 @@ public:
     }
     void initSurface()
     {
+        auto size = pItem->size().toSize();
+        auto info = SkImageInfo::MakeN32Premul(size.width(), size.height());
+        pSurface = SkSurface::MakeRenderTarget(pContext.get(), SkBudgeted::kNo, info);
+        if (!pSurface) {
+            qDebug() << "SkSurface::MakeRenderTarget return null";
+            return;
+        }
+
+//        GrGLFramebufferInfo info;
+//        auto pWindow = pItem->window();
+//        info.fFBOID = pWindow->openglContext()->defaultFramebufferObject();
+//        SkColorType colorType;
+//        colorType = kRGBA_8888_SkColorType;
+//        if (pWindow->format().renderableType() == QSurfaceFormat::RenderableType::OpenGLES) {
+//            info.fFormat = GR_GL_BGRA8;
+//        } else {
+//            info.fFormat = GR_GL_RGBA8;
+//        }
 //        auto size = pItem->size().toSize();
-//        auto info = SkImageInfo::MakeN32Premul(size.width(), size.height());
-//        pSurface = SkSurface::MakeRenderTarget(pContext.get(), SkBudgeted::kNo, info);
+
+//        GrBackendRenderTarget backend(size.width(), size.height(), pWindow->format().samples(), pWindow->format().stencilBufferSize(), info);
+//        // setup SkSurface
+//        // To use distance field text, use commented out SkSurfaceProps instead
+//        // SkSurfaceProps props(SkSurfaceProps::kUseDeviceIndependentFonts_Flag,
+//        //                      SkSurfaceProps::kLegacyFontHost_InitType);
+//        SkSurfaceProps props(SkSurfaceProps::kLegacyFontHost_InitType);
+
+//        pSurface = SkSurface::MakeFromBackendRenderTarget(pContext.get(), backend, kTopLeft_GrSurfaceOrigin, colorType, nullptr, &props);
 //        if (!pSurface) {
 //            qDebug() << "SkSurface::MakeRenderTarget return null";
 //            return;
 //        }
-
-                GrGLFramebufferInfo info;
-                auto pWindow = pItem->window();
-                info.fFBOID = pWindow->openglContext()->defaultFramebufferObject();
-                SkColorType colorType;
-                colorType = kRGBA_8888_SkColorType;
-                if (pWindow->format().renderableType() == QSurfaceFormat::RenderableType::OpenGLES) {
-                    info.fFormat = GR_GL_BGRA8;
-                } else {
-                    info.fFormat = GR_GL_RGBA8;
-                }
-                auto size = pItem->size().toSize();
-
-                GrBackendRenderTarget backend(size.width(), size.height(), pWindow->format().samples(), pWindow->format().stencilBufferSize(), info);
-                // setup SkSurface
-                // To use distance field text, use commented out SkSurfaceProps instead
-                // SkSurfaceProps props(SkSurfaceProps::kUseDeviceIndependentFonts_Flag,
-                //                      SkSurfaceProps::kLegacyFontHost_InitType);
-                SkSurfaceProps props(SkSurfaceProps::kLegacyFontHost_InitType);
-
-                pSurface = SkSurface::MakeFromBackendRenderTarget(pContext.get(), backend, kTopLeft_GrSurfaceOrigin, colorType, nullptr, &props);
-                if (!pSurface) {
-                    qDebug() << "SkSurface::MakeRenderTarget return null";
-                    return;
-                }
 
         //        auto pos = pItem->mapToScene(pItem->position()).toPoint();
         //        pItem->window()->openglContext()->functions()->glViewport(pos.x(), pos.y(), size.width(), size.height());
@@ -105,7 +105,7 @@ SkiaRenderNode::SkiaRenderNode(QSkiaQuickItem* parent)
     , m_item(parent)
 {
     m_lastTime = QTime::currentTime();
-    m_lastSizeF = m_item->size();
+    m_lastSize = m_item->size().toSize();
 }
 
 SkiaRenderNode::~SkiaRenderNode()
@@ -113,19 +113,18 @@ SkiaRenderNode::~SkiaRenderNode()
     delete m_dptr;
     m_dptr = nullptr;
 }
-void SkiaRenderNode::render(const QSGRenderNode::RenderState* state)
+void SkiaRenderNode::render(const QSGRenderNode::RenderState*)
 {
-    QSizeF realSizeF = m_item->size();
-    QSize realSize = realSizeF.toSize();
+    QSize realSize = m_item->size().toSize();
     if (!m_dptr->pSurface) {
         qWarning() << __FUNCTION__ << "init";
         m_dptr->initSurface();
         m_item->onInit(realSize.width(), realSize.height());
-    } else if (realSizeF != m_lastSizeF) {
+    } else if (realSize != m_lastSize) {
         qWarning() << __FUNCTION__ << "resize";
         m_dptr->resizeSurface();
         m_item->onInit(realSize.width(), realSize.height());
-        m_lastSizeF = realSizeF;
+        m_lastSize = realSize;
     }
     if (!m_dptr->pSurface || !m_dptr->pSurface->getCanvas()) {
         qWarning() << __FUNCTION__ << "null ctx";

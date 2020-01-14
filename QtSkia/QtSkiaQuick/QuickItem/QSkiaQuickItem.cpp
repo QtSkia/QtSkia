@@ -18,6 +18,6 @@ QSGNode* QSkiaQuickItem::updatePaintNode(QSGNode* node, QQuickItem::UpdatePaintN
 
 void QSkiaQuickItem::itemChange(QQuickItem::ItemChange change, const QQuickItem::ItemChangeData &data)
 {
-    update();
     QQuickItem::itemChange(change, data);
+    update();
 }
