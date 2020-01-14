@@ -15,3 +15,4 @@ if($$QtSkia_Static_Build) {
         is_component_build=true
 }
 gn_args += target_cpu=\"x64\"
+LIBS += -ldl

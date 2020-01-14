@@ -1,17 +1,23 @@
 name: Windows
 on: 
-  # push代码时触发workflow
   push:
-    # 忽略README.md
     paths-ignore:
-      - 'README.md'
+      - '*.md'
+      - '*.bat'
+      - '*.sh'
       - 'LICENSE'
-  # pull_request时触发workflow
+      - '.clang-format'
+      - '.gitignore'
+      - 'doc/**'
   pull_request:
-    # 忽略README.md
     paths-ignore:
-      - 'README.md'
+      - '*.md'
+      - '*.bat'
+      - '*.sh'
       - 'LICENSE'
+      - '.clang-format'
+      - '.gitignore'
+      - 'doc/**'
 jobs:
   build:
     name: Build

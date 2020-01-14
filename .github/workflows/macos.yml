@@ -2,12 +2,22 @@ name: MacOS
 on: 
   push:
     paths-ignore:
-      - 'README.md'
+      - '*.md'
+      - '*.bat'
+      - '*.sh'
       - 'LICENSE'
+      - '.clang-format'
+      - '.gitignore'
+      - 'doc/**'
   pull_request:
     paths-ignore:
-      - 'README.md'
+      - '*.md'
+      - '*.bat'
+      - '*.sh'
       - 'LICENSE'
+      - '.clang-format'
+      - '.gitignore'
+      - 'doc/**'
 jobs:
   build:
     name: Build
