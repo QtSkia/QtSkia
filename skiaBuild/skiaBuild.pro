@@ -18,9 +18,9 @@ build_pass|!debug_and_release {
     runninja.target = run_ninja
     numOfProcessor=$$(NUMBER_OF_PROCESSORS)
     greaterThan(numOfProcessor, 1) {
-        runninja.commands = $$NINJA -C $$system_quote($$system_path($$SKIA_OUT_PATH)) -j $$numOfProcessor
+        runninja.commands = $$NINJA -C $$system_quote($$system_path($$SKIA_OUT_PATH)) -j $$numOfProcessor $$verbose_flags
     } else {
-        runninja.commands = $$NINJA -C $$system_quote($$system_path($$SKIA_OUT_PATH))
+        runninja.commands = $$NINJA -C $$system_quote($$system_path($$SKIA_OUT_PATH)) $$verbose_flags
     }
     message("ninja: $$runninja.commands ")
     QMAKE_EXTRA_TARGETS += runninja

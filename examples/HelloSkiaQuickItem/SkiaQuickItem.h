@@ -43,7 +43,7 @@ public:
 
         m_font.setSize(30);
     }
-
+    virtual void onResize(int w, int h) override {}
     virtual void draw(SkCanvas* canvas, int elapsed) override
     {
         auto size = this->size().toSize();
@@ -51,10 +51,10 @@ public:
         int h = size.height();
         m_rotateAngle = int(elapsed * m_rotateSpeed + m_rotateAngle) % 360;
 
-//        canvas->clear(SK_ColorWHITE);
-        canvas->drawPath(m_path, m_starPaint);
+        canvas->clear(SK_ColorWHITE);
+//        canvas->drawPath(m_path, m_starPaint);
 
-        canvas->drawString("Hello Skia", w / 2 - 20, h / 2, m_font, m_linePaint);
+//        canvas->drawString("Hello Skia", w / 2 - 20, h / 2, m_font, m_linePaint);
         canvas->drawLine(10, 10, w, h, m_linePaint);
         canvas->flush();
     }

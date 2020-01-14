@@ -61,6 +61,9 @@ public:
     }
     virtual void drawAfterSG(SkCanvas* canvas, int elapsed) override
     {
+        int w = this->width();
+        int h = this->height();
+        canvas->rotate(m_rotateAngle, w / 2, h / 2);
         canvas->drawPath(m_path, m_paint);
         canvas->flush();
     }

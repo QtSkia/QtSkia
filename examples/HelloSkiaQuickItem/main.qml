@@ -24,7 +24,7 @@ Rectangle {
         ]
     }
     SequentialAnimation {
-        PauseAnimation { duration: 3000 }
+//        PauseAnimation { duration: 3000 }
         ParallelAnimation {
             NumberAnimation { target: scale; property: "xScale"; to: 0.6; duration: 1000; easing.type: Easing.InOutBack }
             NumberAnimation { target: scale; property: "yScale"; to: 0.6; duration: 1000; easing.type: Easing.InOutBack }

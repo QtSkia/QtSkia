@@ -22,8 +22,8 @@ public:
     QTime lastTimeA;
     QTime lastTimeB;
     InnerItem innerItem;
-    bool hasCleaned = false;
-    bool hasResize = false;
+    std::atomic<bool> hasCleaned = false;
+    std::atomic<bool> hasResize = false;
 };
 
 QSkiaQuickWindow::QSkiaQuickWindow(QWindow* parent)
@@ -122,7 +122,6 @@ void QSkiaQuickWindow::resizeEvent(QResizeEvent* e)
     }
     if (isSceneGraphInitialized()) {
         m_dptr->hasResize = true;
-
     }
 }
 void QSkiaQuickWindow::onBeforeSync()

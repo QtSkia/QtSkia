@@ -11,104 +11,72 @@
 #include <QOpenGLFramebufferObject>
 #include <QOpenGLFunctions>
 #include <QQuickWindow>
-class SkiaGLContext {
+class SkiaRenderNodePrivate {
 public:
-    static SkiaGLContext& instance()
-    {
-        static SkiaGLContext ctx;
-        return ctx;
-    }
-    SkSurface* getSurface(QQuickItem* pItem)
-    {
-        auto it = surfaceMap.find(pItem->window());
-        if (it != surfaceMap.end()) {
-            return it.value().get();
-        }
-        return nullptr;
-    }
-    SkSurface* addNode(QQuickItem* pItem)
-    {
-        auto it = windowCountMap.find(pItem->window());
-        if (it != windowCountMap.end()) {
-            (*it)++;
-            return surfaceMap.value(pItem->window()).get();
-        }
-        return create(pItem);
-    }
-    void removeNode(QQuickItem* pItem)
+    SkiaRenderNodePrivate(QSkiaQuickItem* item)
+        : pItem(item)
     {
         qWarning() << __FUNCTION__;
-        auto pWindow = pItem->window();
-        if (!pWindow) {
-            qWarning() << __FUNCTION__ << "storedWindow is empty";
-            return;
-        }
-        auto it = windowCountMap.find(pWindow);
-        if (it != windowCountMap.end()) {
-            (*it)--;
-            if (windowCountMap.value(pWindow) <= 0) {
-                windowCountMap.remove(pWindow);
-                contextMap.remove(pWindow);
-                surfaceMap.remove(pWindow);
-            }
-        }
+        pContext = GrContext::MakeGL();
+        SkASSERT(pContext);
     }
-    void resize(QQuickItem* pItem)
+    ~SkiaRenderNodePrivate()
     {
         qWarning() << __FUNCTION__;
-        init(pItem);
+        pContext = nullptr;
+        pSurface = nullptr;
     }
 
-protected:
-    SkiaGLContext() {}
-    SkSurface* create(QQuickItem* pItem)
+    void resizeSurface()
     {
-        qWarning() << __FUNCTION__;
-        auto pCtx = GrContext::MakeGL();
-        SkASSERT(pCtx);
-        contextMap[pItem->window()] = pCtx;
-        SkSurface* pSurface = init(pItem);
-        windowCountMap[pItem->window()]++;
-        return pSurface;
+        initSurface();
     }
-    SkSurface* init(QQuickItem* pItem)
+    void initSurface()
     {
-        qWarning() << __FUNCTION__;
-        GrGLFramebufferInfo info;
-        auto pWindow = pItem->window();
-        info.fFBOID = pWindow->openglContext()->defaultFramebufferObject();
-        SkColorType colorType;
-        colorType = kRGBA_8888_SkColorType;
-        if (pWindow->format().renderableType() == QSurfaceFormat::RenderableType::OpenGLES) {
-            info.fFormat = GR_GL_BGRA8;
-        } else {
-            info.fFormat = GR_GL_RGBA8;
-        }
-        auto size = pItem->size().toSize();
+//        auto size = pItem->size().toSize();
+//        auto info = SkImageInfo::MakeN32Premul(size.width(), size.height());
+//        pSurface = SkSurface::MakeRenderTarget(pContext.get(), SkBudgeted::kNo, info);
+//        if (!pSurface) {
+//            qDebug() << "SkSurface::MakeRenderTarget return null";
+//            return;
+//        }
 
-        GrBackendRenderTarget backend(size.width(), size.height(), pWindow->format().samples(), pWindow->format().stencilBufferSize(), info);
-        // setup SkSurface
-        // To use distance field text, use commented out SkSurfaceProps instead
-        // SkSurfaceProps props(SkSurfaceProps::kUseDeviceIndependentFonts_Flag,
-        //                      SkSurfaceProps::kLegacyFontHost_InitType);
-        SkSurfaceProps props(SkSurfaceProps::kLegacyFontHost_InitType);
+                GrGLFramebufferInfo info;
+                auto pWindow = pItem->window();
+                info.fFBOID = pWindow->openglContext()->defaultFramebufferObject();
+                SkColorType colorType;
+                colorType = kRGBA_8888_SkColorType;
+                if (pWindow->format().renderableType() == QSurfaceFormat::RenderableType::OpenGLES) {
+                    info.fFormat = GR_GL_BGRA8;
+                } else {
+                    info.fFormat = GR_GL_RGBA8;
+                }
+                auto size = pItem->size().toSize();
 
-        auto gpuSurface = SkSurface::MakeFromBackendRenderTarget(contextMap.value(pItem->window()).get(), backend, kTopLeft_GrSurfaceOrigin, colorType, nullptr, &props);
-        if (!gpuSurface) {
-            qDebug() << "SkSurface::MakeRenderTarget return null";
-            return nullptr;
-        }
-        auto pos = pItem->mapToScene(pItem->position()).toPoint();
-        pWindow->openglContext()->functions()->glViewport(pos.x(), pos.y(), size.width(), size.height());
-        surfaceMap[pWindow] = gpuSurface;
-        return gpuSurface.get();
+                GrBackendRenderTarget backend(size.width(), size.height(), pWindow->format().samples(), pWindow->format().stencilBufferSize(), info);
+                // setup SkSurface
+                // To use distance field text, use commented out SkSurfaceProps instead
+                // SkSurfaceProps props(SkSurfaceProps::kUseDeviceIndependentFonts_Flag,
+                //                      SkSurfaceProps::kLegacyFontHost_InitType);
+                SkSurfaceProps props(SkSurfaceProps::kLegacyFontHost_InitType);
+
+                pSurface = SkSurface::MakeFromBackendRenderTarget(pContext.get(), backend, kTopLeft_GrSurfaceOrigin, colorType, nullptr, &props);
+                if (!pSurface) {
+                    qDebug() << "SkSurface::MakeRenderTarget return null";
+                    return;
+                }
+
+        //        auto pos = pItem->mapToScene(pItem->position()).toPoint();
+        //        pItem->window()->openglContext()->functions()->glViewport(pos.x(), pos.y(), size.width(), size.height());
     }
 
 private:
-    QMap<QQuickWindow*, int> windowCountMap;
-    QMap<QQuickWindow*, sk_sp<GrContext>> contextMap;
-    QMap<QQuickWindow*, sk_sp<SkSurface>> surfaceMap;
+    friend class SkiaRenderNode;
+    QSkiaQuickItem* pItem;
+    sk_sp<GrContext> pContext = nullptr;
+    sk_sp<SkSurface> pSurface = nullptr;
 };
+
 static SkMatrix qmat2skmat(QMatrix4x4 originMat)
 {
     SkMatrix mat;
@@ -133,67 +101,43 @@ QDebug& operator<<(QDebug& dbg, QMatrix4x4 mat)
 }
 
 SkiaRenderNode::SkiaRenderNode(QSkiaQuickItem* parent)
-    : m_item(parent)
+    : m_dptr(new SkiaRenderNodePrivate(parent))
+    , m_item(parent)
 {
-    qWarning() << __FUNCTION__;
     m_lastTime = QTime::currentTime();
-    m_lastSize = m_item->size();
-    QObject::connect(
-        m_item->window(), &QQuickWindow::sceneGraphAboutToStop, m_item, [&]() {
-            SkiaGLContext::instance().removeNode(m_item);
-        },
-        static_cast<Qt::ConnectionType>(Qt::DirectConnection | Qt::UniqueConnection));
+    m_lastSizeF = m_item->size();
 }
 
 SkiaRenderNode::~SkiaRenderNode()
 {
-    releaseResources();
+    delete m_dptr;
+    m_dptr = nullptr;
 }
-
-void SkiaRenderNode::releaseResources()
-{
-    qWarning() << __FUNCTION__;
-}
-
 void SkiaRenderNode::render(const QSGRenderNode::RenderState* state)
 {
-    SkSurface* pSurface = SkiaGLContext::instance().getSurface(m_item);
-    if (!pSurface) {
-        qWarning() << __FUNCTION__ << "create ctx";
-        pSurface = SkiaGLContext::instance().addNode(m_item);
-        m_item->onInit(static_cast<int>(m_item->width()), static_cast<int>(m_item->height()));
-    } else if (m_item->size() != m_lastSize) {
+    QSizeF realSizeF = m_item->size();
+    QSize realSize = realSizeF.toSize();
+    if (!m_dptr->pSurface) {
+        qWarning() << __FUNCTION__ << "init";
+        m_dptr->initSurface();
+        m_item->onInit(realSize.width(), realSize.height());
+    } else if (realSizeF != m_lastSizeF) {
         qWarning() << __FUNCTION__ << "resize";
-        SkiaGLContext::instance().resize(m_item);
-        m_lastSize = m_item->size();
+        m_dptr->resizeSurface();
+        m_item->onInit(realSize.width(), realSize.height());
+        m_lastSizeF = realSizeF;
     }
-    if (!pSurface || !pSurface->getCanvas()) {
+    if (!m_dptr->pSurface || !m_dptr->pSurface->getCanvas()) {
         qWarning() << __FUNCTION__ << "null ctx";
         return;
     }
+    auto pCanvas = m_dptr->pSurface->getCanvas();
     auto cost = m_lastTime.elapsed();
     m_lastTime = QTime::currentTime();
 
-    SkAutoCanvasRestore r(pSurface->getCanvas(), true);
-
-    auto pos = m_item->mapToScene(m_item->position()).toPoint();
-    m_item->window()->openglContext()->functions()->glViewport(pos.x(), pos.y(), m_item->width(), m_item->height());
-    //    qWarning() <<*state->projectionMatrix();
-    //    pSurface->getCanvas()->concat(qmat2skmat(*state->projectionMatrix()));
-    m_item->draw(pSurface->getCanvas(), cost);
-}
-
-QSGRenderNode::StateFlags SkiaRenderNode::changedStates() const
-{
-    return (ColorState | BlendState | DepthState);
-}
-
-QSGRenderNode::RenderingFlags SkiaRenderNode::flags() const
-{
-    return static_cast<QSGRenderNode::RenderingFlags>(BoundedRectRendering | DepthAwareRendering);
-}
-
-QRectF SkiaRenderNode::rect() const
-{
-    return QRectF(0, 0, m_item->width(), m_item->height());
+    SkAutoCanvasRestore r(pCanvas, true);
+    m_item->draw(pCanvas, cost);
+    if (m_item->window()) {
+        m_item->window()->resetOpenGLState();
+    }
 }
