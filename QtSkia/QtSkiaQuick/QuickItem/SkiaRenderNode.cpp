@@ -33,14 +33,6 @@ public:
     }
     void initSurface()
     {
-//        auto size = pItem->size().toSize();
-//        auto info = SkImageInfo::MakeN32Premul(size.width(), size.height());
-//        pSurface = SkSurface::MakeRenderTarget(pContext.get(), SkBudgeted::kNo, info);
-//        if (!pSurface) {
-//            qDebug() << "SkSurface::MakeRenderTarget return null";
-//            return;
-//        }
-
         GrGLFramebufferInfo info;
         auto pWindow = pItem->window();
         info.fFBOID = pWindow->openglContext()->defaultFramebufferObject();

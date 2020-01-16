@@ -10,7 +10,7 @@ CONFIG += ordered
 OTHER_FILES += \
     skiacommon.pri \
     uniqueDestdir.pri \
-    README.md \
+    *.md \
     LICENSE \
     .clang-format \
     .qmake.conf \
