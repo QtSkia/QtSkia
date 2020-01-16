@@ -1,73 +1,73 @@
-[English](README-en.md)
+[中文简体](README.md)
 
 # QtSkia
 
-[github原始仓库 https://github.com/QtSkia/QtSkia](https://github.com/QtSkia/QtSkia)
+[github repo https://github.com/QtSkia/QtSkia](https://github.com/QtSkia/QtSkia)
 
-[gitee镜像 https://gitee.com/QtSkia/QtSkia](https://gitee.com/QtSkia/QtSkia)
+[gitee mirror https://gitee.com/QtSkia/QtSkia](https://gitee.com/QtSkia/QtSkia)
 
-# 目录
+# catalogue
 
 - [QtSkia](#qtskia)
-- [目录](#%e7%9b%ae%e5%bd%95)
-- [简介](#%e7%ae%80%e4%bb%8b)
+- [catalogue](#catalogue)
+- [Introduction](#introduction)
   - [Skia](#skia)
   - [QtSkia](#qtskia-1)
-- [CI徽章](#ci%e5%be%bd%e7%ab%a0)
-- [QtSkia使用示例](#qtskia%e4%bd%bf%e7%94%a8%e7%a4%ba%e4%be%8b)
-  - [QWidget使用skia](#qwidget%e4%bd%bf%e7%94%a8skia)
-  - [QWidget 使用 OpenGL skia](#qwidget-%e4%bd%bf%e7%94%a8-opengl-skia)
-  - [纯OpenGL窗口 + skia](#%e7%ba%afopengl%e7%aa%97%e5%8f%a3--skia)
-  - [QtQuick/Qml使用skia](#qtquickqml%e4%bd%bf%e7%94%a8skia)
-- [计划与进度](#%e8%ae%a1%e5%88%92%e4%b8%8e%e8%bf%9b%e5%ba%a6)
+- [CI Badge](#ci-badge)
+- [QtSkia use case](#qtskia-use-case)
+  - [QWidget use skia](#qwidget-use-skia)
+  - [QWidget OpenGL use skia](#qwidget-opengl-use-skia)
+  - [Pure OpenGL window + skia](#pure-opengl-window--skia)
+  - [QtQuick/Qml use skia](#qtquickqml-use-skia)
+- [Scheduled plan](#scheduled-plan)
 - [Build](#build)
-  - [依赖环境](#%e4%be%9d%e8%b5%96%e7%8e%af%e5%a2%83)
+  - [dependency library](#dependency-library)
     - [windows](#windows)
     - [MacOS](#macos)
     - [Android](#android)
     - [Linux](#linux)
-  - [源码下载](#%e6%ba%90%e7%a0%81%e4%b8%8b%e8%bd%bd)
-    - [skia及依赖库的说明](#skia%e5%8f%8a%e4%be%9d%e8%b5%96%e5%ba%93%e7%9a%84%e8%af%b4%e6%98%8e)
-  - [编译](#%e7%bc%96%e8%af%91)
-  - [代码结构](#%e4%bb%a3%e7%a0%81%e7%bb%93%e6%9e%84)
-- [赞助](#%e8%b5%9e%e5%8a%a9)
-- [联系作者](#%e8%81%94%e7%b3%bb%e4%bd%9c%e8%80%85)
+  - [code download](#code-download)
+    - [skia and 3rdparty explain](#skia-and-3rdparty-explain)
+  - [compile](#compile)
+  - [Code struct](#code-struct)
+- [Sponsor](#sponsor)
 
 
 
-# 简介
+# Introduction
 
 ## Skia
 
-Skia是一个开源的二维图形库，提供各种常用的API，并可在多种软硬件平台上运行。
+Skia is an open source 2D graphics library which provides common APIs that work
+across a variety of hardware and software platforms.  It serves as the graphics
+engine for Google Chrome and Chrome OS, Android, Mozilla Firefox and Firefox
+OS, and many other products.
 
-谷歌Chrome浏览器、Chrome OS、Fuchsia、安卓、Flutter、火狐浏览器、火狐操作系统以及其它许多产品都使用它作为图形引擎。
+Skia is sponsored and managed by Google, but is available for use by anyone
+under the BSD Free Software License.  While engineering of the core components
+is done by the Skia development team, we consider contributions from any
+source.
 
-Skia由谷歌出资管理，任何人都可基于BSD免费软件许可证使用Skia。
+  * Canonical source tree:
+    [skia.googlesource.com/skia](https://skia.googlesource.com/skia).
+  * Issue tracker:
+    [bug.skia.org](https://bug.skia.org/).
+  * Discussion forum:
+    [skia-discuss@googlegroups.com](https://groups.google.com/forum/#!forum/skia-discuss).
+  * API Reference and Overview: [skia.org/user/api](https://skia.org/user/api/).
+  * Skia Fiddle: [fiddle.skia.org](https://fiddle.skia.org/c/@skcanvas_paint).
 
-Skia开发团队致力于开发其核心部分， 并广泛采纳各方对于Skia的开源贡献。
-
-* 源代码: skia.googlesource.com/skia.
-
-* 提议: bug.skia.org.
-
-* 论坛: skia-discuss@googlegroups.com.
-
-* skia官网： https://skia.org
-
-* 谷歌github镜像: https://github.com/google/skia.git
+  * github mirror: https://github.com/google/skia.git
 
 ## QtSkia
 
-QtSkia是在Qt框架中集成skia，实现的二维图形库。
+QtSkia is an open source 2D graphics library which integration skia with qt's  render framework. 
 
-QtSkia提供了QWidget、QOpenGLWidget、QQuickWindow、QQuickItem等常用Qt渲染组件与skia的对接，
+QtSkia provide connection with QWidget、QOpenGLWidget、QQuickWindow、QQuickItem。
 
-可以方便地将skia引入到现有Qt项目中。
+Qt developer can import skia to qt easily。
 
-# CI徽章
-
-占位，待修改。
+# CI Badge
 
 | [Windows][win-link]|[MacOS][macos-link]| [Ubuntu][ubuntu-link]|[Android][android-link]|[IOS][ios-link]|
 |---------------|---------------|-----------------|-----------------|----------------|
@@ -108,19 +108,17 @@ QtSkia提供了QWidget、QOpenGLWidget、QQuickWindow、QQuickItem等常用Qt渲
 [wiki-links]: https://github.com/jaredtao/QtSkia/wiki "wiki"
 [wiki-badge]: https://img.shields.io/badge/github-wiki-181717.svg?maxAge=60 "wiki"
 
-# QtSkia使用示例
+# QtSkia use case
 
-QtSkia处理了skia与QWidget、QOpenGLWindow、QQuick等渲染框架的融合问题，并将SkCanvas在接口中提供出来。
+QtSkia deal with the fusion of skia and Qt render framework such as QWidget、QOpenGLWindow、QQuickWindow、QQuickItem ，and export SkCanvas in the interface.
 
-开发者只要重写父类虚函数，使用SkCanvas执行绘制操作即可。
+As long as inherit the parent class and override virtual-function，developer can draw anything in Qt with SkCanvas.
 
-SkCanvas是一个类似于QPainter的画笔，但性能和功能都比QPainter强大许多。
+Here are some example:
 
-下面提供一些示例：
+## QWidget use skia
 
-## QWidget使用skia
-
-继承QSkiaWidget类并重写draw函数即可。
+inherit QSkiaWidget class and rewrite draw function
 
 ```c++
 //main.cpp
@@ -161,17 +159,13 @@ int main(int argc, char* argv[])
 
 ```
 
-效果如图：
+effects：
 
 ![](doc/demo.png)
 
-## QWidget 使用 OpenGL skia
+## QWidget OpenGL use skia
 
-QWidget本身是CPU光栅化渲染的，适合在一些无GPU的设备中运行。
-
-如果设备支持OpenGL，也可以在QWidget中集成OpenGL, 实现GPU硬件加速。
-
-只要继承QSkiaOpenGLWidget类即可：
+inherit QSkiaOpenGLWidget class and rewrite draw function
 
 ```C++
 class SkiaGLWidget : public QSkiaOpenGLWidget {
@@ -196,11 +190,11 @@ public:
     }
 };
 ```
-## 纯OpenGL窗口 + skia
+## Pure OpenGL window + skia
 
-QtSkia还提供了纯粹的OpenGL窗口，仅依赖Qt GUI模块，可以实现全部UI由OpenGL渲染。
+QSkiaOpenGLWindow just depend on QtGUI module and everying can be render by OpenGL。
 
-下面代码示例, 在纯OpenGL窗口中，绘制星形路径特效
+Here is a demo for draw star effect path.
 
 ```C++
 #pragma once
@@ -210,7 +204,7 @@ QtSkia还提供了纯粹的OpenGL窗口，仅依赖Qt GUI模块，可以实现�
 #include "effects/SkDashPathEffect.h"
 #include "effects/SkDiscretePathEffect.h"
 
-//生成星形路径
+//generate star effect path.
 static SkPath star()
 {
     const SkScalar R = 115.2f, C = 128.0f;
@@ -257,179 +251,165 @@ private:
 };
 
 ```
-效果如下:
+effect:
 
 ![](doc/opengl.png)
 
-## QtQuick/Qml使用skia
+## QtQuick/Qml use skia
 
-QtSkia为QtQuick/Qml程序也提供了skia支持。
+inherit QSkiaQuickWindow，developer can draw anything in Qml Window.
 
-继承QSkiaQuickWindow类，可以在整个Qml窗口的渲染流程中加入skia渲染。
+inherit QSkiaQuickItem, developer can draw in Qml Item.
 
-继承QSkiaQuickItem类，可以在任意Item中使用skia。
+# Scheduled plan
 
-# 计划与进度
+* code mirror
+- [x] skia code mirror
+- [x] 3rdparth mirror
+- [x] auto sync upstream code
+- [x] local script for fetch code
 
-* 代码镜像
-- [x] skia源码镜像
-- [x] 依赖库源码镜像
-- [x] 自动化同步上游代码
-- [x] 本地自动拉取脚本
+* Compile and ci
+- [x] specific compile flow with qmake
+- [x] Windows platform compile.
+- [ ] Windows + clang compile.
+- [x] MacOS compile
+- [ ] Linux compile
+- [ ] Android
 
-* 编译与CI
-- [x] 制定Qt编译流程
-- [x] Windows平台自动编译
-- [ ] Windows + clang 自动编译
-- [ ] Linux平台自动编译
-- [ ] MacOS平台自动编译
-- [ ] Android平台自动编译
+* effect
+- [x] sample text,line
+- [ ] texture
+- [ ] Skia inner effect
+- [ ] Lottie
 
-* 效果
-- [x] 简单画线、文字
-- [ ] 贴图，支持常见图片格式
-- [ ] Skia内置特效
-- [ ] Lottie绘制
+* Qt Framework adapted
 
-* Qt框架适配
-
-1. Gui模块
+1. Gui 
 - [x] QOpenGLWindow
 - [ ] QWindow
 - [ ] QVulkanWindow
 
-2. Widget模块
+2. Widget
 - [x] QWidget CPURaster
 - [x] QOpenGLWidget
 
-3. Quick模块
+3. Quick
 - [x] QOuickWindow
 - [ ] QQuickItem
 - [ ] QQuickFrameBuffer
 
-4. Qt6 RHI支持
-- [ ] 待补充 
+4. Qt6 RHI
 
-* 性能测试对比
-- [ ] 基本图形大规模绘制
-- [ ] 动画
-- [ ] 待补充
+- [ ] under construction
+
+* performance test
+- [ ] under construction
 
 # Build
 
-## 依赖环境
+## dependency library
 
 python 2
 
 Qt 5.12.x 64-bit
 
-注意:32bit/x86架构,只能使用google提供的工具链，QtSkia未做支持, 具体请参考skia官网：https://skia.org/user/build
+Note:32bit/x86 arch, need the toolchain by google， QtSkia not suooprt，detail info can be found in: https://skia.org/user/build
 
 ### windows
 
-编译器需要使用vs2017及以上,有clang-cl更好。
+Compiler need vs2017 and about, clang-cl is better.
 
 ### MacOS
 
-待补充
+under construction
 
 ### Android
 
-待补充
+under construction
 
 ### Linux
 
-待补充
+under construction
 
-## 源码下载
+## code download
 
-1. 下载QtSkia
+1. Downlaod QtSkia
 
 ```shell
 git clone https://github.com/QtSkia/QtSkia.git
 ```
 
-国内用户可以使用gitee同步镜像，速度更快。
+China user can use gitee mirror for speed up.
 
 ```shell
 git clone https://gitee.com/QtSkia/QtSkia.git
 ```
 
-2. 下载skia及依赖库
+2. Download skia and 3rdparty
 
-执行QtSkia根目录的syncSkia脚本，即可自动从github下载所有依赖项。
+run script 'syncSkia' at root directory of QtSkia.
 
-(国内用户也可以使用syncSkia-gitee脚本代替, 从gitee下载同步镜像，速度更快。)
+China user can use syncSkia-gitee replace for speed up from gitee mirror.
 
-Windows环境双击运行syncSkia.bat， 或者命令行：
+Windows platform click run syncSkia.bat， or termianl run：
+
 ```bat
 cd QtSkia
 syncSkia.bat
 ```
 
-MacOS 或 linux环境, 命令行执行脚本
+MacOS or linux platform, termianl run：
 ```shell
 cd QtSkia
 chmod a+x syncSkia.sh
 ./syncSkia.sh
 ```
 
-### skia及依赖库的说明
+### skia and 3rdparty explain
 
-skia官方仓库在 https://skia.googlesource.com/skia
+skia origin site: https://skia.googlesource.com/skia
 
-github上面也有官方的镜像 https://github.com/google/skia
+github mirror: https://github.com/google/skia
 
-skia的依赖库将近30个。
+skia depend on many thrid library. (about 28+)
 
-QtSkia在github、gitee提供了全部的同步镜像仓库，详情见：
+QtSkia provite mirror on github、gitee, detail on：
 
 https://github.com/QtSkia
 
 https://gitee.com/QtSkia
 
-QtSkia提供的仓库，会使用自动化工具定期同步google上游仓库。
 
-QtSkia不修改skia及依赖库的源码，仅使其增加github、gitee镜像支持和必要的编译器支持。
+QtSkia use script auto sync these code from upstream on timer。
 
-## 编译
+QtSkia not edit there code，just add github、gitee mirror support and compiler support.
 
-使用QtCreator导入QtSkia.pro，或者使用Qt命令行
+## compile
 
+use QtCreator import QtSkia.pro
+
+or run qt commandline:
 ```shell
 qmake 
 make
 ```
 
-## 代码结构
+## Code struct
 
-|目录|用途|
+|directory|descript|
 |:-----------:|:-------------:|
-|3rdparty|第三方库，skia|
-|doc|文档|
-|examples|一些用例|
-|QtSkia|QtSkia库|
-|skiaBuild|Qt编译skia|
-|tests|单元测试、性能测试|
+|3rdparty|skia and depency library|
+|doc| document |
+|examples| examples|
+|QtSkia|QtSkia|
+|skiaBuild|Qt qmake compile skia |
 
 
-# 赞助
+# Sponsor
 
-为众人抱薪者, 不可使其冻毙于风雪。
-
-如果您觉得这个项目还不错，请打赏一下作者。
+If you feel the share content is good, treat the author a drink.
 
 <img src="https://gitee.com/jaredtao/jaredtao/raw/master/img/weixin.jpg?raw=true" width="25%" height="25%" /><img src="https://gitee.com/jaredtao/jaredtao/raw/master/img/zhifubao.jpg?raw=true" width="25%" height="25%" />
 
-# 联系作者
-
-|-|-|
-| ---- | -------------------------------- |
-| 作者 | 武威的涛哥                           |
-| 博客 | https://jaredtao.github.io/ |
-| 博客-gitee镜像|https://jaredtao.gitee.io|
-| 知乎专栏| https://zhuanlan.zhihu.com/TaoQt |
-| QQ群| 734623697(高质量群，大佬多、不灌水）|
-| 邮箱 | jared2020@163.com                |
-| 微信 | xsd2410421                       |
-| QQ、TIM | 759378563                      |
+it's WeChat Pay and Alipay
