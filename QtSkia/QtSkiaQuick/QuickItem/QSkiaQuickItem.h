@@ -14,5 +14,4 @@ public:
     virtual void draw(SkCanvas* canvas, int elapsed) = 0;
 protected:
     QSGNode* updatePaintNode(QSGNode* node, UpdatePaintNodeData* data) override;
-    void itemChange(ItemChange, const ItemChangeData &) override;
 };

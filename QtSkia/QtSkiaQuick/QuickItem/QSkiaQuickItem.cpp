@@ -4,7 +4,6 @@ QSkiaQuickItem::QSkiaQuickItem(QQuickItem* parent)
     : QQuickItem(parent)
 {
     setFlag(ItemHasContents, true);
-    setAntialiasing(true);
 }
 
 QSGNode* QSkiaQuickItem::updatePaintNode(QSGNode* node, QQuickItem::UpdatePaintNodeData*)
@@ -14,10 +13,4 @@ QSGNode* QSkiaQuickItem::updatePaintNode(QSGNode* node, QQuickItem::UpdatePaintN
         n = new SkiaRenderNode(this);
     }
     return n;
-}
-
-void QSkiaQuickItem::itemChange(QQuickItem::ItemChange change, const QQuickItem::ItemChangeData &data)
-{
-    QQuickItem::itemChange(change, data);
-    update();
 }
