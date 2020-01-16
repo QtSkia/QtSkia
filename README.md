@@ -1,4 +1,4 @@
-[中文简体](README.md)
+[中文简体](README-zh.md)
 
 # QtSkia
 
