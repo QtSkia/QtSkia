@@ -18,6 +18,7 @@ void SumPathRender::draw(SkCanvas* canvas, int elapsed, int w, int h)
 {
     canvas->clear(SK_ColorWHITE);
     canvas->drawPath(path, paint);
+    canvas->flush();
 }
 
 void SumPathRender::init(int w, int h)

@@ -17,10 +17,9 @@ static SkPath star()
 
 void ShaderRender::draw(SkCanvas* canvas, int elapsed, int w, int h)
 {
-
     canvas->clear(SK_ColorWHITE);
-
     canvas->drawPath(path, paint);
+    canvas->flush();
 }
 
 void ShaderRender::init(int w, int h)

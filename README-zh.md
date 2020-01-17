@@ -21,6 +21,8 @@
   - [文字渲染](#%e6%96%87%e5%ad%97%e6%b8%b2%e6%9f%93)
   - [离散路径特效](#%e7%a6%bb%e6%95%a3%e8%b7%af%e5%be%84%e7%89%b9%e6%95%88)
   - [合成路径特效](#%e5%90%88%e6%88%90%e8%b7%af%e5%be%84%e7%89%b9%e6%95%88)
+  - [叠加路径特效](#%e5%8f%a0%e5%8a%a0%e8%b7%af%e5%be%84%e7%89%b9%e6%95%88)
+  - [着色器](#%e7%9d%80%e8%89%b2%e5%99%a8)
 - [QtSkia使用示例](#qtskia%e4%bd%bf%e7%94%a8%e7%a4%ba%e4%be%8b)
 - [计划与进度](#%e8%ae%a1%e5%88%92%e4%b8%8e%e8%bf%9b%e5%ba%a6)
 - [Build](#build)
@@ -129,6 +131,14 @@ QtSkia提供了QWidget、QOpenGLWidget、QQuickWindow、QQuickItem等常用Qt渲
 ## 合成路径特效
 
 ![](doc/feature/6.png)
+
+## 叠加路径特效
+
+![](doc/feature/7.png)
+
+## 着色器
+
+![](doc/feature/8.png)
 
 # QtSkia使用示例
 
