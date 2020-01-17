@@ -22,6 +22,7 @@ public:
         m_texture = m_window->createTextureFromId(0, QSize(1, 1));
         setTexture(m_texture);
         setFiltering(QSGTexture::Linear);
+        setTextureCoordinatesTransform(QSGSimpleTextureNode::MirrorVertically);
     }
     ~TextureNode() override
     {
@@ -76,7 +77,14 @@ public:
     SkiaObj(const QSize& size, QSkiaQuickItem* item)
         : m_item(item)
         , m_size(size)
+        , m_newWidth(size.width())
+        , m_newHeight(size.height())
     {
+    }
+    void initSizeBeforeReady() {
+        m_size = m_item->size().toSize();
+        m_newWidth = m_size.width();
+        m_newHeight = m_size.height();
     }
 signals:
     void textureReady(uint id, const QSize& size);
@@ -86,44 +94,21 @@ public slots:
     {
         context->makeCurrent(surface);
         if (!m_renderFbo) {
-            QOpenGLFramebufferObjectFormat format;
-            format.setAttachment(QOpenGLFramebufferObject::CombinedDepthStencil);
-            m_renderFbo = new QOpenGLFramebufferObject(m_size, format);
-            m_displayFbo = new QOpenGLFramebufferObject(m_size, format);
-            //TODO init skia
-
-            skiaContext = GrContext::MakeGL();
-            SkColorType colorType;
-            colorType = kRGBA_8888_SkColorType;
-            // setup SkSurface
-            // To use distance field text, use commented out SkSurfaceProps instead
-            SkSurfaceProps props(SkSurfaceProps::kUseDeviceIndependentFonts_Flag,
-                SkSurfaceProps::kLegacyFontHost_InitType);
-            //    SkSurfaceProps props(SkSurfaceProps::kLegacyFontHost_InitType);
-
-            {
-                GrGLFramebufferInfo info;
-                info.fFBOID = m_renderFbo->handle();
-                info.fFormat = GR_GL_RGBA8;
-
-                GrBackendRenderTarget backend(m_size.width(), m_size.height(), format.samples(), QSurfaceFormat::defaultFormat().stencilBufferSize(), info);
-                renderSurface = SkSurface::MakeFromBackendRenderTarget(skiaContext.get(), backend, kBottomLeft_GrSurfaceOrigin, colorType, nullptr, &props);
-            }
-            {
-                GrGLFramebufferInfo info;
-                info.fFBOID = m_displayFbo->handle();
-                info.fFormat = GR_GL_RGBA8;
-
-                GrBackendRenderTarget backend(m_size.width(), m_size.height(), format.samples(), QSurfaceFormat::defaultFormat().stencilBufferSize(), info);
-                displaySurface = SkSurface::MakeFromBackendRenderTarget(skiaContext.get(), backend, kBottomLeft_GrSurfaceOrigin, colorType, nullptr, &props);
-            }
-            m_item->onInit(m_size.width(), m_size.height());
+            createFBO();
             swapped = false;
+            m_item->onInit(m_size.width(), m_size.height());
+        } else if (needResize) {
+            delete m_renderFbo;
+            delete m_displayFbo;
+            m_size = QSize(m_newWidth, m_newHeight);
+            createFBO();
+            needResize = false;
+            m_item->onResize(m_size.width(), m_size.height());
         }
         m_renderFbo->bind();
         context->functions()->glViewport(0, 0, m_size.width(), m_size.height());
 
-        //TODO render
+        //render
         if (swapped) {
             m_item->draw(displaySurface->getCanvas(), 16);
         } else {
@@ -141,7 +126,7 @@ public slots:
         context->makeCurrent(surface);
         delete m_renderFbo;
         delete m_displayFbo;
-        //TODO free skia
+        //free skia
         skiaContext = nullptr;
         renderSurface = nullptr;
         displaySurface = nullptr;
@@ -150,8 +135,53 @@ public slots:
         surface->deleteLater();
         emit over();
     }
+    void syncNewSize() {
+        auto size = m_item->size().toSize();
+        if (m_newWidth != size.width()) {
+            m_newWidth = size.width();
+            needResize = true;
+        }
+        if (m_newHeight != size.height()) {
+            m_newHeight = size.height();
+            needResize = true;
+        }
+    }
+protected:
+    void createFBO() {
+        QOpenGLFramebufferObjectFormat format;
+        format.setAttachment(QOpenGLFramebufferObject::CombinedDepthStencil);
+        m_renderFbo = new QOpenGLFramebufferObject(m_size, format);
+        m_displayFbo = new QOpenGLFramebufferObject(m_size, format);
+        //init skia
 
+        skiaContext = GrContext::MakeGL();
+        SkColorType colorType;
+        colorType = kRGBA_8888_SkColorType;
+        // setup SkSurface
+        // To use distance field text, use commented out SkSurfaceProps instead
+        SkSurfaceProps props(SkSurfaceProps::kUseDeviceIndependentFonts_Flag,
+            SkSurfaceProps::kLegacyFontHost_InitType);
+        //    SkSurfaceProps props(SkSurfaceProps::kLegacyFontHost_InitType);
+
+        {
+            GrGLFramebufferInfo info;
+            info.fFBOID = m_renderFbo->handle();
+            info.fFormat = GR_GL_RGBA8;
+
+            GrBackendRenderTarget backend(m_size.width(), m_size.height(), format.samples(), QSurfaceFormat::defaultFormat().stencilBufferSize(), info);
+            renderSurface = SkSurface::MakeFromBackendRenderTarget(skiaContext.get(), backend, kBottomLeft_GrSurfaceOrigin, colorType, nullptr, &props);
+        }
+        {
+            GrGLFramebufferInfo info;
+            info.fFBOID = m_displayFbo->handle();
+            info.fFormat = GR_GL_RGBA8;
+
+            GrBackendRenderTarget backend(m_size.width(), m_size.height(), format.samples(), QSurfaceFormat::defaultFormat().stencilBufferSize(), info);
+            displaySurface = SkSurface::MakeFromBackendRenderTarget(skiaContext.get(), backend, kBottomLeft_GrSurfaceOrigin, colorType, nullptr, &props);
+        }
+    }
 private:
+    std::atomic<bool> needResize = false;
     bool swapped = false;
     QSkiaQuickItem* m_item;
     QOpenGLFramebufferObject* m_renderFbo = nullptr;
@@ -160,46 +190,55 @@ private:
     sk_sp<SkSurface> renderSurface = nullptr;
     sk_sp<SkSurface> displaySurface = nullptr;
     QSize m_size;
+    QAtomicInt m_newWidth;
+    QAtomicInt m_newHeight;
 };
-class QSkiaQuickItemPrivate {
+class QSkiaQuickItemPrivate : public QObject{
+    Q_OBJECT
 public:
     QSkiaQuickItemPrivate(QSkiaQuickItem* pItem)
         : item(pItem)
-        , skiaObj(QSize(512, 512), pItem)
     {
+        thread = new QThread;
+        skiaObj = new SkiaObj(QSize{512, 512}, item);
     }
     void init() //in QSGRender Thread
     {
         QOpenGLContext* current = item->window()->openglContext();
 
         current->doneCurrent();
-        skiaObj.context = new QOpenGLContext;
-        skiaObj.context->setFormat(current->format());
-        skiaObj.context->setShareContext(current);
-        skiaObj.context->create();
-        skiaObj.context->moveToThread(&thread);
+        skiaObj->context = new QOpenGLContext;
+        skiaObj->context->setFormat(current->format());
+        skiaObj->context->setShareContext(current);
+        skiaObj->context->create();
+        skiaObj->context->moveToThread(thread);
 
         current->makeCurrent(item->window());
         inited = true;
     }
+public slots:
     void ready() //queue call in item thread
     {
-        skiaObj.surface = new QOffscreenSurface;
-        skiaObj.surface->setFormat(skiaObj.context->format());
-        skiaObj.surface->create();
+        skiaObj->surface = new QOffscreenSurface;
+        skiaObj->surface->setFormat(skiaObj->context->format());
+        skiaObj->surface->create();
 
-        skiaObj.moveToThread(&thread);
-        QObject::connect(item->window(), &QQuickWindow::sceneGraphInvalidated, &skiaObj, &SkiaObj::shutdown, Qt::QueuedConnection);
-        QObject::connect(&skiaObj, &SkiaObj::over, &thread, &QThread::terminate);
-        thread.start();
+        skiaObj->initSizeBeforeReady();
+
+        skiaObj->moveToThread(thread);
+        QObject::connect(item->window(), &QQuickWindow::sceneGraphInvalidated, skiaObj, &SkiaObj::shutdown, Qt::QueuedConnection);
+        QObject::connect(skiaObj, &SkiaObj::over, thread, &QThread::quit, Qt::QueuedConnection);
+        QObject::connect(skiaObj, &SkiaObj::over, skiaObj, &QObject::deleteLater);
+        QObject::connect(thread, &QThread::finished, thread, &QObject::deleteLater);
+        thread->start();
         item->update();
     }
 
 public:
     bool inited = false;
     QSkiaQuickItem* item;
-    QThread thread;
-    SkiaObj skiaObj;
+    QThread *thread;
+    SkiaObj *skiaObj;
 };
 QSkiaQuickItem::QSkiaQuickItem(QQuickItem* parent)
     : QQuickItem(parent)
@@ -216,9 +255,12 @@ QSkiaQuickItem::~QSkiaQuickItem()
 QSGNode* QSkiaQuickItem::updatePaintNode(QSGNode* oldNode, QQuickItem::UpdatePaintNodeData*)
 {
     TextureNode* node = static_cast<TextureNode*>(oldNode);
+    if (width() <= 0 || height() <= 0) {
+        return nullptr;
+    }
     if (!m_dptr->inited) {
         m_dptr->init();
-        QMetaObject::invokeMethod(this, "ready");
+        QMetaObject::invokeMethod(m_dptr, "ready");
         return nullptr;
     }
 
@@ -238,20 +280,18 @@ QSGNode* QSkiaQuickItem::updatePaintNode(QSGNode* oldNode, QQuickItem::UpdatePai
          *
          * This FBO rendering pipeline is throttled by vsync on the scene graph rendering thread.
          */
-        connect(&m_dptr->skiaObj, &SkiaObj::textureReady, node, &TextureNode::newTexture, Qt::DirectConnection);
+        connect(m_dptr->skiaObj, &SkiaObj::textureReady, node, &TextureNode::newTexture, Qt::DirectConnection);
         connect(node, &TextureNode::pendingNewTexture, window(), &QQuickWindow::update, Qt::QueuedConnection);
         connect(window(), &QQuickWindow::beforeRendering, node, &TextureNode::prepareNode, Qt::DirectConnection);
-        connect(node, &TextureNode::textureInUse, &m_dptr->skiaObj, &SkiaObj::renderNext, Qt::QueuedConnection);
+        connect(node, &TextureNode::textureInUse, m_dptr->skiaObj, &SkiaObj::renderNext, Qt::QueuedConnection);
 
+        connect(this, &QQuickItem::widthChanged, m_dptr->skiaObj, &SkiaObj::syncNewSize, Qt::QueuedConnection);
+        connect(this, &QQuickItem::heightChanged, m_dptr->skiaObj, &SkiaObj::syncNewSize, Qt::QueuedConnection);
         // Get the production of FBO textures started..
-        QMetaObject::invokeMethod(&m_dptr->skiaObj, "renderNext", Qt::QueuedConnection);
+        QMetaObject::invokeMethod(m_dptr->skiaObj, "renderNext", Qt::QueuedConnection);
     }
     node->setRect(boundingRect());
     return node;
 }
 
-void QSkiaQuickItem::ready()
-{
-    m_dptr->ready();
-}
 #include "QSkiaQuickItem.moc"

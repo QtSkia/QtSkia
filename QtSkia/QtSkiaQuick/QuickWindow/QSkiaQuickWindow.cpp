@@ -1,19 +1,49 @@
 #include "QSkiaQuickWindow.h"
-#include "InnerItem_p.h"
 
 #include "core/SkImageInfo.h"
 #include "core/SkSurface.h"
 #include "gpu/GrContext.h"
 #include "src/gpu/gl/GrGLUtil.h"
 
+#include <QDebug>
 #include <QOpenGLContext>
 #include <QOpenGLFramebufferObject>
 #include <QOpenGLFunctions>
+#include <QPropertyAnimation>
 #include <QQuickItem>
+#include <QQuickWindow>
 #include <QResizeEvent>
-#include <QDebug>
 #include <QTime>
 #include <QTimer>
+//InnerItem. 内部用的旋转动画Item，用来驱动QSkiaQuickWindow的渲染.
+class InnerItem : public QQuickItem {
+    Q_OBJECT
+public:
+    InnerItem(QQuickItem* parent = nullptr)
+        : QQuickItem(parent)
+    {
+        setWidth(1);
+        setHeight(1);
+        m_animation.setTargetObject(this);
+        m_animation.setPropertyName("rotation");
+        m_animation.setStartValue(0);
+        m_animation.setEndValue(360);
+        m_animation.setDuration(1000);
+        m_animation.setLoopCount(-1);
+        connect(this, &QQuickItem::rotationChanged, this, &InnerItem::onAnimation);
+        m_animation.start();
+    }
+protected slots:
+    void onAnimation()
+    {
+        if (window() && window()->isSceneGraphInitialized()) {
+            window()->update();
+        }
+    }
+
+private:
+    QPropertyAnimation m_animation;
+};
 
 class QSkiaQuickWindowPrivate {
 public:
@@ -84,11 +114,10 @@ void QSkiaQuickWindow::onSGUninited()
     disconnect(this, &QQuickWindow::afterRendering, this, &QSkiaQuickWindow::onAfterRendering);
 }
 
-
 void QSkiaQuickWindow::init(int w, int h)
 {
-//    auto info = SkImageInfo::MakeN32Premul(w, h);
-//    m_dptr->gpuSurface = SkSurface::MakeRenderTarget(m_dptr->context.get(), SkBudgeted::kNo, info);
+    //    auto info = SkImageInfo::MakeN32Premul(w, h);
+    //    m_dptr->gpuSurface = SkSurface::MakeRenderTarget(m_dptr->context.get(), SkBudgeted::kNo, info);
 
     GrGLFramebufferInfo info;
     info.fFBOID = openglContext()->defaultFramebufferObject();
@@ -102,9 +131,9 @@ void QSkiaQuickWindow::init(int w, int h)
     GrBackendRenderTarget backend(w, h, format().samples(), format().stencilBufferSize(), info);
     // setup SkSurface
     // To use distance field text, use commented out SkSurfaceProps instead
-     SkSurfaceProps props(SkSurfaceProps::kUseDeviceIndependentFonts_Flag,
-                          SkSurfaceProps::kLegacyFontHost_InitType);
-//    SkSurfaceProps props(SkSurfaceProps::kLegacyFontHost_InitType);
+    SkSurfaceProps props(SkSurfaceProps::kUseDeviceIndependentFonts_Flag,
+        SkSurfaceProps::kLegacyFontHost_InitType);
+    //    SkSurfaceProps props(SkSurfaceProps::kLegacyFontHost_InitType);
 
     m_dptr->gpuSurface = SkSurface::MakeFromBackendRenderTarget(m_dptr->context.get(), backend, kBottomLeft_GrSurfaceOrigin, colorType, nullptr, &props);
 
@@ -135,7 +164,7 @@ void QSkiaQuickWindow::onBeforeSync()
         init(this->width(), this->height());
         m_dptr->hasCleaned = false;
         m_dptr->hasResize = false;
-        onResize(this->width(),this->height());
+        onResize(this->width(), this->height());
     }
 }
 void QSkiaQuickWindow::timerEvent(QTimerEvent*)
@@ -159,7 +188,7 @@ void QSkiaQuickWindow::onBeforeRendering()
     if (!canvas) {
         return;
     }
-//    qWarning() << __FUNCTION__;
+    //    qWarning() << __FUNCTION__;
     const auto elapsed = m_dptr->lastTimeB.elapsed();
     m_dptr->lastTimeB = QTime::currentTime();
     canvas->save();
@@ -179,11 +208,11 @@ void QSkiaQuickWindow::onAfterRendering()
     if (!canvas) {
         return;
     }
-//    qWarning() << __FUNCTION__;
+    //    qWarning() << __FUNCTION__;
     const auto elapsed = m_dptr->lastTimeA.elapsed();
     m_dptr->lastTimeA = QTime::currentTime();
     canvas->save();
     this->drawAfterSG(canvas, elapsed);
     canvas->restore();
 }
-#include "moc_QSkiaQuickWindow.cpp"
+#include "QSkiaQuickWindow.moc"

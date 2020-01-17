@@ -4,12 +4,15 @@
 
 class SkCanvas;
 class QSkiaQuickWindowPrivate;
+
 class QtSkia_API QSkiaQuickWindow : public QQuickWindow {
     Q_OBJECT
 public:
     QSkiaQuickWindow(QWindow *parent = nullptr);
     virtual ~QSkiaQuickWindow() override;
+    //after skia init. Note: this function work in SceneGraph Renderer Thread.
     virtual void onInit(int w, int h) = 0;
+    //after skia resize. Note: this function work in SceneGraph Renderer Thread.
     virtual void onResize(int w, int h) = 0;
     //draw before SceneGraph. Note: this function work in SceneGraph Renderer Thread.
     virtual void drawBeforeSG(SkCanvas* canvas, int elapsed) = 0;
