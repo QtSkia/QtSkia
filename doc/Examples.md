@@ -52,6 +52,13 @@ effects：
 
 ![](demo.png)
 
+Note:
+
+you should call once canvas->clear at the begin of draw.
+
+you should call once canvas->flush at the end of draw.
+
+
 ## QWidget OpenGL use skia
 
 inherit QSkiaOpenGLWidget class and rewrite draw function

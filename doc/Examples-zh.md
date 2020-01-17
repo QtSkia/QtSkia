@@ -53,6 +53,12 @@ int main(int argc, char* argv[])
 
 ![](demo.png)
 
+注意:
+
+开发者要在draw开始处调用一次canvas->clear。
+
+在draw结束时调用一次canvas->flush。
+
 ## QWidget 使用 OpenGL skia
 
 QWidget本身是CPU光栅化渲染的，适合在一些无GPU的设备中运行。
