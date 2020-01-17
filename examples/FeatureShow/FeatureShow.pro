@@ -9,7 +9,7 @@ DESTDIR = $$destPath
 LIBS += -L$$DESTDIR -lQtSkiaQuick
 
 HEADERS += \
-    SkiaQuickItem.h
+    SkiaItem.h
 
 SOURCES += \
     main.cpp

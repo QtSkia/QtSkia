@@ -15,6 +15,12 @@
   - [QtSkia](#qtskia-1)
 - [CI徽章](#ci%e5%be%bd%e7%ab%a0)
 - [特性展示](#%e7%89%b9%e6%80%a7%e5%b1%95%e7%a4%ba)
+  - [几何形状](#%e5%87%a0%e4%bd%95%e5%bd%a2%e7%8a%b6)
+  - [贝塞尔曲线](#%e8%b4%9d%e5%a1%9e%e5%b0%94%e6%9b%b2%e7%ba%bf)
+  - [平移和旋转](#%e5%b9%b3%e7%a7%bb%e5%92%8c%e6%97%8b%e8%bd%ac)
+  - [文字渲染](#%e6%96%87%e5%ad%97%e6%b8%b2%e6%9f%93)
+  - [离散路径特效](#%e7%a6%bb%e6%95%a3%e8%b7%af%e5%be%84%e7%89%b9%e6%95%88)
+  - [合成路径特效](#%e5%90%88%e6%88%90%e8%b7%af%e5%be%84%e7%89%b9%e6%95%88)
 - [QtSkia使用示例](#qtskia%e4%bd%bf%e7%94%a8%e7%a4%ba%e4%be%8b)
 - [计划与进度](#%e8%ae%a1%e5%88%92%e4%b8%8e%e8%bf%9b%e5%ba%a6)
 - [Build](#build)
@@ -104,6 +110,25 @@ QtSkia提供了QWidget、QOpenGLWidget、QQuickWindow、QQuickItem等常用Qt渲
 [wiki-badge]: https://img.shields.io/badge/github-wiki-181717.svg?maxAge=60 "wiki"
 # 特性展示
 
+## 几何形状
+![](doc/feature/1.png)
+
+## 贝塞尔曲线
+![](doc/feature/2.png)
+
+## 平移和旋转
+![](doc/feature/3.png)
+
+## 文字渲染
+
+![](doc/feature/4.png)
+
+## 离散路径特效
+![](doc/feature/5.png)
+
+## 合成路径特效
+
+![](doc/feature/6.png)
 
 # QtSkia使用示例
 
@@ -120,15 +145,14 @@ QtSkia提供了QWidget、QOpenGLWidget、QQuickWindow、QQuickItem等常用Qt渲
 * 编译与CI
 - [x] 制定Qt编译流程
 - [x] Windows平台自动编译
-- [ ] Windows + clang 自动编译
+- [X] MacOS平台自动编译
 - [ ] Linux平台自动编译
-- [ ] MacOS平台自动编译
 - [ ] Android平台自动编译
 
 * 效果
 - [x] 简单画线、文字
+- [X] Skia内置特效
 - [ ] 贴图，支持常见图片格式
-- [ ] Skia内置特效
 - [ ] Lottie绘制
 
 * Qt框架适配
@@ -144,7 +168,7 @@ QtSkia提供了QWidget、QOpenGLWidget、QQuickWindow、QQuickItem等常用Qt渲
 
 3. Quick模块
 - [x] QOuickWindow
-- [ ] QQuickItem
+- [X] QQuickItem
 - [ ] QQuickFrameBuffer
 
 4. Qt6 RHI支持

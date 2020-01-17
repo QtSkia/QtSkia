@@ -1,7 +1,6 @@
 #include "ShapesRender.h"
 
-
-void ShapesRender::draw(SkCanvas *canvas, int elapsed, int w, int h)
+void ShapesRender::draw(SkCanvas* canvas, int elapsed, int w, int h)
 {
     canvas->drawColor(SK_ColorWHITE);
 
@@ -32,10 +31,8 @@ void ShapesRender::draw(SkCanvas *canvas, int elapsed, int w, int h)
 
 void ShapesRender::init(int w, int h)
 {
-
 }
 
 void ShapesRender::resize(int w, int h)
 {
-
 }

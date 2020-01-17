@@ -22,6 +22,7 @@ public:
         m_texture = m_window->createTextureFromId(0, QSize(1, 1));
         setTexture(m_texture);
         setFiltering(QSGTexture::Linear);
+
         setTextureCoordinatesTransform(QSGSimpleTextureNode::MirrorVertically);
     }
     ~TextureNode() override
@@ -110,8 +111,11 @@ public slots:
 
         //render
         if (swapped) {
+            displaySurface->getCanvas()->save();
             m_item->draw(displaySurface->getCanvas(), 16);
         } else {
+            renderSurface->getCanvas()->save();
+            SkAutoCanvasRestore cs(renderSurface->getCanvas(), true);
             m_item->draw(renderSurface->getCanvas(), 16);
         }
 
@@ -120,6 +124,11 @@ public slots:
         qSwap(m_renderFbo, m_displayFbo);
         swapped = !swapped;
         emit textureReady(m_displayFbo->texture(), m_size);
+        if (!swapped) {
+            displaySurface->getCanvas()->restore();
+        } else {
+            renderSurface->getCanvas()->restore();
+        }
     }
     void shutdown()
     {
@@ -208,7 +217,8 @@ public:
 
         current->doneCurrent();
         skiaObj->context = new QOpenGLContext;
-        skiaObj->context->setFormat(current->format());
+        auto format = current->format();
+        skiaObj->context->setFormat(format);
         skiaObj->context->setShareContext(current);
         skiaObj->context->create();
         skiaObj->context->moveToThread(thread);

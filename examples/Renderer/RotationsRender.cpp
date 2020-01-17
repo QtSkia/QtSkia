@@ -2,9 +2,10 @@
 
 void RotationsRender::draw(SkCanvas* canvas, int elapsed, int w, int h)
 {
+    canvas->clear(SK_ColorWHITE);
     canvas->translate(128, 0);
     canvas->rotate(60);
-
+    paint.setAntiAlias(true);
     paint.setColor(0xff4285F4);
     canvas->drawRect(rect, paint);
 

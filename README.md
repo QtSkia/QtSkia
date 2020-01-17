@@ -15,6 +15,12 @@
   - [QtSkia](#qtskia-1)
 - [CI Badge](#ci-badge)
 - [Feature show](#feature-show)
+  - [Shapes](#shapes)
+  - [Bezier Curves](#bezier-curves)
+  - [Translations and Rotations](#translations-and-rotations)
+  - [Text Rendering](#text-rendering)
+  - [Discrete Path Effects](#discrete-path-effects)
+  - [Composed Path Effects](#composed-path-effects)
 - [QtSkia use example](#qtskia-use-example)
 - [Scheduled plan](#scheduled-plan)
 - [Build](#build)
@@ -106,6 +112,26 @@ Qt developer can import skia to qt easily。
 [wiki-badge]: https://img.shields.io/badge/github-wiki-181717.svg?maxAge=60 "wiki"
 # Feature show
 
+## Shapes
+![](doc/feature/1.png)
+
+## Bezier Curves
+![](doc/feature/2.png)
+
+## Translations and Rotations
+![](doc/feature/3.png)
+
+## Text Rendering
+
+![](doc/feature/4.png)
+
+## Discrete Path Effects
+![](doc/feature/5.png)
+
+## Composed Path Effects
+
+![](doc/feature/6.png)
+
 # QtSkia use example
 
 [QtSkia us example](doc/Examples.md)
@@ -122,15 +148,14 @@ Qt developer can import skia to qt easily。
 * Compile and ci
 - [x] specific compile flow with qmake
 - [x] Windows platform compile.
-- [ ] Windows + clang compile.
 - [x] MacOS compile
 - [ ] Linux compile
 - [ ] Android
 
 * effect
 - [x] sample text,line
+- [X] Skia inner effect
 - [ ] texture
-- [ ] Skia inner effect
 - [ ] Lottie
 
 * Qt Framework adapted
@@ -146,7 +171,7 @@ Qt developer can import skia to qt easily。
 
 3. Quick
 - [x] QOuickWindow
-- [ ] QQuickItem
+- [X] QQuickItem
 - [ ] QQuickFrameBuffer
 
 4. Qt6 RHI

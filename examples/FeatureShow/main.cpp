@@ -1,13 +1,18 @@
 #include <QGuiApplication>
 #include <QQuickView>
 
-#include "SkiaQuickItem.h"
+#include "SkiaItem.h"
+#include <QSurfaceFormat>
 int main(int argc, char* argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication app(argc, argv);
 
-    qmlRegisterType<SkiaQuickItem>("SkiaQuickItem", 1, 0, "SkiaQuickItem");
+    registerSkiaItem();
+
+//    auto fmt = QSurfaceFormat::defaultFormat();
+//    fmt.setSamples(4);
+//    QSurfaceFormat::setDefaultFormat(fmt);
     QQuickView view;
     view.setResizeMode(QQuickView::SizeRootObjectToView);
     view.setSource(QUrl("qrc:/main.qml"));
