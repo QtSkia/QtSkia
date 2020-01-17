@@ -1,8 +1,5 @@
 #include "ShapesRender.h"
-#include "core/SkCanvas.h"
-#include "core/SkPaint.h"
-#include "core/SkRect.h"
-#include "core/SkRRect.h"
+
 
 void ShapesRender::draw(SkCanvas *canvas, int elapsed, int w, int h)
 {
@@ -31,4 +28,14 @@ void ShapesRender::draw(SkCanvas *canvas, int elapsed, int w, int h)
     paint.setStyle(SkPaint::kStroke_Style);
     canvas->drawRoundRect(rect, 10, 10, paint);
     canvas->flush();
+}
+
+void ShapesRender::init(int w, int h)
+{
+
+}
+
+void ShapesRender::resize(int w, int h)
+{
+
 }

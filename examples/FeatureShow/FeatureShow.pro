@@ -1,14 +1,18 @@
 TEMPLATE = app
-
-include($$absolute_path($$PWD/../../QtSkia/QtSkiaGuiPublic.pri))
+QT += quick
+include($$absolute_path($$PWD/../../QtSkia/QtSkiaQuickPublic.pri))
 include($$absolute_path($$PWD/../Renderer/Renderer.pri))
 
 include($$PWD/../../uniqueDestdir.pri)
 DESTDIR = $$destPath
-LIBS += -L$$DESTDIR -lQtSkiaGui
+
+LIBS += -L$$DESTDIR -lQtSkiaQuick
 
 HEADERS += \
-    SkiaGLWindow.h
+    SkiaQuickItem.h
 
 SOURCES += \
     main.cpp
+
+RESOURCES += \
+    Qml.qrc

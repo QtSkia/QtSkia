@@ -1,12 +1,10 @@
 #include "ShaderRender.h"
 
-#include "core/SkCanvas.h"
-#include "core/SkPaint.h"
-#include "core/SkPath.h"
-#include "effects/SkDiscretePathEffect.h"
 #include "effects/SkDashPathEffect.h"
+#include "effects/SkDiscretePathEffect.h"
 #include "effects/SkGradientShader.h"
-static SkPath star() {
+static SkPath star()
+{
     const SkScalar R = 115.2f, C = 128.0f;
     SkPath path;
     path.moveTo(C + R, C);
@@ -17,20 +15,29 @@ static SkPath star() {
     return path;
 }
 
-void ShaderRender::draw(SkCanvas *canvas, int elapsed, int w, int h)
+void ShaderRender::draw(SkCanvas* canvas, int elapsed, int w, int h)
 {
-    SkPaint paint;
+
+    canvas->clear(SK_ColorWHITE);
+
+    canvas->drawPath(path, paint);
+}
+
+void ShaderRender::init(int w, int h)
+{
     paint.setPathEffect(SkDiscretePathEffect::Make(10.0f, 4.0f));
     SkPoint points[2] = {
         SkPoint::Make(0.0f, 0.0f),
         SkPoint::Make(256.0f, 256.0f)
     };
-    SkColor colors[2] = {SkColorSetRGB(66,133,244), SkColorSetRGB(15,157,88)};
+    SkColor colors[2] = { SkColorSetRGB(66, 133, 244), SkColorSetRGB(15, 157, 88) };
     paint.setShader(SkGradientShader::MakeLinear(
-        points, colors, NULL, 2,
-        SkTileMode::kClamp, 0, NULL));
+        points, colors, nullptr, 2,
+        SkTileMode::kClamp, 0, nullptr));
     paint.setAntiAlias(true);
-    canvas->clear(SK_ColorWHITE);
-    SkPath path(star());
-    canvas->drawPath(path, paint);
+    path = star();
+}
+
+void ShaderRender::resize(int w, int h)
+{
 }

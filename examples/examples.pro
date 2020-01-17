@@ -6,5 +6,6 @@ SUBDIRS = \
     MixWidget \
     HelloSkiaOpenGLWindow \
     HelloSkiaQuickWindow \
-    HelloSkiaQuickItem
+    HelloSkiaQuickItem \
+    FeatureShow
 

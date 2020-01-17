@@ -42,3 +42,13 @@ void TextRender::draw(SkCanvas *canvas, int elapsed, int w, int h)
     canvas->drawTextBlob(blob2.get(), 20.0f, 224.0f, paint3);
     canvas->flush();
 }
+
+void TextRender::init(int w, int h)
+{
+
+}
+
+void TextRender::resize(int w, int h)
+{
+
+}

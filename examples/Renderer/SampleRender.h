@@ -8,6 +8,8 @@ class SampleRender : public IRender{
 public:
     SampleRender();
     void draw(SkCanvas *canvas, int elapsed, int w, int h) override;
+    void init(int w, int h) override;
+    void resize(int w, int h) override;
 private:
     SkPaint m_paint;
     SkFont m_font;

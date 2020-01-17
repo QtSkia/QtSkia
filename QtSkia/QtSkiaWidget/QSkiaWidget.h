@@ -9,7 +9,7 @@ public:
     QSkiaWidget(QWidget* parent = nullptr);
     ~QSkiaWidget() override;
 
-    virtual void draw(SkCanvas* canvas, int elapsed = 16) = 0;
+    virtual void draw(SkCanvas* canvas, int elapsed) = 0;
 
 protected:
     void paintEvent(QPaintEvent* event) override;

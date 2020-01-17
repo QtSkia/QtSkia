@@ -1,8 +1,5 @@
 #include "DiscretePathRender.h"
 
-#include "core/SkCanvas.h"
-#include "core/SkPaint.h"
-#include "core/SkPath.h"
 #include "effects/SkDiscretePathEffect.h"
 static SkPath star()
 {
@@ -17,14 +14,23 @@ static SkPath star()
 }
 void DiscretePathRender::draw(SkCanvas* canvas, int elapsed, int w, int h)
 {
-    SkPaint paint;
+    canvas->clear(SK_ColorWHITE);
+
+    canvas->drawPath(path, paint);
+    canvas->flush();
+}
+
+void DiscretePathRender::init(int w, int h)
+{
     paint.setPathEffect(SkDiscretePathEffect::Make(10.0f, 4.0f));
     paint.setStyle(SkPaint::kStroke_Style);
     paint.setStrokeWidth(2.0f);
     paint.setAntiAlias(true);
     paint.setColor(0xff4285F4);
-    canvas->clear(SK_ColorWHITE);
-    SkPath path(star());
-    canvas->drawPath(path, paint);
-    canvas->flush();
+    path = star();
+}
+
+void DiscretePathRender::resize(int w, int h)
+{
+
 }

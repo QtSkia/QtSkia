@@ -30,3 +30,13 @@ void SumPathRender::draw(SkCanvas *canvas, int elapsed, int w, int h)
     SkPath path(star());
     canvas->drawPath(path, paint);
 }
+
+void SumPathRender::init(int w, int h)
+{
+
+}
+
+void SumPathRender::resize(int w, int h)
+{
+
+}
