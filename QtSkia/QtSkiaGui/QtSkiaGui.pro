@@ -1,7 +1,7 @@
 TEMPLATE = lib
 DEFINES += QTSKIA_LIBRARY
 
-include($$absolute_path($$PWD/../QtSkiaWindowPublic.pri))
+include($$absolute_path($$PWD/../QtSkiaGuiPublic.pri))
 
 include($$PWD/../../uniqueDestdir.pri)
 DESTDIR = $$destPath
