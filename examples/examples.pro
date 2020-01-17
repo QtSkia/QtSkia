@@ -7,5 +7,6 @@ SUBDIRS = \
     HelloSkiaOpenGLWindow \
     HelloSkiaQuickWindow \
     HelloSkiaQuickItem \
+    HelloSkiaLottieItem \
     FeatureShow
 

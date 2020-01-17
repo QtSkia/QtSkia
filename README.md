@@ -23,18 +23,10 @@
   - [Composed Path Effects](#composed-path-effects)
   - [Sum Path Effects](#sum-path-effects)
   - [Shaders](#shaders)
-- [QtSkia use example](#qtskia-use-example)
 - [Scheduled plan](#scheduled-plan)
-- [Build](#build)
-  - [dependency library](#dependency-library)
-    - [windows](#windows)
-    - [MacOS](#macos)
-    - [Android](#android)
-    - [Linux](#linux)
-  - [code download](#code-download)
-    - [skia and 3rdparty explain](#skia-and-3rdparty-explain)
-  - [compile](#compile)
-  - [Code struct](#code-struct)
+- [Build and Deployment](#build-and-deployment)
+- [QtSkia use example](#qtskia-use-example)
+- [Project struct](#project-struct)
 - [Sponsor](#sponsor)
 
 
@@ -142,11 +134,6 @@ Qt developer can import skia to qt easily。
 
 ![](doc/feature/8.png)
 
-# QtSkia use example
-
-[QtSkia us example](doc/Examples.md)
-
-
 # Scheduled plan
 
 * code mirror
@@ -191,97 +178,16 @@ Qt developer can import skia to qt easily。
 * performance test
   
 - [ ] under construction
+- [ ] 
+# Build and Deployment
 
-# Build
+[Build and Deployment](doc/Build.md)
 
-## dependency library
+# QtSkia use example
 
-python 2
+[QtSkia us example](doc/Examples.md)
 
-Qt 5.12.x 64-bit
-
-Note:32bit/x86 arch, need the toolchain by google， QtSkia not suooprt，detail info can be found in: https://skia.org/user/build
-
-### windows
-
-Compiler need vs2017 and about, clang-cl is better.
-
-### MacOS
-
-under construction
-
-### Android
-
-under construction
-
-### Linux
-
-under construction
-
-## code download
-
-1. Downlaod QtSkia
-
-```shell
-git clone https://github.com/QtSkia/QtSkia.git
-```
-
-China user can use gitee mirror for speed up.
-
-```shell
-git clone https://gitee.com/QtSkia/QtSkia.git
-```
-
-2. Download skia and 3rdparty
-
-run script 'syncSkia' at root directory of QtSkia.
-
-China user can use syncSkia-gitee replace for speed up from gitee mirror.
-
-Windows platform click run syncSkia.bat， or termianl run：
-
-```bat
-cd QtSkia
-syncSkia.bat
-```
-
-MacOS or linux platform, termianl run：
-```shell
-cd QtSkia
-chmod a+x syncSkia.sh
-./syncSkia.sh
-```
-
-### skia and 3rdparty explain
-
-skia origin site: https://skia.googlesource.com/skia
-
-github mirror: https://github.com/google/skia
-
-skia depend on many thrid library. (about 28+)
-
-QtSkia provite mirror on github、gitee, detail on：
-
-https://github.com/QtSkia
-
-https://gitee.com/QtSkia
-
-
-QtSkia use script auto sync these code from upstream on timer。
-
-QtSkia not edit there code，just add github、gitee mirror support and compiler support.
-
-## compile
-
-use QtCreator import QtSkia.pro
-
-or run qt commandline:
-```shell
-qmake 
-make
-```
-
-## Code struct
+# Project struct
 
 |directory|descript|
 |:-----------:|:-------------:|

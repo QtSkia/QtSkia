@@ -23,18 +23,10 @@
   - [合成路径特效](#%e5%90%88%e6%88%90%e8%b7%af%e5%be%84%e7%89%b9%e6%95%88)
   - [叠加路径特效](#%e5%8f%a0%e5%8a%a0%e8%b7%af%e5%be%84%e7%89%b9%e6%95%88)
   - [着色器](#%e7%9d%80%e8%89%b2%e5%99%a8)
-- [QtSkia使用示例](#qtskia%e4%bd%bf%e7%94%a8%e7%a4%ba%e4%be%8b)
 - [计划与进度](#%e8%ae%a1%e5%88%92%e4%b8%8e%e8%bf%9b%e5%ba%a6)
-- [Build](#build)
-  - [依赖环境](#%e4%be%9d%e8%b5%96%e7%8e%af%e5%a2%83)
-    - [windows](#windows)
-    - [MacOS](#macos)
-    - [Android](#android)
-    - [Linux](#linux)
-  - [源码下载](#%e6%ba%90%e7%a0%81%e4%b8%8b%e8%bd%bd)
-    - [skia及依赖库的说明](#skia%e5%8f%8a%e4%be%9d%e8%b5%96%e5%ba%93%e7%9a%84%e8%af%b4%e6%98%8e)
-  - [编译](#%e7%bc%96%e8%af%91)
-  - [代码结构](#%e4%bb%a3%e7%a0%81%e7%bb%93%e6%9e%84)
+- [编译和发布](#%e7%bc%96%e8%af%91%e5%92%8c%e5%8f%91%e5%b8%83)
+- [QtSkia使用示例](#qtskia%e4%bd%bf%e7%94%a8%e7%a4%ba%e4%be%8b)
+- [工程结构](#%e5%b7%a5%e7%a8%8b%e7%bb%93%e6%9e%84)
 - [赞助](#%e8%b5%9e%e5%8a%a9)
 - [联系作者](#%e8%81%94%e7%b3%bb%e4%bd%9c%e8%80%85)
 
@@ -140,10 +132,6 @@ QtSkia提供了QWidget、QOpenGLWidget、QQuickWindow、QQuickItem等常用Qt渲
 
 ![](doc/feature/8.png)
 
-# QtSkia使用示例
-
-[使用示例](doc/Examples-zh.md)
-
 # 计划与进度
 
 * 代码镜像
@@ -189,93 +177,16 @@ QtSkia提供了QWidget、QOpenGLWidget、QQuickWindow、QQuickItem等常用Qt渲
 - [ ] 动画
 - [ ] 待补充
 
-# Build
 
-## 依赖环境
+# 编译和发布
 
-python 2
+[编译和发布](doc/Build-zh.md)
 
-Qt 5.12.x 64-bit
+# QtSkia使用示例
 
-注意:32bit/x86架构,只能使用google提供的工具链，QtSkia未做支持, 具体请参考skia官网：https://skia.org/user/build
+[使用示例](doc/Examples-zh.md)
 
-### windows
-
-编译器需要使用vs2017及以上,有clang-cl更好。
-
-### MacOS
-
-待补充
-
-### Android
-
-待补充
-
-### Linux
-
-待补充
-
-## 源码下载
-
-1. 下载QtSkia
-
-```shell
-git clone https://github.com/QtSkia/QtSkia.git
-```
-
-国内用户可以使用gitee同步镜像，速度更快。
-
-```shell
-git clone https://gitee.com/QtSkia/QtSkia.git
-```
-
-2. 下载skia及依赖库
-
-执行QtSkia根目录的syncSkia脚本，即可自动从github下载所有依赖项。
-
-(国内用户也可以使用syncSkia-gitee脚本代替, 从gitee下载同步镜像，速度更快。)
-
-Windows环境双击运行syncSkia.bat， 或者命令行：
-```bat
-cd QtSkia
-syncSkia.bat
-```
-
-MacOS 或 linux环境, 命令行执行脚本
-```shell
-cd QtSkia
-chmod a+x syncSkia.sh
-./syncSkia.sh
-```
-
-### skia及依赖库的说明
-
-skia官方仓库在 https://skia.googlesource.com/skia
-
-github上面也有官方的镜像 https://github.com/google/skia
-
-skia的依赖库将近30个。
-
-QtSkia在github、gitee提供了全部的同步镜像仓库，详情见：
-
-https://github.com/QtSkia
-
-https://gitee.com/QtSkia
-
-QtSkia提供的仓库，会使用自动化工具定期同步google上游仓库。
-
-QtSkia不修改skia及依赖库的源码，仅使其增加github、gitee镜像支持和必要的编译器支持。
-
-## 编译
-
-使用QtCreator导入QtSkia.pro，或者使用Qt命令行
-
-```shell
-qmake 
-make
-```
-
-## 代码结构
+# 工程结构
 
 |目录|用途|
 |:-----------:|:-------------:|
@@ -283,9 +194,8 @@ make
 |doc|文档|
 |examples|一些用例|
 |QtSkia|QtSkia库|
-|skiaBuild|Qt编译skia|
+|skiaBuild|skia编译相关配置|
 |tests|单元测试、性能测试|
-
 
 # 赞助
 
