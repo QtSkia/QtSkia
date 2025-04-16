@@ -204,7 +204,7 @@ Note:32bit/x86 arch, need the toolchain by google， QtSkia not suooprt，detail
 
 ### windows
 
-Compiler need vs2017 and about, clang-cl is better.
+Compiler need visual studio 2017 and later, clang-cl is better.
 
 ### MacOS
 
